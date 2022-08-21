@@ -1,6 +1,6 @@
 # Filament Phone Input
 
-![Filament Phone Input](./screenshots/input.png "Filament Phone Input")
+![Filament Phone Input](screenshots/input.png "Filament Phone Input")
 
 This package provides a phone input component for [Laravel Filament](https://filamentadmin.com/). It uses [International Telephone Input](https://github.com/jackocnr/intl-tel-input) to provide a dropdown of countries and flags.
 
@@ -52,7 +52,7 @@ PhoneInput::make('phone')
     ->displayNumberFormat(PhoneInputNumberFormat::E164),
 ```
 
-![Filament Phone Input](./screenshots/display-number-format.png "Filament Phone Input")
+![Filament Phone Input](screenshots/display-number-format.png "Filament Phone Input")
 
 You may set the input value type by passing a type string to the `inputNumberFormat` method. The default type is `E164`. That means the phone number will be saved in the format of the selected country to the **database**.
 
@@ -72,7 +72,7 @@ PhoneInput::make('phone')
     ->focusInputType(PhoneInputFocusInputType::E164),
 ```
 
-![Filament Phone Input](./screenshots/focus-input-type.gif "Filament Phone Input")
+![Filament Phone Input](screenshots/focus-input-type.gif "Filament Phone Input")
 
 You may disable the dropdown by using the `disallowDropdown` method:
 
@@ -81,7 +81,7 @@ PhoneInput::make('phone')
     ->disallowDropdown(),
 ```
 
-![Disallowed Phone Ipnut](./screenshots/disallowed-dropdown.png "Disallowed Phone Ipnut")
+![Disallowed Phone Ipnut](screenshots/disallowed-dropdown.png "Disallowed Phone Ipnut")
 
 You may set the auto placeholder type by using the `autoPlaceholder` method:
 
@@ -133,7 +133,7 @@ PhoneInput::make('phone')
     ->onlyCountries(['tr','us', 'gb']),
 ```
 
-![Only Countries Phone Ipnut](./screenshots/only-countries.png "Only Countries Phone Ipnut")
+![Only Countries Phone Ipnut](screenshots/only-countries.png "Only Countries Phone Ipnut")
 
 You may set the format on display by using the `formatOnDisplay` method:
 
