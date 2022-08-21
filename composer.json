@@ -1,0 +1,59 @@
+{
+    "name": "ysfkaya/filament-phone-input",
+    "description": "A phone input component for Laravel Filament",
+    "license": "MIT",
+    "require": {
+        "php": "^8.0",
+        "filament/filament": "^2.0",
+        "illuminate/contracts": "^9.0",
+        "spatie/laravel-package-tools": "^1.12"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.0",
+        "nunomaduro/collision": "^6.0",
+        "nunomaduro/larastan": "^2.0.1",
+        "orchestra/testbench": "^7.0",
+        "pestphp/pest": "^1.21",
+        "pestphp/pest-plugin-laravel": "^1.1",
+        "pestphp/pest-plugin-livewire": "^1.0",
+        "phpstan/extension-installer": "^1.1",
+        "phpstan/phpstan-deprecation-rules": "^1.0",
+        "phpstan/phpstan-phpunit": "^1.0",
+        "phpunit/phpunit": "^9.5"
+    },
+    "suggest": {
+        "propaganistas/laravel-phone": "It is required to use the validation phone rule."
+    },
+    "autoload": {
+        "psr-4": {
+            "Ysfkaya\\FilamentPhoneInput\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Ysfkaya\\FilamentPhoneInput\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Ysfkaya\\FilamentPhoneInput\\FilamentPhoneInputServiceProvider"
+            ]
+        }
+    },
+    "scripts": {
+        "analyse": "vendor/bin/phpstan analyse",
+        "test": "vendor/bin/pest",
+        "test-coverage": "vendor/bin/pest --coverage",
+        "pint": "vendor/bin/pint"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "phpstan/extension-installer": true
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
