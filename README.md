@@ -87,7 +87,7 @@ You may set the auto placeholder type by using the `autoPlaceholder` method:
 
 ```php
 PhoneInput::make('phone')
-    ->autoPlaceholder('polite'), // default is 'aggresive'
+    ->autoPlaceholder('polite'), // default is 'aggressive'
 ```
 
 You may set the additional classes to add to the parent div by using the `customContainer` method:
