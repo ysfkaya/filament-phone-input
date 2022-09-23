@@ -10,7 +10,8 @@ class FilamentPhoneInputServiceProvider extends PluginServiceProvider
     public static string $name = 'filament-phone-input';
 
     protected array $styles = [
-        'filament-phone-input' => __DIR__.'/../dist/filament-phone-input.css',
+        'filament-phone-input' => __DIR__.'/../dist/css/filament-phone-input.css',
+        'intl-tel-input' => __DIR__.'/../dist/css/intl-tel-input.css',
     ];
 
     protected array $beforeCoreScripts = [
