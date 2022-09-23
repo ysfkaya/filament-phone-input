@@ -2,6 +2,12 @@
 
 All notable changes to `filament-phone-input` will be documented in this file
 
+## 1.1.0 - 2022-09-23
+
+### What's Changed
+
+- Fixed issue with white background color where in dark mode. #4
+
 ## 1.0.1 - 2022-08-21
 
 - Adds images folder
