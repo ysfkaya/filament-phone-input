@@ -1,6 +1,6 @@
 @php
 $affixLabelClasses = ['whitespace-nowrap group-focus-within:text-primary-500', 'text-gray-400' => !$errors->has($getStatePath()), 'text-danger-400' => $errors->has($getStatePath())];
-$inputID = str_replace(['.','-'], '_', $getId());
+$inputID = str_replace(['.', '-'], '_', $getId());
 @endphp
 
 <x-dynamic-component :component="$getFieldWrapperView()" :id="$getId()" :label="$getLabel()" :label-sr-only="$isLabelHidden()" :helper-text="$getHelperText()"
@@ -21,26 +21,26 @@ $inputID = str_replace(['.','-'], '_', $getId());
             </span>
         @endif
 
-        <div class="flex-1">
+        <div @class(['flex-1 filament-phone-input-field'])>
             <span wire:ignore>
-                <input type="tel"
-                    x-data="phoneInputFormComponent({
-                        getInputTelOptionsUsing: (intlTelInput) => ({{$getJsonPhoneInputConfiguration()}}),
-                        state: $wire.{{ $isLazy() ? 'entangle(\'' . $getStatePath() . '\').defer' : $applyStateBindingModifiers('entangle(\'' . $getStatePath() . '\')') }},
-                        inputID: '{{ $inputID }}',
-                    })"
-                    @if ($isLazy()) x-on:blur="$wire.$refresh" @endif
-                    dusk="filament.forms.{{ $getStatePath() }}"
-                    {!! $isDisabled() ? 'disabled' : null !!}
-                    {!! ($placeholder = $getPlaceholder()) ? "placeholder=\"{$placeholder}\"" : null !!}
-                    id="{{ $getId() }}"
-                    {{ $getExtraInputAttributeBag()->class([
-                        'block w-full transition duration-75 rounded-lg shadow-sm focus:border-primary-600 focus:ring-1 focus:ring-inset focus:ring-primary-600 disabled:opacity-70',
-                        'dark:bg-gray-700 dark:text-white dark:focus:border-primary-600' => config('forms.dark_mode'),
-                        'border-gray-300' => ! $errors->has($getStatePath()),
-                        'dark:border-gray-600' => (! $errors->has($getStatePath())) && config('forms.dark_mode'),
-                        'border-danger-600 ring-danger-600' => $errors->has($getStatePath()),
-                    ]) }}
+                <input type="tel" x-data="phoneInputFormComponent({
+                    getInputTelOptionsUsing: (intlTelInput) => ({{ $getJsonPhoneInputConfiguration() }}),
+                    state: $wire.{{ $isLazy() ? 'entangle(\'' . $getStatePath() . '\').defer' : $applyStateBindingModifiers('entangle(\'' . $getStatePath() . '\')') }},
+                    inputID: '{{ $inputID }}',
+                })" @if ($isLazy())
+                x-on:blur="$wire.$refresh"
+                @endif
+                dusk="filament.forms.{{ $getStatePath() }}"
+                {!! $isDisabled() ? 'disabled' : null !!}
+                {!! ($placeholder = $getPlaceholder()) ? "placeholder=\"{$placeholder}\"" : null !!}
+                id="{{ $getId() }}"
+                {{ $getExtraInputAttributeBag()->class([
+                    'block w-full transition duration-75 rounded-lg shadow-sm focus:border-primary-600 focus:ring-1 focus:ring-inset focus:ring-primary-600 disabled:opacity-70',
+                    'dark:bg-gray-700 dark:text-white dark:focus:border-primary-600' => config('forms.dark_mode'),
+                    'border-gray-300' => !$errors->has($getStatePath()),
+                    'dark:border-gray-600' => !$errors->has($getStatePath()) && config('forms.dark_mode'),
+                    'border-danger-600 ring-danger-600' => $errors->has($getStatePath()),
+                ]) }}
                 />
             </span>
         </div>
