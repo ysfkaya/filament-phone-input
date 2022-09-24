@@ -2,6 +2,12 @@
 
 All notable changes to `filament-phone-input` will be documented in this file
 
+## 1.1.1 - 2022-09-24
+
+What's Changed
+
+- Correction of `js` path in ServiceProvider.
+
 ## 1.1.0 - 2022-09-23
 
 ### What's Changed
