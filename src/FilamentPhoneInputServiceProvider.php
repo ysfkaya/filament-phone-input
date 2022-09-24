@@ -15,7 +15,7 @@ class FilamentPhoneInputServiceProvider extends PluginServiceProvider
     ];
 
     protected array $beforeCoreScripts = [
-        'filament-phone-input' => __DIR__.'/../dist/filament-phone-input.js',
+        'filament-phone-input' => __DIR__.'/../dist/js/filament-phone-input.js',
     ];
 
     protected array $scripts = [
