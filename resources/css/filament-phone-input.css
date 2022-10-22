@@ -1,3 +1,11 @@
 .filament-phone-input-field .iti__country-list {
     @apply dark:bg-gray-700 dark:text-white;
 }
+
+.filament-phone-input-field.rtl .iti__flag-container{
+    @apply left-auto right-0;
+}
+
+.filament-phone-input-field.rtl input{
+    @apply !pl-[6px] !pr-[52px];
+}

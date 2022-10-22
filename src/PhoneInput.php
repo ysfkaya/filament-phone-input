@@ -181,6 +181,13 @@ class PhoneInput extends Field
         return $this;
     }
 
+    public function isRtl()
+    {
+        $direction = __('filament::layout.direction') ?? 'ltr';
+
+        return $direction === 'rtl';
+    }
+
     public function getJsonPhoneInputConfiguration(): string
     {
         return json_encode([

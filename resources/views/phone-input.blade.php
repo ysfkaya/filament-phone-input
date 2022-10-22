@@ -21,7 +21,10 @@ $inputID = str_replace(['.', '-'], '_', $getId());
             </span>
         @endif
 
-        <div @class(['flex-1 filament-phone-input-field'])>
+        <div @class([
+            'flex-1 filament-phone-input-field',
+            'rtl' => $isRtl(),
+            ])>
             <span wire:ignore>
                 <input type="tel" x-data="phoneInputFormComponent({
                     getInputTelOptionsUsing: (intlTelInput) => ({{ $getJsonPhoneInputConfiguration() }}),
