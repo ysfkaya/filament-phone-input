@@ -2,6 +2,12 @@
 
 All notable changes to `filament-phone-input` will be documented in this file
 
+## 1.1.2 - 2022-10-22
+
+### What's Changes
+
+- Fixed an issue where disappear overflow of input dropdown. #3
+
 ## 1.1.1 - 2022-09-24
 
 What's Changed
