@@ -2,6 +2,12 @@
 
 All notable changes to `filament-phone-input` will be documented in this file
 
+## 1.1.3 - 2022-11-09
+
+### What's Changed
+
+- Fixed an issue where the state did not change when updating the value. #7
+
 ## 1.1.2 - 2022-10-22
 
 ### What's Changed
