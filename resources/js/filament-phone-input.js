@@ -104,6 +104,14 @@ document.addEventListener("alpine:init", () => {
                             );
                         }
                     });
+
+                    this.$watch("state", (value) => {
+                        this.$nextTick(() => {
+                            this.instance.setNumber(value);
+
+                            this.updateState();
+                        });
+                    });
                 },
 
                 listenCountryChange() {
