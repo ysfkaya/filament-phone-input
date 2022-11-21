@@ -12,7 +12,7 @@ $inputID = str_replace(['.', '-'], '_', $getId());
         @endif
 
         @if ($icon = $getPrefixIcon())
-            <x-dynamic-component :component="$icon" class="w-5 h-5" />
+            @svg($icon, 'w-5 h-5')
         @endif
 
         @if ($label = $getPrefixLabel())
@@ -30,14 +30,14 @@ $inputID = str_replace(['.', '-'], '_', $getId());
                     getInputTelOptionsUsing: (intlTelInput) => ({{ $getJsonPhoneInputConfiguration() }}),
                     state: $wire.{{ $isLazy() ? 'entangle(\'' . $getStatePath() . '\').defer' : $applyStateBindingModifiers('entangle(\'' . $getStatePath() . '\')') }},
                     inputID: '{{ $inputID }}',
-                })" @if ($isLazy())
-                x-on:blur="$wire.$refresh"
-                @endif
+                })"
                 dusk="filament.forms.{{ $getStatePath() }}"
+                {!! $isLazy() ? "x-on:blur=\"\$wire.\$refresh\"" : null !!}
+                {!! $isDebounced() ? "x-on:input.debounce.{$getDebounce()}=\"\$wire.\$refresh\"" : null !!}
                 {!! $isDisabled() ? 'disabled' : null !!}
                 {!! ($placeholder = $getPlaceholder()) ? "placeholder=\"{$placeholder}\"" : null !!}
                 id="{{ $getId() }}"
-                {{ $getExtraInputAttributeBag()->class([
+                {{ $attributes->class([
                     'block w-full transition duration-75 rounded-lg shadow-sm focus:border-primary-600 focus:ring-1 focus:ring-inset focus:ring-primary-600 disabled:opacity-70',
                     'dark:bg-gray-700 dark:text-white dark:focus:border-primary-600' => config('forms.dark_mode'),
                     'border-gray-300' => !$errors->has($getStatePath()),
