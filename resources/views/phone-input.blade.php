@@ -12,7 +12,7 @@ $inputID = str_replace(['.', '-'], '_', $getId());
         @endif
 
         @if ($icon = $getPrefixIcon())
-            <x-dynamic-component :component="$icon" class="w-5 h-5" />
+            @svg($icon, 'w-5 h-5')
         @endif
 
         @if ($label = $getPrefixLabel())
@@ -30,10 +30,10 @@ $inputID = str_replace(['.', '-'], '_', $getId());
                     getInputTelOptionsUsing: (intlTelInput) => ({{ $getJsonPhoneInputConfiguration() }}),
                     state: $wire.{{ $isLazy() ? 'entangle(\'' . $getStatePath() . '\').defer' : $applyStateBindingModifiers('entangle(\'' . $getStatePath() . '\')') }},
                     inputID: '{{ $inputID }}',
-                })" @if ($isLazy())
-                x-on:blur="$wire.$refresh"
-                @endif
+                })"
                 dusk="filament.forms.{{ $getStatePath() }}"
+                {!! $isLazy() ? "x-on:blur=\"\$wire.\$refresh\"" : null !!}
+                {!! $isDebounced() ? "x-on:input.debounce.{$getDebounce()}=\"\$wire.\$refresh\"" : null !!}
                 {!! $isDisabled() ? 'disabled' : null !!}
                 {!! ($placeholder = $getPlaceholder()) ? "placeholder=\"{$placeholder}\"" : null !!}
                 id="{{ $getId() }}"
