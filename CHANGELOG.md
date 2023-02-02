@@ -2,6 +2,12 @@
 
 All notable changes to `filament-phone-input` will be documented in this file
 
+## 1.2.1 - 2023-02-02
+
+### What's Changed
+
+- Fixed when entering value at the state watching
+
 ## 1.2.0 - 2022-11-23
 
 ### What's Changed
