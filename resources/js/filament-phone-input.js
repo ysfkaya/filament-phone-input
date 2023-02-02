@@ -107,7 +107,11 @@ document.addEventListener("alpine:init", () => {
 
                     this.$watch("state", (value) => {
                         this.$nextTick(() => {
-                            this.instance.setNumber(value);
+                            if (value !== null) {
+                                this.instance.setNumber(value);
+                            }else{
+                                this.instance.setNumber('');
+                            }
 
                             this.updateState();
                         });
