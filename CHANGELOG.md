@@ -2,6 +2,12 @@
 
 All notable changes to `filament-phone-input` will be documented in this file
 
+## 1.2.0 - 2022-11-23
+
+### What's Changed
+
+- Support both lazy and debounce by @tanthammar in #8
+
 ## 1.1.3 - 2022-11-09
 
 ### What's Changed
