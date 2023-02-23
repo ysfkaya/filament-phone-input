@@ -64,6 +64,8 @@ document.addEventListener("alpine:init", () => {
 
                 options: {}, // intlTelInput options
 
+                IntlTelInputSelectedCountryCookie: "intlTelInputSelectedCountry",
+
                 init() {
                     this.options = getInputTelOptionsUsing(intlTelInput);
 
