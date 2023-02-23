@@ -2,6 +2,12 @@
 
 All notable changes to `filament-phone-input` will be documented in this file
 
+## 1.3.0 - 2023-02-15
+
+### What's Changed
+
+- Updated the dependencies for support Laravel 10
+
 ## 1.2.1 - 2023-02-02
 
 ### What's Changed
