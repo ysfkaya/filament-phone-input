@@ -64,7 +64,7 @@ document.addEventListener("alpine:init", () => {
 
                 options: {}, // intlTelInput options
 
-                IntlTelInputSelectedCountryCookie: "intlTelInputSelectedCountry",
+                intlTelInputSelectedCountryCookie: "intlTelInputSelectedCountry",
 
                 init() {
                     this.options = getInputTelOptionsUsing(intlTelInput);
@@ -127,7 +127,7 @@ document.addEventListener("alpine:init", () => {
 
                         if (countryData.iso2) {
                             setCookie(
-                                this.IntlTelInputSelectedCountryCookie,
+                                this.intlTelInputSelectedCountryCookie,
                                 countryData.iso2?.toUpperCase()
                             );
 
@@ -161,8 +161,9 @@ document.addEventListener("alpine:init", () => {
                     } else if (this.options.geoIpLookup === "ipinfo") {
                         this.options.geoIpLookup = function (success, failure) {
                             let country = getCookie(
-                                this.IntlTelInputSelectedCountryCookie
+                                this.intlTelInputSelectedCountryCookie
                             );
+
                             if (country) {
                                 success(country);
                             } else {
@@ -175,13 +176,13 @@ document.addEventListener("alpine:init", () => {
                                         success(country);
                                         setCookie(
                                             this
-                                                .IntlTelInputSelectedCountryCookie,
+                                                .intlTelInputSelectedCountryCookie,
                                             country
                                         );
                                     })
                                     .catch((error) => success("US"));
                             }
-                        };
+                        }.bind(this);
                     } else if (
                         typeof window[this.options.geoIpLookup] === "function"
                     ) {
