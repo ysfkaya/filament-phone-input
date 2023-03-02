@@ -3,15 +3,16 @@
     "description": "A phone input component for Laravel Filament",
     "license": "MIT",
     "require": {
-        "php": "^8.0",
-        "filament/filament": "^2.0",
+        "php": "^8.0|^8.1|^8.2",
+        "filament/filament": "^2.0 | 2.x-dev",
+        "illuminate/contracts": "^9.0",
         "spatie/laravel-package-tools": "^1.12"
     },
     "require-dev": {
         "laravel/pint": "^1.0",
         "nunomaduro/collision": "^6.0",
         "nunomaduro/larastan": "^2.0.1",
-        "orchestra/testbench": "^7.0|^8.0",
+        "orchestra/testbench": "^7.0",
         "pestphp/pest": "^1.21",
         "pestphp/pest-plugin-laravel": "^1.1",
         "pestphp/pest-plugin-livewire": "^1.0",

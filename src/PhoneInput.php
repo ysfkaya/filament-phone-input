@@ -19,7 +19,7 @@ class PhoneInput extends Field
 
     protected string $inputNumberFormat = 'E164';
 
-    protected string|false $focusNumberFormat = false;
+    protected ?string $focusNumberFormat = null;
 
     protected bool $allowDropdown = true;
 
@@ -29,13 +29,11 @@ class PhoneInput extends Field
 
     protected ?string $customPlaceholder = null;
 
-    protected ?string $dropdownContainer = null;
-
     protected array $excludeCountries = [];
 
     protected bool $formatOnDisplay = true;
 
-    protected ?string $geoIpLookup = 'ipinfo';
+    protected bool $geoIpLookup = true;
 
     protected string $initialCountry = 'auto';
 
@@ -51,155 +49,180 @@ class PhoneInput extends Field
 
     protected bool $separateDialCode = false;
 
-    public function displayNumberFormat(PhoneInputNumberType $format): self
+    /**
+     * Default: 'NATIONAL'
+     * formats frontend 
+     */
+    public function displayNumberFormat(PhoneInputNumberFormat $format): self
     {
         $this->displayNumberFormat = $format->value;
 
         return $this;
     }
 
-    public function focusNumberFormat(PhoneInputNumberType|false $format): self
+    /** apply different format when input is focused */
+    public function focusNumberFormat(PhoneInputNumberFormat $format): self
     {
-        if ($format !== false) {
-            $format = $format->value;
-        }
 
-        $this->focusNumberFormat = $format;
+        $this->focusNumberFormat = $format->value;
 
         return $this;
     }
 
-    public function inputNumberFormat(PhoneInputNumberType $format): self
+
+    /** formatted value returned to backend */
+    public function inputNumberFormat(PhoneInputNumberFormat $format): self
     {
         $this->inputNumberFormat = $format->value;
 
         return $this;
     }
 
-    public function disallowDropdown()
+    /**
+     * Flag dropdown disabled. The selected flag moves to the right as a marker of state.
+     */
+    public function disallowDropdown(): static
     {
         $this->allowDropdown = false;
 
         return $this;
     }
 
-    public function autoPlaceholder(string $value)
+    /**
+     * Default: 'aggressive' <br>
+     * Placeholder autoformatting method. <br>
+     * @see PlaceholderMethod enum, for explanation.
+     * @see placeholderNumberType() for formatting options.
+     */
+    public function placeholderMethod(PlaceholderMethod $method): static
     {
-        $this->autoPlaceholder = $value;
+        $this->autoPlaceholder = $method->value;
 
         return $this;
     }
 
-    public function customContainer(string $value)
+    /**
+     *  Default: "MOBILE"
+     *  PhoneInputNumberType to format the placeholder number.
+     */
+    public function placeholderFormat(PhoneInputNumberType $type): static
+    {
+        $this->placeholderNumberType = $type->value;
+
+        return $this;
+    }
+
+    /** Additional classes to add to the generated parent div */
+    public function customContainerClasses(string $value): static
     {
         $this->customContainer = $value;
 
         return $this;
     }
 
-    public function customPlaceholder(?string $value)
-    {
-        $this->customPlaceholder = $value;
 
-        return $this;
-    }
-
-    public function dropdownContainer(?string $value)
-    {
-        $this->dropdownContainer = $value;
-
-        return $this;
-    }
-
-    public function excludeCountries(array $value)
+    public function excludeCountries(array $value): static
     {
         $this->excludeCountries = $value;
 
         return $this;
     }
 
-    public function formatOnDisplay(bool $value)
+    /**
+     * Default: true <br>
+     * Format the input value (according to the nationalMode option) <br>
+     * during init and when value changed from backend.
+     */
+    public function formatOnDisplay(bool $value): static
     {
         $this->formatOnDisplay = $value;
 
         return $this;
     }
 
-    public function geoIpLookup(string $value)
+    /**
+     * Required if initialCountry = "auto". <br>
+     * If false, fallback is <br>
+     * initialCountry ?? preferredCountries[0]
+     */
+    public function geoIpLookup(bool $value = true): static
     {
         $this->geoIpLookup = $value;
 
         return $this;
     }
 
-    public function initialCountry(string $value)
+
+    /**  $value must eq 'auto' or a valid country code, like 'us' */
+    public function initialCountry(string $value): static
     {
         $this->initialCountry = $value;
 
         return $this;
     }
 
-    public function localizedCountries(array $value)
+    /** Translate the countries by its given iso code <br>
+     * i.e. [ 'se' => 'Sverige' ]
+     */
+    public function localizedCountries(array $value): static
     {
         $this->localizedCountries = $value;
 
         return $this;
     }
 
-    public function nationalMode(bool $value)
+    /**
+     * Default: true <br>
+     * Allow entering national numbers without international dial codes. <br>
+     * while still returning a full international number, to backend
+     */
+    public function nationalMode(bool $value): static
     {
         $this->nationalMode = $value;
 
         return $this;
     }
 
-    public function onlyCountries(array $value)
+    /** displayed dropdown countries */
+    public function onlyCountries(array $value): static
     {
         $this->onlyCountries = $value;
 
         return $this;
     }
 
-    public function placeholderNumberType(string $value)
-    {
-        $this->placeholderNumberType = $value;
 
-        return $this;
-    }
-
-    public function preferredCountries(array $value)
+    /** fallback if geoIPLookup fails, @see geoIpLookup()   */
+    public function preferredCountries(array $value): static
     {
         $this->preferredCountries = $value;
 
         return $this;
     }
 
-    public function separateDialCode(bool $value)
+    /** Display the country dial code next to the selected flag */
+    public function separateDialCode(bool $value): static
     {
         $this->separateDialCode = $value;
 
         return $this;
     }
 
-    public function isRtl()
+    public function isRtl(): bool
     {
         $direction = __('filament::layout.direction') ?? 'ltr';
 
         return $direction === 'rtl';
     }
 
-    public function getJsonPhoneInputConfiguration(): string
+    public function getJsonPhoneInputConfiguration(): array
     {
-        return json_encode([
+        return [
             'allowDropdown' => $this->allowDropdown,
 
             'autoPlaceholder' => $this->autoPlaceholder,
 
             'customContainer' => $this->customContainer,
-
-            'customPlaceholder' => $this->customPlaceholder,
-
-            'dropdownContainer' => $this->dropdownContainer,
 
             'excludeCountries' => $this->excludeCountries,
 
@@ -228,6 +251,6 @@ class PhoneInput extends Field
             'focusNumberFormat' => $this->focusNumberFormat,
 
             'utilsScript' => '/filament/assets/intl-tel-input-utils.js',
-        ]);
+        ];
     }
 }

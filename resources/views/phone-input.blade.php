@@ -27,9 +27,8 @@ $inputID = str_replace(['.', '-'], '_', $getId());
             ])>
             <span wire:ignore>
                 <input type="tel" x-data="phoneInputFormComponent({
-                    getInputTelOptionsUsing: (intlTelInput) => ({{ $getJsonPhoneInputConfiguration() }}),
+                    options: @js($getJsonPhoneInputConfiguration()),
                     state: $wire.{{ $isLazy() ? 'entangle(\'' . $getStatePath() . '\').defer' : $applyStateBindingModifiers('entangle(\'' . $getStatePath() . '\')') }},
-                    inputID: '{{ $inputID }}',
                 })"
                 dusk="filament.forms.{{ $getStatePath() }}"
                 {!! $isLazy() ? "x-on:blur=\"\$wire.\$refresh\"" : null !!}
