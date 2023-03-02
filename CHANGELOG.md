@@ -2,6 +2,12 @@
 
 All notable changes to `filament-phone-input` will be documented in this file
 
+## 1.3.1 - 2023-03-02
+
+### What's Changed
+
+- Adds `IntlTelInputSelectedCountryCookie` property to automatically set country in cookie.
+
 ## 1.3.0 - 2023-02-15
 
 ### What's Changed
