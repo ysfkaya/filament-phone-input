@@ -51,7 +51,7 @@ class PhoneInput extends Field
 
     /**
      * Default: 'NATIONAL'
-     * formats frontend 
+     * formats frontend
      */
     public function displayNumberFormat(PhoneInputNumberFormat $format): self
     {
@@ -153,7 +153,7 @@ class PhoneInput extends Field
     }
 
 
-    /**  $value must eq 'auto' or a valid country code, like 'us' */
+    /**  Default: 'auto' <br> $value must eq 'auto' or a valid country code, like 'us' */
     public function initialCountry(string $value): static
     {
         $this->initialCountry = $value;
@@ -195,7 +195,7 @@ class PhoneInput extends Field
     /** fallback if geoIPLookup fails, @see geoIpLookup()   */
     public function preferredCountries(array $value): static
     {
-        $this->preferredCountries = $value;
+        $this->preferredCountries = count($value) > 0 ? $value : app()->getLocale();
 
         return $this;
     }
