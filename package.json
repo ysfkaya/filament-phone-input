@@ -13,7 +13,7 @@
         "tailwindcss": "^3.1.8"
     },
     "dependencies": {
-        "intl-tel-input": "^17.0.18"
+        "intl-tel-input": "^18.1.4"
     },
     "private": true
 }

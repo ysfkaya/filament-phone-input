@@ -1,6 +1,6 @@
 {
     "/dist/js/filament-phone-input.js": "/dist/js/filament-phone-input.js",
-    "/dist/css/intl-tel-input.css": "/dist/css/intl-tel-input.css",
     "/dist/css/filament-phone-input.css": "/dist/css/filament-phone-input.css",
+    "/dist/css/intl-tel-input.css": "/dist/css/intl-tel-input.css",
     "/dist/intl-tel-input/utils.js": "/dist/intl-tel-input/utils.js"
 }
