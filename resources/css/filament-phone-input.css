@@ -7,5 +7,6 @@
 }
 
 .filament-phone-input-field.rtl input{
-    @apply !pl-[6px] !pr-[52px];
+    @apply !pl-[20px] !pr-[52px] ;
+    direction: ltr;
 }
