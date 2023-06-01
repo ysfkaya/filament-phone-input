@@ -11,7 +11,6 @@ class FilamentPhoneInputServiceProvider extends PluginServiceProvider
 
     protected array $styles = [
         'filament-phone-input' => __DIR__.'/../dist/css/filament-phone-input.css',
-        'intl-tel-input' => __DIR__.'/../dist/css/intl-tel-input.css',
     ];
 
     protected array $beforeCoreScripts = [
@@ -19,7 +18,6 @@ class FilamentPhoneInputServiceProvider extends PluginServiceProvider
     ];
 
     protected array $scripts = [
-        'intl-tel-input-utils' => __DIR__.'/../dist/intl-tel-input/utils.js',
     ];
 
     public function packageBooted(): void
