@@ -1,5 +1,5 @@
 import intlTelInput from "intl-tel-input";
-
+import utils from 'intl-tel-input/build/js/utils'
 function setCookie(
     cookieName,
     cookieValue,
