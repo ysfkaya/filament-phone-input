@@ -39,8 +39,6 @@ class PhoneInput extends Field
 
     protected bool $formatOnDisplay = true;
 
-    public bool $isPerformIpLookup = true;
-
     protected string $initialCountry = 'auto';
 
     protected array $localizedCountries = [];
@@ -57,12 +55,14 @@ class PhoneInput extends Field
 
     protected ?Closure $ipLookupCallback = null;
 
+    public bool $canPerformIpLookup = true;
+
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->ipLookup(function () {
-            return rescue(fn () => Http::get('https://ipinfo.io/json')->json('country'));
+            return rescue(fn () => Http::get('https://ipinfo.io/json')->json('country'), report: false);
         });
 
         $this->registerListeners([
@@ -72,7 +72,7 @@ class PhoneInput extends Field
                         return;
                     }
 
-                    if (! $component->isPerformIpLookup) {
+                    if (! $component->canPerformIpLookup) {
                         return;
                     }
 
@@ -80,6 +80,10 @@ class PhoneInput extends Field
                     $livewire = $component->getLivewire();
 
                     $country = $component->performIpLookup();
+
+                    if (! $country) {
+                        return;
+                    }
 
                     $livewire->dispatch('phoneInput::setCountry', [
                         'country' => $country,
@@ -92,7 +96,7 @@ class PhoneInput extends Field
 
     public function disableIpLookUp()
     {
-        $this->isPerformIpLookup = false;
+        $this->canPerformIpLookup = false;
 
         return $this;
     }
@@ -179,13 +183,6 @@ class PhoneInput extends Field
     public function formatOnDisplay(bool $value)
     {
         $this->formatOnDisplay = $value;
-
-        return $this;
-    }
-
-    public function geoIpLookup(string $value)
-    {
-        $this->geoIpLookup = $value;
 
         return $this;
     }
