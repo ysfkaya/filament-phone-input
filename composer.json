@@ -1,24 +1,30 @@
 {
     "name": "ysfkaya/filament-phone-input",
     "description": "A phone input component for Laravel Filament",
+    "keywords": [
+        "laravel",
+        "filament",
+        "phone-input",
+        "intl-tel-input"
+    ],
+    "homepage": "https://github.com/ysfkaya/filament-phone-input",
     "license": "MIT",
     "require": {
-        "php": "^8.0",
-        "filament/filament": "^2.0",
-        "spatie/laravel-package-tools": "^1.12"
+        "php": "^8.1",
+        "filament/filament": "^3.0",
+        "spatie/laravel-package-tools": "^1.14.0"
     },
     "require-dev": {
         "laravel/pint": "^1.0",
-        "nunomaduro/collision": "^6.0",
+        "nunomaduro/collision": "^7.9",
         "nunomaduro/larastan": "^2.0.1",
-        "orchestra/testbench": "^7.0|^8.0",
-        "pestphp/pest": "^1.21",
-        "pestphp/pest-plugin-laravel": "^1.1",
-        "pestphp/pest-plugin-livewire": "^1.0",
+        "orchestra/testbench": "^8.0",
+        "pestphp/pest": "^2.0",
+        "pestphp/pest-plugin-arch": "^2.0",
+        "pestphp/pest-plugin-laravel": "^2.0",
         "phpstan/extension-installer": "^1.1",
         "phpstan/phpstan-deprecation-rules": "^1.0",
-        "phpstan/phpstan-phpunit": "^1.0",
-        "phpunit/phpunit": "^9.5"
+        "phpstan/phpstan-phpunit": "^1.0"
     },
     "suggest": {
         "propaganistas/laravel-phone": "It is required to use the validation phone rule."
@@ -44,7 +50,7 @@
         "analyse": "vendor/bin/phpstan analyse",
         "test": "vendor/bin/pest",
         "test-coverage": "vendor/bin/pest --coverage",
-        "pint": "vendor/bin/pint"
+        "format": "vendor/bin/pint"
     },
     "config": {
         "sort-packages": true,

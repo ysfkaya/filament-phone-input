@@ -1,96 +1,63 @@
 @php
-$affixLabelClasses = [
-    'whitespace-nowrap group-focus-within:text-primary-500',
-    'text-gray-400' => !$errors->has($getStatePath()),
-    'text-danger-400' => $errors->has($getStatePath())
-];
-$inputID = str_replace(['.', '-'], '_', $getId());
+    $id = $getId();
+    $isConcealed = $isConcealed();
+    $isDisabled = $isDisabled();
+    $isPrefixInline = $isPrefixInline();
+    $isSuffixInline = $isSuffixInline();
+    $prefixActions = $getPrefixActions();
+    $prefixIcon = $getPrefixIcon();
+    $prefixLabel = $getPrefixLabel();
+    $suffixActions = $getSuffixActions();
+    $suffixIcon = $getSuffixIcon();
+    $suffixLabel = $getSuffixLabel();
+    $statePath = $getStatePath();
 @endphp
 
-<x-dynamic-component
-    :component="$getFieldWrapperView()"
-    :id="$getId()"
-    :label="$getLabel()"
-    :label-sr-only="$isLabelHidden()"
-    :helper-text="$getHelperText()"
-    :hint="$getHint()"
-    :hint-icon="$getHintIcon()"
-    :required="$isRequired()"
-    :state-path="$getStatePath()"
->
-    <div
-        {{
-             $attributes->merge($getExtraAttributes())
-                ->class(['flex items-center space-x-2 rtl:space-x-reverse group filament-forms-text-input-component'])
-        }}
+<x-dynamic-component :component="$getFieldWrapperView()" :field="$field">
+    <x-filament::input.wrapper
+        :disabled="$isDisabled"
+        :inline-prefix="$isPrefixInline"
+        :inline-suffix="$isSuffixInline"
+        :prefix="$prefixLabel"
+        :prefix-actions="$prefixActions"
+        :prefix-icon="$prefixIcon"
+        :suffix="$suffixLabel"
+        :suffix-actions="$suffixActions"
+        :suffix-icon="$suffixIcon"
+        :valid="! $errors->has($statePath)"
+        :attributes="
+            \Filament\Support\prepare_inherited_attributes($getExtraAttributeBag())
+                ->class([
+                    'fi-fo-phone-input',
+                    'rtl' => $isRtl(),
+                ])
+        "
     >
-        @if (($prefixAction = $getPrefixAction()) && !$prefixAction->isHidden())
-            {{ $prefixAction }}
-        @endif
-
-        @if ($icon = $getPrefixIcon())
-            @svg($icon, 'w-5 h-5')
-        @endif
-
-        @if ($label = $getPrefixLabel())
-            <span @class($affixLabelClasses)>
-                {{ $label }}
-            </span>
-        @endif
-
-        <div
-            @class([
-                'flex-1 filament-phone-input-field',
-                'rtl' => $isRtl(),
-            ])
+        <span
+            wire-ignore
+            x-data="phoneInputFormComponent({
+                getInputTelOptionsUsing: (intlTelInput) => ({{ $getJsonPhoneInputConfiguration() }}),
+                state: $wire.{{ $applyStateBindingModifiers("entangle('{$statePath}')") }},
+            })"
         >
-            <span wire:ignore>
-                <input
-                    type="tel"
-                    x-data="phoneInputFormComponent({
-                        getInputTelOptionsUsing: (intlTelInput) => ({{ $getJsonPhoneInputConfiguration() }}),
-                        state: $wire.{{ $isLazy() ? 'entangle(\'' . $getStatePath() . '\').defer' : $applyStateBindingModifiers('entangle(\'' . $getStatePath() . '\')') }},
-                        inputID: '{{ $inputID }}',
-                    })"
-                    dusk="filament.forms.{{ $getStatePath() }}"
-                    {!! $isLazy() ? "x-on:blur=\"\$wire.\$refresh\"" : null !!}
-                    {!! $isDebounced() ? "x-on:input.debounce.{$getDebounce()}=\"\$wire.\$refresh\"" : null !!}
-                    {!! $isDisabled() ? 'disabled' : null !!}
-                    {!! ($placeholder = $getPlaceholder()) ? "placeholder=\"{$placeholder}\"" : null !!}
-                    id="{{ $getId() }}"
-                    {{
-                        $getExtraInputAttributeBag()->class([
-                            'block w-full transition duration-75 rounded-lg shadow-sm focus:border-primary-600 focus:ring-1 focus:ring-inset focus:ring-primary-600 disabled:opacity-70',
-                            'dark:bg-gray-700 dark:text-white dark:focus:border-primary-600' => config('forms.dark_mode'),
-                        ])
-                    }}
-                    x-bind:class="{
-                        'border-gray-300 focus:border-primary-500 focus:ring-primary-500': ! (
-                            @js($getStatePath()) in $wire.__instance.serverMemo.errors
-                        ),
-                        'dark:border-gray-600 dark:focus:border-primary-500':
-                            ! (@js($getStatePath()) in $wire.__instance.serverMemo.errors) && @js(config('forms.dark_mode')),
-                        'border-danger-600 ring-danger-600 focus:border-danger-500 focus:ring-danger-500':
-                            @js($getStatePath()) in $wire.__instance.serverMemo.errors,
-                        'dark:border-danger-400 dark:ring-danger-400 dark:focus:border-danger-500 dark:focus:ring-danger-500':
-                            @js($getStatePath()) in $wire.__instance.serverMemo.errors && @js(config('forms.dark_mode')),
-                    }"
-                />
-            </span>
-        </div>
-
-        @if ($label = $getSuffixLabel())
-            <span @class($affixLabelClasses)>
-                {{ $label }}
-            </span>
-        @endif
-
-        @if ($icon = $getSuffixIcon())
-            <x-dynamic-component :component="$icon" class="w-5 h-5" />
-        @endif
-
-        @if (($suffixAction = $getSuffixAction()) && !$suffixAction->isHidden())
-            {{ $suffixAction }}
-        @endif
-    </div>
+            <x-filament::input
+                x-ref="input"
+                :attributes="
+                    \Filament\Support\prepare_inherited_attributes($getExtraInputAttributeBag())
+                        ->merge([
+                            'autofocus' => $isAutofocused(),
+                            'disabled' => $isDisabled,
+                            'id' => $id,
+                            'inlinePrefix' => $isPrefixInline && (count($prefixActions) || $prefixIcon || filled($prefixLabel)),
+                            'inlineSuffix' => $isSuffixInline && (count($suffixActions) || $suffixIcon || filled($suffixLabel)),
+                            'placeholder' => $getPlaceholder(),
+                            'required' => $isRequired() && (! $isConcealed),
+                            'type' => 'tel',
+                            'x-model' . ($isLiveDebounced() ? '.debounce.' . $getLiveDebounce() : null) => 'state',
+                        ], escape: false)
+                "
+            />
+        </span>
+    </x-filament::input.wrapper>
 </x-dynamic-component>
+

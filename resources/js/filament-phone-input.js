@@ -1,55 +1,5 @@
 import intlTelInput from "intl-tel-input";
-
-function setCookie(
-    cookieName,
-    cookieValue,
-    expiryDays = null,
-    path = null,
-    domain = null
-) {
-    let cookieString = `${cookieName}=${cookieValue};`;
-    if (expiryDays) {
-        const d = new Date();
-        d.setTime(d.getTime() + expiryDays * 24 * 60 * 60 * 1000);
-        cookieString += `expires=${d.toUTCString()};`;
-    }
-    if (path) {
-        cookieString += `path=${path};`;
-    }
-    if (domain) {
-        cookieString += `domain=${domain};`;
-    }
-    document.cookie = cookieString;
-}
-
-function getCookie(cookieName) {
-    let name = cookieName + "=";
-    let ca = document.cookie.split(";");
-    for (let i = 0; i < ca.length; i++) {
-        let c = ca[i];
-        while (c.charAt(0) == " ") {
-            c = c.substring(1);
-        }
-        if (c.indexOf(name) == 0) {
-            return c.substring(name.length, c.length);
-        }
-    }
-    return "";
-}
-
-function removeCookie(cookieName, path = null, domain = null) {
-    let cookieString = `${cookieName}=;`;
-    const d = new Date();
-    d.setTime(d.getTime() - 30 * 24 * 60 * 60 * 1000);
-    cookieString += `expires=${d.toUTCString()};`;
-    if (path) {
-        cookieString += `path=${path};`;
-    }
-    if (domain) {
-        cookieString += `domain=${domain};`;
-    }
-    document.cookie = cookieString;
-}
+import "intl-tel-input/build/js/utils";
 
 document.addEventListener("alpine:init", () => {
     Alpine.data(
@@ -60,6 +10,7 @@ document.addEventListener("alpine:init", () => {
 
                 inputID,
 
+                input: null,
                 instance: null,
 
                 options: {}, // intlTelInput options
@@ -71,7 +22,7 @@ document.addEventListener("alpine:init", () => {
                     // Wait for intlTelInput to be loaded
                     // Loads the component after a certain time because it
                     // causes problems with the elements added to the DOM later. e.g. Repeater
-                    await new Promise(resolve => setTimeout(resolve, 150));
+                    await new Promise((resolve) => setTimeout(resolve, 150));
 
                     this.options = getInputTelOptionsUsing(intlTelInput);
 
@@ -79,7 +30,9 @@ document.addEventListener("alpine:init", () => {
                     this.applyCustomPlaceholder();
                     this.applyUtilsScript();
 
-                    this.instance = intlTelInput(this.$el, this.options);
+                    this.input = this.$refs.input;
+
+                    this.instance = intlTelInput(this.input, this.options);
 
                     if (this.state) {
                         const value = this.state?.valueOf();
@@ -93,21 +46,21 @@ document.addEventListener("alpine:init", () => {
 
                     this.listenCountryChange();
 
-                    this.$el.addEventListener(
+                    this.input.addEventListener(
                         "change",
                         this.updateState.bind(this)
                     );
 
-                    this.$el.addEventListener(
+                    this.input.addEventListener(
                         "blur",
                         this.updateState.bind(this)
                     );
 
-                    this.$el.addEventListener("focus", () => {
+                    this.input.addEventListener("focus", () => {
                         const format = this.options.focusNumberFormat || false;
 
                         if (format !== false) {
-                            this.$el.value = this.instance.getNumber(
+                            this.input.value = this.instance.getNumber(
                                 window.intlTelInputUtils.numberFormat[format]
                             );
                         }
@@ -129,7 +82,7 @@ document.addEventListener("alpine:init", () => {
                 },
 
                 listenCountryChange() {
-                    this.$el.addEventListener("countrychange", () => {
+                    this.input.addEventListener("countrychange", () => {
                         let countryData =
                             this.instance.getSelectedCountryData();
 
@@ -154,7 +107,7 @@ document.addEventListener("alpine:init", () => {
                         window.intlTelInputUtils.numberFormat[inputNumberFormat]
                     );
 
-                    this.$el.value = this.instance.getNumber(
+                    this.input.value = this.instance.getNumber(
                         window.intlTelInputUtils.numberFormat[
                             displayNumberFormat
                         ]
@@ -233,3 +186,55 @@ document.addEventListener("alpine:init", () => {
         }
     );
 });
+
+function setCookie(
+    cookieName,
+    cookieValue,
+    expiryDays = null,
+    path = null,
+    domain = null
+) {
+    let cookieString = `${cookieName}=${cookieValue};`;
+    if (expiryDays) {
+        const d = new Date();
+        d.setTime(d.getTime() + expiryDays * 24 * 60 * 60 * 1000);
+        cookieString += `expires=${d.toUTCString()};`;
+    }
+    if (path) {
+        cookieString += `path=${path};`;
+    }
+    if (domain) {
+        cookieString += `domain=${domain};`;
+    }
+    document.cookie = cookieString;
+}
+
+function getCookie(cookieName) {
+    let name = cookieName + "=";
+    let ca = document.cookie.split(";");
+    for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == " ") {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
+function removeCookie(cookieName, path = null, domain = null) {
+    let cookieString = `${cookieName}=;`;
+    const d = new Date();
+    d.setTime(d.getTime() - 30 * 24 * 60 * 60 * 1000);
+    cookieString += `expires=${d.toUTCString()};`;
+    if (path) {
+        cookieString += `path=${path};`;
+    }
+    if (domain) {
+        cookieString += `domain=${domain};`;
+    }
+    document.cookie = cookieString;
+}
+

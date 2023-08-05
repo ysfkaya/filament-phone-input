@@ -1,11 +1,9 @@
+import preset from './vendor/filament/support/tailwind.config.preset'
+
 module.exports = {
-    content: ["./resources/views/**/*.blade.php"],
-    darkMode: "class",
-    theme: {
-        extend: {},
-    },
-    plugins: [],
-    corePlugins: {
-        preflight: false,
-    },
+    presets: [preset],
+    content: [
+        './resources/**/*.blade.php',
+        './vendor/filament/**/*.blade.php',
+    ],
 };
