@@ -2,10 +2,14 @@
 
 namespace Ysfkaya\FilamentPhoneInput\Forms;
 
+use Closure;
 use Filament\Forms\Components\Concerns\HasAffixes;
 use Filament\Forms\Components\Concerns\HasExtraInputAttributes;
 use Filament\Forms\Components\Concerns\HasPlaceholder;
 use Filament\Forms\Components\Field;
+use Filament\Pages\Page;
+use Illuminate\Support\Facades\Http;
+use Ysfkaya\FilamentPhoneInput\PhoneInputNumberType;
 
 class PhoneInput extends Field
 {
@@ -35,7 +39,7 @@ class PhoneInput extends Field
 
     protected bool $formatOnDisplay = true;
 
-    protected ?string $geoIpLookup = 'ipinfo';
+    public bool $isPerformIpLookup = true;
 
     protected string $initialCountry = 'auto';
 
@@ -50,6 +54,60 @@ class PhoneInput extends Field
     protected array $preferredCountries = ['us', 'gb'];
 
     protected bool $separateDialCode = false;
+
+    protected ?Closure $ipLookupCallback = null;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->ipLookup(function () {
+            return rescue(fn () => Http::get('https://ipinfo.io/json')->json('country'));
+        });
+
+        $this->registerListeners([
+            'phoneInput::ipLookup' => [
+                function (PhoneInput $component, string $statePath) {
+                    if ($statePath !== $component->getStatePath()) {
+                        return;
+                    }
+
+                    if (! $component->isPerformIpLookup) {
+                        return;
+                    }
+
+                    /** @var Page $livewire */
+                    $livewire = $component->getLivewire();
+
+                    $country = $component->performIpLookup();
+
+                    $livewire->dispatch('phoneInput::setCountry', [
+                        'country' => $country,
+                        'statePath' => $statePath,
+                    ]);
+                },
+            ],
+        ]);
+    }
+
+    public function disableIpLookUp()
+    {
+        $this->isPerformIpLookup = false;
+
+        return $this;
+    }
+
+    public function ipLookup(Closure $callback)
+    {
+        $this->ipLookupCallback = $callback;
+
+        return $this;
+    }
+
+    public function performIpLookup()
+    {
+        return $this->evaluate($this->ipLookupCallback);
+    }
 
     public function displayNumberFormat(PhoneInputNumberType $format): self
     {
@@ -205,7 +263,7 @@ class PhoneInput extends Field
 
             'formatOnDisplay' => $this->formatOnDisplay,
 
-            'geoIpLookup' => $this->geoIpLookup,
+            'performIpLookup' => $this->isPerformIpLookup,
 
             'initialCountry' => $this->initialCountry,
 
@@ -226,8 +284,6 @@ class PhoneInput extends Field
             'inputNumberFormat' => $this->inputNumberFormat,
 
             'focusNumberFormat' => $this->focusNumberFormat,
-
-            'utilsScript' => '/filament/assets/intl-tel-input-utils.js',
         ]);
     }
 }

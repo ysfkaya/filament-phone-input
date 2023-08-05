@@ -15,6 +15,7 @@
 
 <x-dynamic-component :component="$getFieldWrapperView()" :field="$field">
     <x-filament::input.wrapper
+        wire:ignore
         :disabled="$isDisabled"
         :inline-prefix="$isPrefixInline"
         :inline-suffix="$isSuffixInline"
@@ -33,31 +34,34 @@
                 ])
         "
     >
-        <span
-            wire-ignore
-            x-data="phoneInputFormComponent({
-                getInputTelOptionsUsing: (intlTelInput) => ({{ $getJsonPhoneInputConfiguration() }}),
-                state: $wire.{{ $applyStateBindingModifiers("entangle('{$statePath}')") }},
-            })"
-        >
-            <x-filament::input
-                x-ref="input"
-                :attributes="
-                    \Filament\Support\prepare_inherited_attributes($getExtraInputAttributeBag())
-                        ->merge([
-                            'autofocus' => $isAutofocused(),
-                            'disabled' => $isDisabled,
-                            'id' => $id,
-                            'inlinePrefix' => $isPrefixInline && (count($prefixActions) || $prefixIcon || filled($prefixLabel)),
-                            'inlineSuffix' => $isSuffixInline && (count($suffixActions) || $suffixIcon || filled($suffixLabel)),
-                            'placeholder' => $getPlaceholder(),
-                            'required' => $isRequired() && (! $isConcealed),
-                            'type' => 'tel',
-                            'x-model' . ($isLiveDebounced() ? '.debounce.' . $getLiveDebounce() : null) => 'state',
-                        ], escape: false)
-                "
-            />
-        </span>
+        <div class="inline-flex w-full" wire:ignore>
+            <span
+                class="w-full"
+                x-data="phoneInputFormComponent({
+                    getInputTelOptionsUsing: (intlTelInput) => ({{ $getJsonPhoneInputConfiguration() }}),
+                    state: $wire.{{ $applyStateBindingModifiers("entangle('{$statePath}')") }},
+                    statePath: @js($statePath)
+                })"
+            >
+                <x-filament::input
+                    x-ref="input"
+                    :attributes="
+                        \Filament\Support\prepare_inherited_attributes($getExtraInputAttributeBag())
+                            ->merge([
+                                'autofocus' => $isAutofocused(),
+                                'disabled' => $isDisabled,
+                                'id' => $id,
+                                'inlinePrefix' => $isPrefixInline && (count($prefixActions) || $prefixIcon || filled($prefixLabel)),
+                                'inlineSuffix' => $isSuffixInline && (count($suffixActions) || $suffixIcon || filled($suffixLabel)),
+                                'placeholder' => $getPlaceholder(),
+                                'required' => $isRequired() && (! $isConcealed),
+                                'type' => 'tel',
+                                'x-model' . ($isLiveDebounced() ? '.debounce.' . $getLiveDebounce() : null) => 'state',
+                            ], escape: false)
+                    "
+                />
+            </span>
+        </div>
     </x-filament::input.wrapper>
 </x-dynamic-component>
 

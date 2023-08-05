@@ -4,12 +4,10 @@ import "intl-tel-input/build/js/utils";
 document.addEventListener("alpine:init", () => {
     Alpine.data(
         "phoneInputFormComponent",
-        ({ getInputTelOptionsUsing, state, inputID }) => {
+        ({ getInputTelOptionsUsing, state, statePath }) => {
             return {
                 state,
-
-                inputID,
-
+                statePath,
                 input: null,
                 instance: null,
 
@@ -19,7 +17,7 @@ document.addEventListener("alpine:init", () => {
                     "intlTelInputSelectedCountry",
 
                 async init() {
-                    // Wait for intlTelInput to be loaded
+                    // Wait for until intlTelInput to be loaded
                     // Loads the component after a certain time because it
                     // causes problems with the elements added to the DOM later. e.g. Repeater
                     await new Promise((resolve) => setTimeout(resolve, 150));
@@ -27,8 +25,6 @@ document.addEventListener("alpine:init", () => {
                     this.options = getInputTelOptionsUsing(intlTelInput);
 
                     this.applyGeoIpLookup();
-                    this.applyCustomPlaceholder();
-                    this.applyUtilsScript();
 
                     this.input = this.$refs.input;
 
@@ -115,72 +111,65 @@ document.addEventListener("alpine:init", () => {
                 },
 
                 applyGeoIpLookup() {
-                    // geoIpLookup option
-                    if (this.options.geoIpLookup == null) {
-                        // unset it if null
-                        delete this.options.geoIpLookup;
-                    } else if (this.options.geoIpLookup === "ipinfo") {
-                        this.options.geoIpLookup = function (success, failure) {
-                            let country = getCookie(
-                                this.intlTelInputSelectedCountryCookie
-                            );
+                    if (!this.options.performIpLookup) {
+                        return;
+                    }
 
-                            if (country) {
-                                success(country);
-                            } else {
-                                fetch("https://ipinfo.io/json")
-                                    .then((res) => res.json())
-                                    .then((data) => data)
-                                    .then((data) => {
-                                        let country =
-                                            data.country?.toUpperCase();
-                                        success(country);
-                                        setCookie(
-                                            this
-                                                .intlTelInputSelectedCountryCookie,
-                                            country
-                                        );
-                                    })
-                                    .catch((error) => success("US"));
+                    this.options.geoIpLookup = async function (
+                        success,
+                        failure
+                    ) {
+                        let country = getCookie(
+                            this.intlTelInputSelectedCountryCookie
+                        );
+
+                        if (country) {
+                            success(country);
+                        } else {
+                            try {
+                                await this.$wire.call(
+                                    "dispatchFormEvent",
+                                    "phoneInput::ipLookup",
+                                    this.statePath
+                                );
+
+                                const dispatches =
+                                    this.$wire.__instance.effects?.dispatches;
+
+                                if (!dispatches) {
+                                    return;
+                                }
+
+                                const setCountryDispatch = dispatches.find(
+                                    (dispatch) =>
+                                        dispatch.name ===
+                                        "phoneInput::setCountry"
+                                );
+
+                                if (!setCountryDispatch) {
+                                    return;
+                                }
+
+                                const params = setCountryDispatch.params[0];
+
+                                const { statePath, country } = params;
+
+                                if (statePath !== this.statePath) {
+                                    return;
+                                }
+
+                                this.$nextTick(() => {
+                                    success(country);
+                                    setCookie(
+                                        this.intlTelInputSelectedCountryCookie,
+                                        country
+                                    );
+                                });
+                            } catch (error) {
+                                failure(error);
                             }
-                        }.bind(this);
-                    } else if (
-                        typeof window[this.options.geoIpLookup] === "function"
-                    ) {
-                        // user custom function
-                        this.options.geoIpLookup =
-                            window[this.options.geoIpLookup];
-                    } else {
-                        if (typeof this.options.geoIpLookup !== "function") {
-                            throw new TypeError(
-                                `Phone-Input: Undefined function '${this.options.geoIpLookup}' specified in tel-input.options.geoIpLookup.`
-                            );
                         }
-                        delete this.options.geoIpLookup; // unset if undefined function
-                    }
-                },
-
-                applyCustomPlaceholder() {
-                    if (
-                        this.options.customPlaceholder &&
-                        typeof window[this.options.customPlaceholder] ===
-                            "function"
-                    ) {
-                        // user custom function
-                        this.options.customPlaceholder =
-                            window[this.options.customPlaceholder];
-                    }
-                },
-
-                applyUtilsScript() {
-                    // utilsScript option
-                    if (this.options.utilsScript) {
-                        // Fix utilsScript relative path bug
-                        this.options.utilsScript =
-                            this.options.utilsScript.charAt(0) == "/"
-                                ? this.options.utilsScript
-                                : "/" + this.options.utilsScript;
-                    }
+                    }.bind(this);
                 },
             };
         }
@@ -223,18 +212,3 @@ function getCookie(cookieName) {
     }
     return "";
 }
-
-function removeCookie(cookieName, path = null, domain = null) {
-    let cookieString = `${cookieName}=;`;
-    const d = new Date();
-    d.setTime(d.getTime() - 30 * 24 * 60 * 60 * 1000);
-    cookieString += `expires=${d.toUTCString()};`;
-    if (path) {
-        cookieString += `path=${path};`;
-    }
-    if (domain) {
-        cookieString += `domain=${domain};`;
-    }
-    document.cookie = cookieString;
-}
-
