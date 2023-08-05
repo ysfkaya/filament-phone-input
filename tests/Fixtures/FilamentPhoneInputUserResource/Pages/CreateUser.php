@@ -7,5 +7,5 @@ use Ysfkaya\FilamentPhoneInput\Tests\Fixtures\FilamentPhoneInputUserResource;
 
 class CreateUser extends CreateRecord
 {
-    protected static string $resource = FilamentPhoneInputUserResource::class;
+    public static string $resource = FilamentPhoneInputUserResource::class;
 }

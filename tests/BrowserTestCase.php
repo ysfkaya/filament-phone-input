@@ -8,13 +8,14 @@ use Livewire\Features\SupportTesting\DuskBrowserMacros;
 use Orchestra\Testbench\Dusk\TestCase as Orchestra;
 use Ysfkaya\FilamentPhoneInput\Tests\Fixtures\FilamentPhoneInputPanelProvider;
 use Ysfkaya\FilamentPhoneInput\Tests\Fixtures\FilamentPhoneInputUser;
-use Ysfkaya\FilamentPhoneInput\Tests\Fixtures\FilamentPhoneInputUserResource;
 
-class DuskTestCase extends Orchestra
+class BrowserTestCase extends Orchestra
 {
     use TestSuite{
         TestSuite::getEnvironmentSetUp as getTestSuiteEnvironmentSetUp;
     }
+
+    protected string $resource;
 
     protected function setUp(): void
     {
@@ -33,22 +34,25 @@ class DuskTestCase extends Orchestra
         $this->artisan('filament:assets');
     }
 
+    public function createApplication()
+    {
+        FilamentPhoneInputPanelProvider::resourceClass($this->resource);
+
+        return parent::createApplication();
+    }
+
     public function makeACleanSlate()
     {
         Artisan::call('view:clear');
     }
 
-    public function phoneTest(callable $visitCallback, callable $cb = null)
+    public function phoneTest(callable $visitCallback)
     {
-        $this->beforeServingApplication(function () use ($cb) {
-            FilamentPhoneInputPanelProvider::$phoneInputCallback = $cb;
-        });
-
         return $this->browse(function (Browser $browser) use ($visitCallback) {
             $visitCallback(
                 $browser
                     ->login()
-                    ->visit(FilamentPhoneInputUserResource::getUrl('create', isAbsolute: false))
+                    ->visit($this->resource::getUrl('create', isAbsolute: false))
             );
         });
     }

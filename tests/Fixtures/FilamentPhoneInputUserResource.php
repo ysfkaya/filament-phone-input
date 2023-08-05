@@ -20,6 +20,8 @@ class FilamentPhoneInputUserResource extends Resource
 
     protected static $phoneInputCallback = null;
 
+    protected static ?string $slug = 'users';
+
     public static function phoneInput(callable $callback = null): void
     {
         self::$phoneInputCallback = $callback;

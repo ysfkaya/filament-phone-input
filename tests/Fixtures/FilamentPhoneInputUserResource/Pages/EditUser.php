@@ -8,7 +8,7 @@ use Ysfkaya\FilamentPhoneInput\Tests\Fixtures\FilamentPhoneInputUserResource;
 
 class EditUser extends EditRecord
 {
-    protected static string $resource = FilamentPhoneInputUserResource::class;
+    public static string $resource = FilamentPhoneInputUserResource::class;
 
     protected function getHeaderActions(): array
     {

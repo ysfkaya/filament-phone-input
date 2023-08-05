@@ -34,7 +34,7 @@
                 ])
         "
     >
-        <div class="inline-flex w-full" wire:ignore>
+        <div class="inline-flex w-full" wire:ignore dusk="phone-input.{{ $id }}">
             <span
                 class="w-full"
                 x-data="phoneInputFormComponent({

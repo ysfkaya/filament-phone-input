@@ -149,7 +149,7 @@ document.addEventListener("alpine:init", function () {
                     }
 
                     success(country);
-                    _context2.next = 24;
+                    _context2.next = 25;
                     break;
 
                   case 5:
@@ -191,24 +191,25 @@ document.addEventListener("alpine:init", function () {
                     return _context2.abrupt("return");
 
                   case 18:
+                    window.phoneInputGeoIpLookup = true;
                     this.$nextTick(function () {
                       success(_country);
                       setCookie(_this3.intlTelInputSelectedCountryCookie, _country);
                     });
-                    _context2.next = 24;
+                    _context2.next = 25;
                     break;
 
-                  case 21:
-                    _context2.prev = 21;
+                  case 22:
+                    _context2.prev = 22;
                     _context2.t0 = _context2["catch"](5);
                     failure(_context2.t0);
 
-                  case 24:
+                  case 25:
                   case "end":
                     return _context2.stop();
                 }
               }
-            }, _callee2, this, [[5, 21]]);
+            }, _callee2, this, [[5, 22]]);
           }));
 
           return function (_x, _x2) {

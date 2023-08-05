@@ -158,6 +158,8 @@ document.addEventListener("alpine:init", () => {
                                     return;
                                 }
 
+                                window.phoneInputGeoIpLookup = true;
+
                                 this.$nextTick(() => {
                                     success(country);
                                     setCookie(
