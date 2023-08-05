@@ -31,8 +31,6 @@ class PhoneInput extends Field
 
     protected string $customContainer = '';
 
-    protected ?string $customPlaceholder = null;
-
     protected ?string $dropdownContainer = null;
 
     protected array $excludeCountries = [];
@@ -159,13 +157,6 @@ class PhoneInput extends Field
         return $this;
     }
 
-    public function customPlaceholder(?string $value)
-    {
-        $this->customPlaceholder = $value;
-
-        return $this;
-    }
-
     public function dropdownContainer(?string $value)
     {
         $this->dropdownContainer = $value;
@@ -252,15 +243,13 @@ class PhoneInput extends Field
 
             'customContainer' => $this->customContainer,
 
-            'customPlaceholder' => $this->customPlaceholder,
-
             'dropdownContainer' => $this->dropdownContainer,
 
             'excludeCountries' => $this->excludeCountries,
 
             'formatOnDisplay' => $this->formatOnDisplay,
 
-            'performIpLookup' => $this->isPerformIpLookup,
+            'performIpLookup' => $this->canPerformIpLookup,
 
             'initialCountry' => $this->initialCountry,
 

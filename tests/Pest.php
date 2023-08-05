@@ -1,5 +1,12 @@
 <?php
 
-use Ysfkaya\FilamentPhoneInput\Tests\TestCase;
+use function Pest\Livewire\livewire;
+use Ysfkaya\FilamentPhoneInput\Tests\Fixtures\FilamentPhoneInputUserResource;
+use Ysfkaya\FilamentPhoneInput\Tests\Fixtures\FilamentPhoneInputUserResource\Pages\CreateUser;
 
-uses(TestCase::class)->in(__DIR__);
+function phoneTest(callable $cb = null)
+{
+    FilamentPhoneInputUserResource::phoneInput($cb);
+
+    return livewire(CreateUser::class);
+}
