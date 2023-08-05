@@ -7,7 +7,7 @@ use Filament\Tables\Columns\TextColumn;
 
 class PhoneInputColumn extends TextColumn
 {
-    protected string | Closure | null $displayFormat = null;
+    protected string|Closure|null $displayFormat = null;
 
     public function displayFormat(string|Closure $format)
     {
