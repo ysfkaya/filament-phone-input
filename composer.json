@@ -50,7 +50,7 @@
     "scripts": {
         "analyse": "vendor/bin/phpstan analyse",
         "test": "vendor/bin/pest --testsuite=Unit",
-        "browser-test": "vendor/bin/phpunit --testsuite=Browser --bootstrap=tests/Browser/bootstrap.php",
+        "test-browser": "vendor/bin/phpunit --testsuite=Browser --bootstrap=tests/Browser/bootstrap.php",
         "format": "vendor/bin/pint"
     },
     "config": {
