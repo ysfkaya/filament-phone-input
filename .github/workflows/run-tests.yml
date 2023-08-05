@@ -36,17 +36,21 @@ jobs:
       - name: Install Dependencies
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
-      - name: Run dusk updater
-        run: ./vendor/bin/dusk-updater update
+      - name: Setup dusk/chrome
+        run: vendor/bin/dusk-updater detect --no-interactione
 
       - name: Create SQlite database
         run: php vendor/orchestra/testbench-dusk/create-sqlite-db
 
       - name: Execute unit tests
         run: composer test
+        env:
+          RUNNING_IN_CI: true
 
       - name: Execute browser tests
         run: composer test-browser
+        env:
+          RUNNING_IN_CI: true
 
       - name: Upload Screenshots
         if: failure()
