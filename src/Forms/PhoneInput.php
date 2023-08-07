@@ -220,7 +220,7 @@ class PhoneInput extends Field
         return $this;
     }
 
-    public function separateDialCode(bool $value)
+    public function separateDialCode(bool $value = true)
     {
         $this->separateDialCode = $value;
 
