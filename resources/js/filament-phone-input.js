@@ -94,10 +94,8 @@ document.addEventListener("alpine:init", () => {
                 },
 
                 updateState() {
-                    const displayNumberFormat =
-                        this.options.displayNumberFormat || "E164";
-                    const inputNumberFormat =
-                        this.options.inputNumberFormat || "E164";
+                    const displayNumberFormat = this.options.displayNumberFormat || "E164";
+                    const inputNumberFormat = "E164";
 
                     this.state = this.instance.getNumber(
                         window.intlTelInputUtils.numberFormat[inputNumberFormat]

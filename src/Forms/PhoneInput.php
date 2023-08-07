@@ -9,6 +9,7 @@ use Filament\Forms\Components\Concerns\HasPlaceholder;
 use Filament\Forms\Components\Field;
 use Filament\Pages\Page;
 use Illuminate\Support\Facades\Http;
+use Propaganistas\LaravelPhone\Rules\Phone as PhoneRule;
 use Ysfkaya\FilamentPhoneInput\PhoneInputNumberType;
 
 class PhoneInput extends Field
@@ -55,12 +56,14 @@ class PhoneInput extends Field
 
     public bool $canPerformIpLookup = true;
 
+    public string|array $validationCountry = [];
+
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->ipLookup(function () {
-            return rescue(fn () => Http::get('https://ipinfo.io/json')->json('country'), report: false);
+            return rescue(fn () => Http::get('https://ipinfo.io/json')->json('country'), app()->getLocale(), report: false);
         });
 
         $this->registerListeners([
@@ -89,6 +92,33 @@ class PhoneInput extends Field
                     ]);
                 },
             ],
+        ]);
+
+        $this->beforeStateDehydrated(function (PhoneInput $component, $state) {
+            $format = PhoneInputNumberType::from($component->getInputNumberFormat());
+
+            $component->state(
+                phone(
+                    $state,
+                    country: $component->validationCountry,
+                    format: $format->toLibPhoneNumberFormat()
+                )
+            );
+        });
+    }
+
+    public function validateFor(string|array $country = 'AUTO', string $type = null, bool $lenient = false)
+    {
+        $this->validationCountry = $country;
+
+        $rule = (new PhoneRule)->country($country)->type($type);
+
+        if ($lenient) {
+            $rule->lenient();
+        }
+
+        return $this->rules([
+            $rule,
         ]);
     }
 
@@ -134,6 +164,11 @@ class PhoneInput extends Field
         $this->inputNumberFormat = $format->value;
 
         return $this;
+    }
+
+    public function getInputNumberFormat(): string
+    {
+        return $this->inputNumberFormat;
     }
 
     public function disallowDropdown()
@@ -266,8 +301,6 @@ class PhoneInput extends Field
             'separateDialCode' => $this->separateDialCode,
 
             'displayNumberFormat' => $this->displayNumberFormat,
-
-            'inputNumberFormat' => $this->inputNumberFormat,
 
             'focusNumberFormat' => $this->focusNumberFormat,
         ]);

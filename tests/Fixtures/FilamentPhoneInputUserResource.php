@@ -7,6 +7,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Hash;
 use Ysfkaya\FilamentPhoneInput\Forms\PhoneInput;
 use Ysfkaya\FilamentPhoneInput\Tests\Fixtures\FilamentPhoneInputUserResource\Pages;
 
@@ -47,6 +48,14 @@ class FilamentPhoneInputUserResource extends Resource
                     ->required()
                     ->placeholder('Enter an email address...')
                     ->helperText('This is the email address of the user.'),
+
+                Forms\Components\TextInput::make('password')
+                    ->password()
+                    ->required()
+                    ->maxLength(255)
+                    ->dehydrated(fn ($state) => filled($state))
+                    ->afterStateHydrated(fn ($component) => $component->state(null))
+                    ->dehydrateStateUsing(fn ($state) => Hash::make($state)),
 
                 static::getPhoneInput(),
             ]);

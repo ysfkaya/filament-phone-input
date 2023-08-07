@@ -12,6 +12,7 @@
     "require": {
         "php": "^8.1",
         "filament/filament": "^3.0",
+        "propaganistas/laravel-phone": "^5.0",
         "spatie/laravel-package-tools": "^1.14.0"
     },
     "require-dev": {
@@ -26,9 +27,6 @@
         "phpstan/extension-installer": "^1.1",
         "phpstan/phpstan-deprecation-rules": "^1.0",
         "phpstan/phpstan-phpunit": "^1.0"
-    },
-    "suggest": {
-        "propaganistas/laravel-phone": "It is required to use the validation phone rule."
     },
     "autoload": {
         "psr-4": {
@@ -51,7 +49,13 @@
         "analyse": "vendor/bin/phpstan analyse",
         "test": "vendor/bin/pest --testsuite=Unit",
         "test-browser": "vendor/bin/phpunit --testsuite=Browser --bootstrap=tests/Browser/bootstrap.php",
-        "format": "vendor/bin/pint"
+        "format": "vendor/bin/pint",
+        "checks": [
+            "@analyse",
+            "@test",
+            "@test-browser",
+            "@format"
+        ]
     },
     "config": {
         "sort-packages": true,
