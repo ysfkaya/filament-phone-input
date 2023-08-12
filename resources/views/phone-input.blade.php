@@ -15,7 +15,6 @@
 
 <x-dynamic-component :component="$getFieldWrapperView()" :field="$field">
     <x-filament::input.wrapper
-        wire:ignore
         :disabled="$isDisabled"
         :inline-prefix="$isPrefixInline"
         :inline-suffix="$isSuffixInline"
@@ -40,7 +39,10 @@
                 x-data="phoneInputFormComponent({
                     getInputTelOptionsUsing: (intlTelInput) => ({{ $getJsonPhoneInputConfiguration() }}),
                     state: $wire.{{ $applyStateBindingModifiers("entangle('{$statePath}')") }},
-                    statePath: @js($statePath)
+                    statePath: @js($statePath),
+                    @if ($hasCountryStatePath() && $countryStatePath = $getCountryStatePath())
+                        country: $wire.{{ $applyStateBindingModifiers("entangle('{$countryStatePath}')") }},
+                    @endif
                 })"
             >
                 <x-filament::input

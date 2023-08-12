@@ -56,7 +56,11 @@ class PhoneInput extends Field
 
     public bool $canPerformIpLookup = true;
 
-    public string|array $validationCountry = [];
+    public ?string $validatedCountry = null;
+
+    public string|Closure|null $countryStatePath = null;
+
+    public bool $countryStatePathIsAbsolute = false;
 
     protected function setUp(): void
     {
@@ -94,22 +98,91 @@ class PhoneInput extends Field
             ],
         ]);
 
-        $this->beforeStateDehydrated(function (PhoneInput $component, $state) {
+        $this->afterStateHydrated(function (PhoneInput $component, $state) {
+            if (! $state) {
+                return;
+            }
+
             $format = PhoneInputNumberType::from($component->getInputNumberFormat());
+
+            $country = null;
+
+            if ($component->hasCountryStatePath()) {
+                $country = data_get($component->getLivewire(), $component->getCountryStatePath());
+
+                $format = PhoneInputNumberType::E164;
+            }
 
             $component->state(
                 phone(
                     $state,
-                    country: $component->validationCountry,
+                    country: $country,
+                    format: $format->toLibPhoneNumberFormat()
+                )
+            );
+        });
+
+        $this->beforeStateDehydrated(function (PhoneInput $component, $state) {
+            if (! $state) {
+                return;
+            }
+
+            $format = PhoneInputNumberType::from($component->getInputNumberFormat());
+
+            $country = $this->validatedCountry === 'AUTO' ? null : $this->validatedCountry;
+
+            if ($component->hasCountryStatePath()) {
+                $countryStatePath = $component->getCountryStatePath();
+
+                $livewire = $component->getLivewire();
+
+                $country = data_get($livewire, $countryStatePath);
+
+                $format = PhoneInputNumberType::NATIONAL;
+            }
+
+            $component->state(
+                phone(
+                    $state,
+                    country: $country,
                     format: $format->toLibPhoneNumberFormat()
                 )
             );
         });
     }
 
+    public function dehydrateValidationRules(array &$rules): void
+    {
+        parent::dehydrateValidationRules($rules);
+
+        if ($this->hasCountryStatePath()) {
+            $countryStatePath = $this->getCountryStatePath();
+
+            $rules[$countryStatePath] = ['nullable'];
+        }
+    }
+
+    public function hasCountryStatePath(): bool
+    {
+        return $this->countryStatePath !== null;
+    }
+
+    public function countryStatePath(string|Closure $statePath, bool $isStatePathAbsolute = false)
+    {
+        $this->countryStatePath = $statePath;
+        $this->countryStatePathIsAbsolute = $isStatePathAbsolute;
+
+        return $this;
+    }
+
+    public function getCountryStatePath()
+    {
+        return $this->generateRelativeStatePath($this->countryStatePath, $this->countryStatePathIsAbsolute);
+    }
+
     public function validateFor(string|array $country = 'AUTO', string $type = null, bool $lenient = false)
     {
-        $this->validationCountry = $country;
+        $this->validatedCountry = $country;
 
         $rule = (new PhoneRule)->country($country)->type($type);
 

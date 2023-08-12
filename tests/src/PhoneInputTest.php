@@ -55,6 +55,9 @@ it('validate for', function (string $country, string $phone, bool $pass, $type =
     ['TR', '0530 111 11 11', true, PhoneInputNumberType::NATIONAL->toLibPhoneNumberFormat()],
 ]);
 
+todo('it sets the country state while using countryStatePath');
+todo('the enum returns the libphonenumber format');
+
 it('does not use debugging functions', function () {
     expect(['dd', 'dump', 'var_dump', 'print_r', 'ray'])->not->toBeUsed();
 });

@@ -4,12 +4,18 @@ import "intl-tel-input/build/js/utils";
 document.addEventListener("alpine:init", () => {
     Alpine.data(
         "phoneInputFormComponent",
-        ({ getInputTelOptionsUsing, state, statePath }) => {
+        ({
+            getInputTelOptionsUsing,
+            state,
+            statePath,
+            country = undefined,
+        }) => {
             return {
                 state,
                 statePath,
+                country,
                 input: null,
-                instance: null,
+                intlTelInput: null,
 
                 options: {}, // intlTelInput options
 
@@ -28,12 +34,12 @@ document.addEventListener("alpine:init", () => {
 
                     this.input = this.$refs.input;
 
-                    this.instance = intlTelInput(this.input, this.options);
+                    this.intlTelInput = intlTelInput(this.input, this.options);
 
                     if (this.state) {
                         const value = this.state?.valueOf();
 
-                        this.instance.setNumber(value);
+                        this.intlTelInput.setNumber(value);
 
                         setTimeout(() => {
                             this.updateState();
@@ -56,7 +62,7 @@ document.addEventListener("alpine:init", () => {
                         const format = this.options.focusNumberFormat || false;
 
                         if (format !== false) {
-                            this.input.value = this.instance.getNumber(
+                            this.input.value = this.intlTelInput.getNumber(
                                 window.intlTelInputUtils.numberFormat[format]
                             );
                         }
@@ -65,13 +71,17 @@ document.addEventListener("alpine:init", () => {
                     this.$watch("state", (value) => {
                         this.$nextTick(() => {
                             if (value !== null && value !== undefined) {
-                                this.instance.setNumber(value);
+                                this.intlTelInput.setNumber(value);
                             } else {
-                                this.instance.setNumber("");
+                                this.intlTelInput.setNumber("");
+
+                                this.updateCountryState(null);
                             }
 
                             if (value !== undefined) {
                                 this.updateState();
+                            } else {
+                                this.updateCountryState(null);
                             }
                         });
                     });
@@ -80,7 +90,7 @@ document.addEventListener("alpine:init", () => {
                 listenCountryChange() {
                     this.input.addEventListener("countrychange", () => {
                         let countryData =
-                            this.instance.getSelectedCountryData();
+                            this.intlTelInput.getSelectedCountryData();
 
                         if (countryData.iso2) {
                             setCookie(
@@ -94,18 +104,38 @@ document.addEventListener("alpine:init", () => {
                 },
 
                 updateState() {
-                    const displayNumberFormat = this.options.displayNumberFormat || "E164";
+                    const displayNumberFormat =
+                        this.options.displayNumberFormat || "E164";
                     const inputNumberFormat = "E164";
 
-                    this.state = this.instance.getNumber(
+                    this.state = this.intlTelInput.getNumber(
                         window.intlTelInputUtils.numberFormat[inputNumberFormat]
                     );
 
-                    this.input.value = this.instance.getNumber(
+                    this.input.value = this.intlTelInput.getNumber(
                         window.intlTelInputUtils.numberFormat[
                             displayNumberFormat
                         ]
                     );
+
+                    this.updateCountryState(
+                        ! this.state ? null : undefined
+                    );
+                },
+
+                updateCountryState(value = undefined) {
+                    if (this.country !== undefined) {
+                        if (value !== undefined) {
+                            this.country = value;
+
+                            return;
+                        }
+
+                        const countryData =
+                            this.intlTelInput.getSelectedCountryData();
+
+                        this.country = countryData.iso2?.toUpperCase();
+                    }
                 },
 
                 applyGeoIpLookup() {

@@ -27,12 +27,15 @@ document.addEventListener("alpine:init", function () {
   Alpine.data("phoneInputFormComponent", function (_ref) {
     var getInputTelOptionsUsing = _ref.getInputTelOptionsUsing,
         state = _ref.state,
-        statePath = _ref.statePath;
+        statePath = _ref.statePath,
+        _ref$country = _ref.country,
+        country = _ref$country === void 0 ? undefined : _ref$country;
     return {
       state: state,
       statePath: statePath,
+      country: country,
       input: null,
-      instance: null,
+      intlTelInput: null,
       options: {},
       // intlTelInput options
       intlTelInputSelectedCountryCookie: "intlTelInputSelectedCountry",
@@ -57,12 +60,12 @@ document.addEventListener("alpine:init", function () {
                   _this.applyGeoIpLookup();
 
                   _this.input = _this.$refs.input;
-                  _this.instance = intl_tel_input__WEBPACK_IMPORTED_MODULE_0___default()(_this.input, _this.options);
+                  _this.intlTelInput = intl_tel_input__WEBPACK_IMPORTED_MODULE_0___default()(_this.input, _this.options);
 
                   if (_this.state) {
                     value = (_this$state = _this.state) === null || _this$state === void 0 ? void 0 : _this$state.valueOf();
 
-                    _this.instance.setNumber(value);
+                    _this.intlTelInput.setNumber(value);
 
                     setTimeout(function () {
                       _this.updateState();
@@ -79,20 +82,24 @@ document.addEventListener("alpine:init", function () {
                     var format = _this.options.focusNumberFormat || false;
 
                     if (format !== false) {
-                      _this.input.value = _this.instance.getNumber(window.intlTelInputUtils.numberFormat[format]);
+                      _this.input.value = _this.intlTelInput.getNumber(window.intlTelInputUtils.numberFormat[format]);
                     }
                   });
 
                   _this.$watch("state", function (value) {
                     _this.$nextTick(function () {
                       if (value !== null && value !== undefined) {
-                        _this.instance.setNumber(value);
+                        _this.intlTelInput.setNumber(value);
                       } else {
-                        _this.instance.setNumber("");
+                        _this.intlTelInput.setNumber("");
+
+                        _this.updateCountryState(null);
                       }
 
                       if (value !== undefined) {
                         _this.updateState();
+                      } else {
+                        _this.updateCountryState(null);
                       }
                     });
                   });
@@ -109,7 +116,7 @@ document.addEventListener("alpine:init", function () {
         var _this2 = this;
 
         this.input.addEventListener("countrychange", function () {
-          var countryData = _this2.instance.getSelectedCountryData();
+          var countryData = _this2.intlTelInput.getSelectedCountryData();
 
           if (countryData.iso2) {
             var _countryData$iso;
@@ -122,9 +129,25 @@ document.addEventListener("alpine:init", function () {
       },
       updateState: function updateState() {
         var displayNumberFormat = this.options.displayNumberFormat || "E164";
-        var inputNumberFormat = this.options.inputNumberFormat || "E164";
-        this.state = this.instance.getNumber(window.intlTelInputUtils.numberFormat[inputNumberFormat]);
-        this.input.value = this.instance.getNumber(window.intlTelInputUtils.numberFormat[displayNumberFormat]);
+        var inputNumberFormat = "E164";
+        this.state = this.intlTelInput.getNumber(window.intlTelInputUtils.numberFormat[inputNumberFormat]);
+        this.input.value = this.intlTelInput.getNumber(window.intlTelInputUtils.numberFormat[displayNumberFormat]);
+        this.updateCountryState(!this.state ? null : undefined);
+      },
+      updateCountryState: function updateCountryState() {
+        var value = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
+
+        if (this.country !== undefined) {
+          var _countryData$iso2;
+
+          if (value !== undefined) {
+            this.country = value;
+            return;
+          }
+
+          var countryData = this.intlTelInput.getSelectedCountryData();
+          this.country = (_countryData$iso2 = countryData.iso2) === null || _countryData$iso2 === void 0 ? void 0 : _countryData$iso2.toUpperCase();
+        }
       },
       applyGeoIpLookup: function applyGeoIpLookup() {
         if (!this.options.performIpLookup) {
