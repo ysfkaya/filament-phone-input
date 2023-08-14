@@ -15,7 +15,7 @@ class BrowserTestCase extends Orchestra
         TestSuite::getEnvironmentSetUp as getTestSuiteEnvironmentSetUp;
     }
 
-    protected string $resource;
+    protected ?string $resource = null;
 
     protected function setUp(): void
     {
@@ -36,7 +36,9 @@ class BrowserTestCase extends Orchestra
 
     public function createApplication()
     {
-        FilamentPhoneInputPanelProvider::resourceClass($this->resource);
+        if ($this->resource) {
+            FilamentPhoneInputPanelProvider::resourceClass($this->resource);
+        }
 
         return parent::createApplication();
     }
@@ -69,6 +71,11 @@ class BrowserTestCase extends Orchestra
     protected function getEnvironmentSetUp($app)
     {
         $this->getTestSuiteEnvironmentSetUp($app);
+
+        $app['config']->set('view.paths', [
+            __DIR__.'/Browser/views',
+            resource_path('views'),
+        ]);
 
         $app['config']->set('app.debug', true);
         $app['config']->set('database.connections.sqlite.database', database_path('database.sqlite'));

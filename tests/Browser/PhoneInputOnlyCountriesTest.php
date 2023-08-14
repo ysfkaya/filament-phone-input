@@ -9,7 +9,7 @@ use Ysfkaya\FilamentPhoneInput\Tests\Fixtures\FilamentPhoneInputUserResource;
 
 class PhoneInputOnlyCountriesTest extends BrowserTestCase
 {
-    protected string $resource = PhoneInputOnlyCountriesResource::class;
+    protected ?string $resource = PhoneInputOnlyCountriesResource::class;
 
     /** @test */
     public function it_should_be_render_with_only_countries()

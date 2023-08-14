@@ -2,8 +2,8 @@
 
 namespace Ysfkaya\FilamentPhoneInput;
 
+use Filament\Support\Assets\AlpineComponent;
 use Filament\Support\Assets\Css;
-use Filament\Support\Assets\Js;
 use Filament\Support\Facades\FilamentAsset;
 use Illuminate\Support\Facades\Route;
 use Spatie\LaravelPackageTools\Package;
@@ -21,9 +21,9 @@ class FilamentPhoneInputServiceProvider extends PackageServiceProvider
     public function packageBooted(): void
     {
         FilamentAsset::register([
-            Css::make('filament-phone-input', __DIR__.'/../dist/css/filament-phone-input.css'),
-            Js::make('filament-phone-input', __DIR__.'/../dist/js/filament-phone-input.js'),
-        ], 'ysfkaya/filament-phone-input');
+            Css::make('filament-phone-input', __DIR__.'/../dist/css/filament-phone-input.css')->loadedOnRequest(),
+            AlpineComponent::make('filament-phone-input', __DIR__.'/../dist/js/filament-phone-input.js'),
+        ], package: 'ysfkaya/filament-phone-input');
 
         Route::get('/phone-input-flags.png', function () {
             return response()->file(__DIR__.'/../images/vendor/intl-tel-input/build/flags.png');

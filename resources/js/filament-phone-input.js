@@ -1,210 +1,186 @@
 import intlTelInput from "intl-tel-input";
 import "intl-tel-input/build/js/utils";
 
-document.addEventListener("alpine:init", () => {
-    Alpine.data(
-        "phoneInputFormComponent",
-        ({
-            getInputTelOptionsUsing,
-            state,
-            statePath,
-            country = undefined,
-        }) => {
-            return {
-                state,
-                statePath,
-                country,
-                input: null,
-                intlTelInput: null,
+export default function phoneInputFormComponent({
+    getInputTelOptionsUsing,
+    state,
+    statePath,
+    country = undefined,
+}) {
+    return {
+        state,
+        statePath,
+        country,
+        input: null,
+        intlTelInput: null,
 
-                options: {}, // intlTelInput options
+        options: {}, // intlTelInput options
 
-                intlTelInputSelectedCountryCookie:
-                    "intlTelInputSelectedCountry",
+        intlTelInputSelectedCountryCookie: "intlTelInputSelectedCountry",
 
-                async init() {
-                    // Wait for until intlTelInput to be loaded
-                    // Loads the component after a certain time because it
-                    // causes problems with the elements added to the DOM later. e.g. Repeater
-                    await new Promise((resolve) => setTimeout(resolve, 150));
+        async init() {
+            // Waits for until intlTelInput to be fully loaded
+            // Loads the component after a certain time because it
+            // causes problems with the elements added to the DOM later. e.g. Repeater
+            await new Promise((resolve) => setTimeout(resolve, 150));
 
-                    this.options = getInputTelOptionsUsing(intlTelInput);
+            this.options = getInputTelOptionsUsing(intlTelInput);
 
-                    this.applyGeoIpLookup();
+            this.applyGeoIpLookup();
 
-                    this.input = this.$refs.input;
+            this.input = this.$refs.input;
 
-                    this.intlTelInput = intlTelInput(this.input, this.options);
+            this.intlTelInput = intlTelInput(this.input, this.options);
 
-                    if (this.state) {
-                        const value = this.state?.valueOf();
+            if (this.state) {
+                const value = this.state?.valueOf();
 
+                this.intlTelInput.setNumber(value);
+
+                setTimeout(() => {
+                    this.updateState();
+                }, 1);
+            }
+
+            this.listenCountryChange();
+
+            this.input.addEventListener("change", this.updateState.bind(this));
+
+            this.input.addEventListener("blur", this.updateState.bind(this));
+
+            this.input.addEventListener("focus", () => {
+                const format = this.options.focusNumberFormat || false;
+
+                if (format !== false) {
+                    this.input.value = this.intlTelInput.getNumber(
+                        window.intlTelInputUtils.numberFormat[format]
+                    );
+                }
+            });
+
+            this.$watch("state", (value) => {
+                this.$nextTick(() => {
+                    if (value !== null && value !== undefined) {
                         this.intlTelInput.setNumber(value);
+                    } else {
+                        this.intlTelInput.setNumber("");
 
-                        setTimeout(() => {
-                            this.updateState();
-                        }, 1);
+                        this.updateCountryState(null);
                     }
 
-                    this.listenCountryChange();
+                    if (value !== undefined) {
+                        this.updateState();
+                    } else {
+                        this.updateCountryState(null);
+                    }
+                });
+            });
+        },
 
-                    this.input.addEventListener(
-                        "change",
-                        this.updateState.bind(this)
+        listenCountryChange() {
+            this.input.addEventListener("countrychange", () => {
+                let countryData = this.intlTelInput.getSelectedCountryData();
+
+                if (countryData.iso2) {
+                    setCookie(
+                        this.intlTelInputSelectedCountryCookie,
+                        countryData.iso2?.toUpperCase()
                     );
 
-                    this.input.addEventListener(
-                        "blur",
-                        this.updateState.bind(this)
-                    );
+                    this.updateState();
+                }
+            });
+        },
 
-                    this.input.addEventListener("focus", () => {
-                        const format = this.options.focusNumberFormat || false;
+        updateState() {
+            const displayNumberFormat =
+                this.options.displayNumberFormat || "E164";
+            const inputNumberFormat = "E164";
 
-                        if (format !== false) {
-                            this.input.value = this.intlTelInput.getNumber(
-                                window.intlTelInputUtils.numberFormat[format]
-                            );
-                        }
-                    });
+            this.state = this.intlTelInput.getNumber(
+                window.intlTelInputUtils.numberFormat[inputNumberFormat]
+            );
 
-                    this.$watch("state", (value) => {
-                        this.$nextTick(() => {
-                            if (value !== null && value !== undefined) {
-                                this.intlTelInput.setNumber(value);
-                            } else {
-                                this.intlTelInput.setNumber("");
+            this.input.value = this.intlTelInput.getNumber(
+                window.intlTelInputUtils.numberFormat[displayNumberFormat]
+            );
 
-                                this.updateCountryState(null);
-                            }
+            this.updateCountryState(!this.state ? null : undefined);
+        },
 
-                            if (value !== undefined) {
-                                this.updateState();
-                            } else {
-                                this.updateCountryState(null);
-                            }
-                        });
-                    });
-                },
+        updateCountryState(value = undefined) {
+            if (this.country !== undefined) {
+                if (value !== undefined) {
+                    this.country = value;
 
-                listenCountryChange() {
-                    this.input.addEventListener("countrychange", () => {
-                        let countryData =
-                            this.intlTelInput.getSelectedCountryData();
+                    return;
+                }
 
-                        if (countryData.iso2) {
-                            setCookie(
-                                this.intlTelInputSelectedCountryCookie,
-                                countryData.iso2?.toUpperCase()
-                            );
+                const countryData = this.intlTelInput.getSelectedCountryData();
 
-                            this.updateState();
-                        }
-                    });
-                },
+                this.country = countryData.iso2?.toUpperCase();
+            }
+        },
 
-                updateState() {
-                    const displayNumberFormat =
-                        this.options.displayNumberFormat || "E164";
-                    const inputNumberFormat = "E164";
+        applyGeoIpLookup() {
+            if (!this.options.performIpLookup) {
+                return;
+            }
 
-                    this.state = this.intlTelInput.getNumber(
-                        window.intlTelInputUtils.numberFormat[inputNumberFormat]
-                    );
+            this.options.geoIpLookup = async function (success, failure) {
+                let country = getCookie(this.intlTelInputSelectedCountryCookie);
 
-                    this.input.value = this.intlTelInput.getNumber(
-                        window.intlTelInputUtils.numberFormat[
-                            displayNumberFormat
-                        ]
-                    );
+                if (country) {
+                    success(country);
+                } else {
+                    try {
+                        await this.$wire.call(
+                            "dispatchFormEvent",
+                            "phoneInput::ipLookup",
+                            this.statePath
+                        );
 
-                    this.updateCountryState(
-                        ! this.state ? null : undefined
-                    );
-                },
+                        const dispatches =
+                            this.$wire.__instance.effects?.dispatches;
 
-                updateCountryState(value = undefined) {
-                    if (this.country !== undefined) {
-                        if (value !== undefined) {
-                            this.country = value;
-
+                        if (!dispatches) {
                             return;
                         }
 
-                        const countryData =
-                            this.intlTelInput.getSelectedCountryData();
-
-                        this.country = countryData.iso2?.toUpperCase();
-                    }
-                },
-
-                applyGeoIpLookup() {
-                    if (!this.options.performIpLookup) {
-                        return;
-                    }
-
-                    this.options.geoIpLookup = async function (
-                        success,
-                        failure
-                    ) {
-                        let country = getCookie(
-                            this.intlTelInputSelectedCountryCookie
+                        const setCountryDispatch = dispatches.find(
+                            (dispatch) =>
+                                dispatch.name === "phoneInput::setCountry"
                         );
 
-                        if (country) {
-                            success(country);
-                        } else {
-                            try {
-                                await this.$wire.call(
-                                    "dispatchFormEvent",
-                                    "phoneInput::ipLookup",
-                                    this.statePath
-                                );
-
-                                const dispatches =
-                                    this.$wire.__instance.effects?.dispatches;
-
-                                if (!dispatches) {
-                                    return;
-                                }
-
-                                const setCountryDispatch = dispatches.find(
-                                    (dispatch) =>
-                                        dispatch.name ===
-                                        "phoneInput::setCountry"
-                                );
-
-                                if (!setCountryDispatch) {
-                                    return;
-                                }
-
-                                const params = setCountryDispatch.params[0];
-
-                                const { statePath, country } = params;
-
-                                if (statePath !== this.statePath) {
-                                    return;
-                                }
-
-                                window.phoneInputGeoIpLookup = true;
-
-                                this.$nextTick(() => {
-                                    success(country);
-                                    setCookie(
-                                        this.intlTelInputSelectedCountryCookie,
-                                        country
-                                    );
-                                });
-                            } catch (error) {
-                                failure(error);
-                            }
+                        if (!setCountryDispatch) {
+                            return;
                         }
-                    }.bind(this);
-                },
-            };
-        }
-    );
-});
+
+                        const params = setCountryDispatch.params[0];
+
+                        const { statePath, country } = params;
+
+                        if (statePath !== this.statePath) {
+                            return;
+                        }
+
+                        window.phoneInputGeoIpLookup = true;
+
+                        this.$nextTick(() => {
+                            success(country);
+                            setCookie(
+                                this.intlTelInputSelectedCountryCookie,
+                                country
+                            );
+                        });
+                    } catch (error) {
+                        failure(error);
+                    }
+                }
+            }.bind(this);
+        },
+    };
+}
 
 function setCookie(
     cookieName,

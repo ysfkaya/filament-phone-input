@@ -10,7 +10,7 @@ use Ysfkaya\FilamentPhoneInput\Tests\Fixtures\FilamentPhoneInputUserResource;
 
 class PhoneInputDisplayFormatTest extends BrowserTestCase
 {
-    protected string $resource = PhoneInputDisplayFormatResource::class;
+    protected ?string $resource = PhoneInputDisplayFormatResource::class;
 
     /** @test */
     public function it_should_be_display_number_format_as_international()

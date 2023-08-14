@@ -9,7 +9,7 @@ use Ysfkaya\FilamentPhoneInput\Tests\Fixtures\FilamentPhoneInputUserResource;
 
 class PhoneInputPreferedCountriesTest extends BrowserTestCase
 {
-    protected string $resource = PhoneInputPreferedCountriesResource::class;
+    protected ?string $resource = PhoneInputPreferedCountriesResource::class;
 
     /** @test */
     public function it_should_be_render_with_prefered_countries()

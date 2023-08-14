@@ -9,7 +9,7 @@ use Ysfkaya\FilamentPhoneInput\Tests\Fixtures\FilamentPhoneInputUserResource;
 
 class PhoneInputInitialCountryTest extends BrowserTestCase
 {
-    protected string $resource = PhoneInputFlagResource::class;
+    protected ?string $resource = PhoneInputFlagResource::class;
 
     /** @test */
     public function it_should_be_render_with_initial_country()

@@ -9,7 +9,7 @@ use Ysfkaya\FilamentPhoneInput\Tests\Fixtures\FilamentPhoneInputUserResource;
 
 class PhoneInputGeoIpLookupTest extends BrowserTestCase
 {
-    protected string $resource = PhoneInputGeoIpLookupResource::class;
+    protected ?string $resource = PhoneInputGeoIpLookupResource::class;
 
     /** @test */
     public function it_should_be_render_with_ip_lookup()

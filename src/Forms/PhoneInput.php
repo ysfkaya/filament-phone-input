@@ -98,7 +98,15 @@ class PhoneInput extends Field
             ],
         ]);
 
-        $this->afterStateHydrated(function (PhoneInput $component, $state) {
+        $this->afterStateHydrated(function (PhoneInput $component, $livewire, $state) {
+            if ($component->hasCountryStatePath()) {
+                $country = data_get($livewire, $countryStatePath = $component->getCountryStatePath());
+
+                data_set($livewire, $countryStatePath, $country);
+
+                $format = PhoneInputNumberType::E164;
+            }
+
             if (! $state) {
                 return;
             }
@@ -106,12 +114,6 @@ class PhoneInput extends Field
             $format = PhoneInputNumberType::from($component->getInputNumberFormat());
 
             $country = null;
-
-            if ($component->hasCountryStatePath()) {
-                $country = data_get($component->getLivewire(), $component->getCountryStatePath());
-
-                $format = PhoneInputNumberType::E164;
-            }
 
             $component->state(
                 phone(

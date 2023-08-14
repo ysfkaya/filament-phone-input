@@ -11,9 +11,16 @@
     $suffixIcon = $getSuffixIcon();
     $suffixLabel = $getSuffixLabel();
     $statePath = $getStatePath();
+
+    $cssUrl = \Filament\Support\Facades\FilamentAsset::getStyleHref('filament-phone-input', package: 'ysfkaya/filament-phone-input');
+
+    $compiledCssUrl = Js::from($cssUrl);
 @endphp
 
-<x-dynamic-component :component="$getFieldWrapperView()" :field="$field">
+<x-dynamic-component
+    :component="$getFieldWrapperView()"
+    :field="$field"
+>
     <x-filament::input.wrapper
         :disabled="$isDisabled"
         :inline-prefix="$isPrefixInline"
@@ -32,10 +39,19 @@
                     'rtl' => $isRtl(),
                 ])
         "
+        x-data="{}"
+        x-load-css="[{{ $compiledCssUrl }}]"
     >
-        <div class="inline-flex w-full" wire:ignore dusk="phone-input.{{ $id }}">
+        <div
+            wire:ignore
+            dusk="phone-input.{{ $id }}"
+            class="inline-flex w-full"
+        >
             <span
                 class="w-full"
+                x-ignore
+                ax-load
+                ax-load-src="{{ \Filament\Support\Facades\FilamentAsset::getAlpineComponentSrc('filament-phone-input', package: 'ysfkaya/filament-phone-input') }}"
                 x-data="phoneInputFormComponent({
                     getInputTelOptionsUsing: (intlTelInput) => ({{ $getJsonPhoneInputConfiguration() }}),
                     state: $wire.{{ $applyStateBindingModifiers("entangle('{$statePath}')") }},

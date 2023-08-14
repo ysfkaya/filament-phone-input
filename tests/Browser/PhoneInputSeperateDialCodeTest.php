@@ -9,7 +9,7 @@ use Ysfkaya\FilamentPhoneInput\Tests\Fixtures\FilamentPhoneInputUserResource;
 
 class PhoneInputSeperateDialCodeTest extends BrowserTestCase
 {
-    protected string $resource = PhoneInputSeparateDialCodeResource::class;
+    protected ?string $resource = PhoneInputSeparateDialCodeResource::class;
 
     /** @test */
     public function it_should_be_render_with_separate_dial_code()
