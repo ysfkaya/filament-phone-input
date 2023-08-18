@@ -40,16 +40,16 @@ You may set the display format of the phone number by passing a format string to
 
 > Available formats are; 
 
-- PhoneInputNumberFormat::E164
-- PhoneInputNumberFormat::INTERNATIONAL
-- PhoneInputNumberFormat::NATIONAL
-- PhoneInputNumberFormat::RFC3966
+- PhoneInputNumberType::E164
+- PhoneInputNumberType::INTERNATIONAL
+- PhoneInputNumberType::NATIONAL
+- PhoneInputNumberType::RFC3966
 
 ```php
 use Ysfkaya\FilamentPhoneInput\PhoneInputNumberType;
 
 PhoneInput::make('phone')
-    ->displayNumberFormat(PhoneInputNumberFormat::E164),
+    ->displayNumberFormat(PhoneInputNumberType::E164),
 ```
 
 <p align="left"><img src="/screenshots/display-number-format.png" alt="Filament Phone Input"></p>
@@ -63,13 +63,13 @@ PhoneInput::make('phone')
     ->inputNumberFormat(PhoneInputNumberType::NATIONAL),
 ```
 
-You may set the focus input type by passing a type string to the `focusInputType` method. The default value is `false`.
+You may set the focus input type by passing a type string to the `focusNumberFormat` method. The default value is `false`.
 
 ```php
-use Ysfkaya\FilamentPhoneInput\PhoneInputFocusInputType;
+use Ysfkaya\FilamentPhoneInput\PhoneInputNumberType;
 
 PhoneInput::make('phone')
-    ->focusInputType(PhoneInputFocusInputType::E164),
+    ->focusNumberFormat(PhoneInputNumberType::E164),
 ```
 
 <p align="left"><img src="/screenshots/focus-input-type.gif" alt="Filament Phone Input"></p>
