@@ -57,6 +57,7 @@ it('validate for', function (string $country, string $phone, bool $pass, $type =
 
 todo('it sets the country state while using countryStatePath');
 todo('the enum returns the libphonenumber format');
+todo('table column formats the phone number');
 
 it('does not use debugging functions', function () {
     expect(['dd', 'dump', 'var_dump', 'print_r', 'ray'])->not->toBeUsed();

@@ -124,10 +124,14 @@ PhoneInput::make('phone')
     ->countryStatePath('phone_country')
 ```
 
-When you use the `countryStatePath` method, the country code will be saved to the `phone_country` column and the phone number will be saved to the `phone` column.
+Table column:
 
-> **Warning**
-> When you use the `countryStatePath` method, the `inputNumberFormat` method will be set to `E164` automatically although you set it to another value.
+```php
+PhoneInputColumn::make('phone')
+    ->countryColumn('phone_country')
+```
+
+When you use the `countryStatePath` method, the country code will be saved to the `phone_country` column and the phone number will be saved to the `phone` column.
 
 #### Validation
 ----

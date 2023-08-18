@@ -103,8 +103,6 @@ class PhoneInput extends Field
                 $country = data_get($livewire, $countryStatePath = $component->getCountryStatePath());
 
                 data_set($livewire, $countryStatePath, $country);
-
-                $format = PhoneInputNumberType::E164;
             }
 
             if (! $state) {
