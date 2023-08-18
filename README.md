@@ -2,11 +2,13 @@
 
 <p align="center"><img src="/screenshots/input.png" alt="Filament Phone Input"></p>
 
+<p align="center">
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/ysfkaya/filament-phone-input?color=rgb(56%20189%20248)&label=release&style=for-the-badge)](https://packagist.org/packages/ysfkaya/filament-phone-input)
 [![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/ysfkaya/filament-phone-input/run-tests.yml?branch=main&label=tests&style=for-the-badge)](https://github.com/ysfkaya/filament-phone-input/actions?query=workflow%3Arun-tests+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/ysfkaya/filament-phone-input.svg?color=rgb%28249%20115%2022%29&style=for-the-badge)](https://packagist.org/packages/ysfkaya/filament-phone-input)
 ![Packagist PHP Version](https://img.shields.io/packagist/dependency-v/ysfkaya/filament-phone-input/php?color=rgb%28165%20180%20252%29&logo=php&logoColor=rgb%28165%20180%20252%29&style=for-the-badge)
 ![Filament Version](https://img.shields.io/badge/filament-3-rgb(235%2068%2050)?style=for-the-badge&logo=laravel)
+</p>
 
 ## Table of Contents
 
