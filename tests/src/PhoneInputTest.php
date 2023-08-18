@@ -1,10 +1,11 @@
 <?php
 
-use function Pest\Laravel\assertDatabaseHas;
 use Ysfkaya\FilamentPhoneInput\Forms\PhoneInput;
 use Ysfkaya\FilamentPhoneInput\PhoneInputNumberType;
 use Ysfkaya\FilamentPhoneInput\Tests\Fixtures\FilamentPhoneInputUser;
 use Ysfkaya\FilamentPhoneInput\Tests\TestCase;
+
+use function Pest\Laravel\assertDatabaseHas;
 
 uses(TestCase::class);
 
