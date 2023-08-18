@@ -55,6 +55,10 @@
             "@test",
             "@test-browser",
             "@format"
+        ],
+        "prepare-test":[
+            "vendor/bin/dusk-updater detect",
+            "php vendor/orchestra/testbench-dusk/create-sqlite-db"
         ]
     },
     "config": {

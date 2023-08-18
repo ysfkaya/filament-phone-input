@@ -2,7 +2,47 @@
 
 <p align="center"><img src="/screenshots/input.png" alt="Filament Phone Input"></p>
 
-This package provides a phone input component for [Laravel Filament](https://filamentadmin.com/). It uses [International Telephone Input](https://github.com/jackocnr/intl-tel-input) to provide a dropdown of countries and flags.
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/ysfkaya/filament-phone-input?color=rgb(56%20189%20248)&label=release&style=for-the-badge)](https://packagist.org/packages/ysfkaya/filament-phone-input)
+[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/ysfkaya/filament-phone-input/run-tests.yml?branch=main&label=tests&style=for-the-badge)](https://github.com/ysfkaya/filament-phone-input/actions?query=workflow%3Arun-tests+branch%3Amain)
+[![Total Downloads](https://img.shields.io/packagist/dt/ysfkaya/filament-phone-input.svg?color=rgb%28249%20115%2022%29&style=for-the-badge)](https://packagist.org/packages/ysfkaya/filament-phone-input)
+![Packagist PHP Version](https://img.shields.io/packagist/dependency-v/ysfkaya/filament-phone-input/php?color=rgb%28165%20180%20252%29&logo=php&logoColor=rgb%28165%20180%20252%29&style=for-the-badge)
+![Filament Version](https://img.shields.io/badge/filament-3-rgb(235%2068%2050)?style=for-the-badge&logo=laravel)
+
+## Table of Contents
+
+-   [Introduction](#introduction)
+-   [Installation](#installation)
+-   [Upgrade From 1.x](#upgrade-from-1x)
+-   [Usage](#usage)
+    -   [Seperate Country Code](#seperate-country-code)
+    -   [Validation](#validation)
+    -   [Display Number Format](#display-number-format)
+    -   [Input Number Format](#input-number-format)
+    -   [Focus Input Type](#focus-input-type)
+    -   [Disallow Dropdown](#disallow-dropdown)
+    -   [Custom Container](#custom-container)
+    -   [Exclude Countries](#exclude-countries)
+    -   [Initial Country](#initial-country)
+    -   [Only Countries](#only-countries)
+    -   [Format On Display](#format-on-display)
+    -   [Geo Ip Lookup](#geo-ip-lookup)
+    -   [Placeholder Number Type](#placeholder-number-type)
+    -   [Separate Dial Code](#separate-dial-code)
+    -   [Outside Filament](#outside-filament)
+    -   [More](#more)
+-   [Testing](#testing)
+-   [Changelog](#changelog)
+-   [Credits](#credits)
+-   [License](#license)
+
+### Introduction
+
+This package provides a phone input component for [Laravel Filament](https://filamentphp.com/). It uses [International Telephone Input](https://github.com/jackocnr/intl-tel-input) to provide a dropdown of countries and flags.
+
+This package also includes with [Laravel Phone](https://github.com/propaganistas/laravel-phone) package. You can use all the methods of the Laravel Phone package.
+
+> **Note** 
+> For **Filament 2.x** use **[1.x](https://github.com/ysfkaya/filament-phone-input/tree/1.x)** branch
 
 ## Installation
 
@@ -12,14 +52,38 @@ You can install the package via composer:
 composer require ysfkaya/filament-phone-input
 ```
 
+## Upgrade From 1.x
+
+If you are upgrading from 1.x, you should publish the assets again.
+
+```bash
+php artisan filament:assets
+```
+
+#### Namespace
+
+```diff
+- use Ysfkaya\FilamentPhoneInput\PhoneInput;
++ use Ysfkaya\FilamentPhoneInput\Forms\PhoneInput;
+```
+
+#### Deprecates
+
+<!-- Diff -->    
+```diff
+- protected ?string $customPlaceholder = null;
+- public function customPlaceholder(?string $value)
+```
+
 ## Usage
 
 ```php
 use Filament\Forms;
-use Ysfkaya\FilamentPhoneInput\PhoneInput;
+use Ysfkaya\FilamentPhoneInput\Forms\PhoneInput;
+use Ysfkaya\FilamentPhoneInput\Tables\PhoneInputColumn;
 
   //...
-  public static function form(Form $form): Form
+    public static function form(Form $form): Form
     {
         return $form
             ->schema([
@@ -34,7 +98,60 @@ use Ysfkaya\FilamentPhoneInput\PhoneInput;
                 PhoneInput::make('phone'),
             ]);
     }
+
+    public static function table(Table $table): Table
+    {
+        return $table
+            ->columns([
+                Tables\Columns\TextColumn::make('name')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('email')
+                    ->sortable()
+                    ->searchable(),
+
+                PhoneInputColumn::make('phone')
+            ]);
+    }
 ```
+
+#### Seperate Country Code
+----
+Sometimes you may want to save the country code and the phone number in different columns. You can use the `countryStatePath` method to do that.
+
+```php
+PhoneInput::make('phone')
+    ->countryStatePath('phone_country')
+```
+
+When you use the `countryStatePath` method, the country code will be saved to the `phone_country` column and the phone number will be saved to the `phone` column.
+
+> **Warning**
+> When you use the `countryStatePath` method, the `inputNumberFormat` method will be set to `E164` automatically although you set it to another value.
+
+#### Validation
+----
+
+You may validate the phone number by using the `validateFor` method:
+
+```php
+PhoneInput::make('phone')
+    ->validateFor(
+        country: 'TR' | ['US', 'GB'], // default: 'AUTO'
+        type: libPhoneNumberType::MOBILE | libPhoneNumberType::FIXED_LINE, // default: null
+        lenient: true, // default: false
+    ),
+```
+
+> **Warning** 
+> Add an extra translation to your `validation.php` file.
+> Example:
+> 'phone' => 'The :attribute field must be a valid number.',
+
+You can find more information about the validation [here](https://github.com/Propaganistas/Laravel-Phone#validation)
+
+#### Display Number Format
+----
 
 You may set the display format of the phone number by passing a format string to the `displayNumberFormat` method. The default format is `NATIONAL`. That means the phone number will be displayed in the format of the selected country.
 
@@ -46,33 +163,36 @@ You may set the display format of the phone number by passing a format string to
 - PhoneInputNumberType::RFC3966
 
 ```php
-use Ysfkaya\FilamentPhoneInput\PhoneInputNumberType;
-
 PhoneInput::make('phone')
     ->displayNumberFormat(PhoneInputNumberType::E164),
 ```
 
 <p align="left"><img src="/screenshots/display-number-format.png" alt="Filament Phone Input"></p>
 
+#### Input Number Format
+----
+
 You may set the input value type by passing a type string to the `inputNumberFormat` method. The default type is `E164`. That means the phone number will be saved in the format of the selected country to the **database**.
 
 ```php
-use Ysfkaya\FilamentPhoneInput\PhoneInputNumberType;
-
 PhoneInput::make('phone')
     ->inputNumberFormat(PhoneInputNumberType::NATIONAL),
 ```
 
+#### Focus Input Type
+----
+
 You may set the focus input type by passing a type string to the `focusNumberFormat` method. The default value is `false`.
 
 ```php
-use Ysfkaya\FilamentPhoneInput\PhoneInputNumberType;
-
 PhoneInput::make('phone')
     ->focusNumberFormat(PhoneInputNumberType::E164),
 ```
 
 <p align="left"><img src="/screenshots/focus-input-type.gif" alt="Filament Phone Input"></p>
+
+#### Disallow Dropdown
+----
 
 You may disable the dropdown by using the `disallowDropdown` method:
 
@@ -83,12 +203,18 @@ PhoneInput::make('phone')
 
 <p align="left"><img src="/screenshots/disallowed-dropdown.png" alt="Filament Phone Input"></p>
 
+#### Auto Placeholder
+----
+
 You may set the auto placeholder type by using the `autoPlaceholder` method:
 
 ```php
 PhoneInput::make('phone')
     ->autoPlaceholder('polite'), // default is 'aggressive'
 ```
+
+#### Custom Container
+----
 
 You may set the additional classes to add to the parent div by using the `customContainer` method:
 
@@ -97,20 +223,8 @@ PhoneInput::make('phone')
     ->customContainer('w-full'),
 ```
 
-You may set the custom placeholder by using the `customPlaceholder` method:
-
-```php
-PhoneInput::make('phone')
-    ->customPlaceholder('jsMethodName'),
-```
-
-And you should add a js method to your blade file like this:
-
-```js
-window.jsMethodName = function(selectedCountryPlaceholder, selectedCountryData) {
-    return 'Custom Placeholder';
-}
-```
+#### Exclude Countries
+----
 
 You may set the exclude countries by using the `excludeCountries` method:
 
@@ -119,12 +233,18 @@ PhoneInput::make('phone')
     ->excludeCountries(['us', 'gb']),
 ```
 
+#### Initial Country
+----
+
 You may set the initial country by using the `initialCountry` method:
 
 ```php
 PhoneInput::make('phone')
     ->initialCountry('us'),
 ```
+
+#### Only Countries
+----
 
 You may set the only countries by using the `onlyCountries` method:
 
@@ -135,6 +255,8 @@ PhoneInput::make('phone')
 
 <p align="left"><img src="/screenshots/only-countries.png" alt="Filament Phone Input"></p>
 
+#### Format On Display
+
 You may set the format on display by using the `formatOnDisplay` method:
 
 ```php
@@ -142,23 +264,27 @@ PhoneInput::make('phone')
     ->formatOnDisplay(false),
 ```
 
+#### Geo Ip Lookup
+----
+
+In default, the package performs a geoIp lookup to set the initial country while mounting the component. To disable this feature, you may use the `disableIpLookUp` method:
+
+```php
+PhoneInput::make('phone')
+    ->disableIpLookUp(),
+```
+
 You may set the geoIp lookup by using the `geoIpLookup` method:
 
 ```php
 PhoneInput::make('phone')
-    ->geoIpLookup('jsMethodName'),
+    ->ipLookup(function () {
+        return rescue(fn () => Http::get('https://ipinfo.io/json')->json('country'), app()->getLocale(), report: false);
+    })
 ```
 
-And you should add a js method to your blade file like this:
-
-```js
-window.jsMethodName = function(callback) {
-    $.get('http://ipinfo.io', function() {}, "jsonp").always(function(resp) {
-        var countryCode = (resp && resp.country) ? resp.country : "";
-        callback(countryCode);
-    });
-}
-```
+#### Placeholder Number Type
+----
 
 You may set the placeholder number type by using the `placeholderNumberType` method:
 
@@ -167,12 +293,18 @@ PhoneInput::make('phone')
     ->placeholderNumberType('FIXED_LINE'),
 ```
 
+#### Preferred Countries
+----
+
 You may set the preferred countries by using the `preferredCountries` method:
 
 ```php
 PhoneInput::make('phone')
     ->preferredCountries(['tr','us', 'gb']),
 ```
+
+#### Separate Dial Code
+----
 
 You may set the separate dial code by using the `separateDialCode` method:
 
@@ -181,12 +313,98 @@ PhoneInput::make('phone')
     ->separateDialCode(true),
 ```
 
-You can find the more documentation for the package [here](https://intl-tel-input.com/)
+#### Outside Filament
+
+A livewire component:
+
+```php
+<?php
+
+use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Forms\Form;
+use Illuminate\Support\Facades\View;
+use Livewire\Component as Livewire;
+use Ysfkaya\FilamentPhoneInput\Forms\PhoneInput;
+
+class Component extends Livewire implements HasForms
+{
+    use InteractsWithForms;
+
+    public $data;
+
+    public function mount()
+    {
+        // Do not forget to fill the form
+        $this->form->fill();
+    }
+
+    public function form(Form $form): Form
+    {
+        return $form
+            ->schema([
+                PhoneInput::make('phone'),
+            ])->statePath('data');
+    }
+
+    public function render()
+    {
+        return view('livewire.component');
+    }
+}
+```
+
+A blade component:
+
+```blade
+// views/livewire/component.blade.php
+<div>
+    {{ $this->form }}
+</div>
+```
+
+A blade layout:
+
+```blade
+// views/components/layouts/app.blade.php
+<html>
+<head>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/async-alpine@1.x.x/dist/async-alpine.script.js"
+        defer
+    ></script>
+    <script
+        src="https://unpkg.com/alpine-lazy-load-assets@latest/dist/alpine-lazy-load-assets.cdn.js"
+        defer
+    ></script>
+</head>
+<body>
+    {{ $slot }}
+
+    @stack('scripts')
+</body>
+</html>
+```
+
+#### More
+----
+
+You can find the more documentation for the intel tel input [here](https://intl-tel-input.com/)
 
 
 <a name="testing"></a>
 
 ## Testing
+
+Run following command to prepare testing environment.
+
+```bash
+composer prepare-test
+```
+
+Run following command to run tests.
 
 ```bash
 composer test
