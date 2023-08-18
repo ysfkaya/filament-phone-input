@@ -151,8 +151,6 @@ PhoneInput::make('phone')
 
 > **Warning** 
 > Add an extra translation to your `validation.php` file.
-> Example:
-> 'phone' => 'The :attribute field must be a valid number.',
 
 You can find more information about the validation [here](https://github.com/Propaganistas/Laravel-Phone#validation)
 
@@ -363,7 +361,7 @@ class Component extends Livewire implements HasForms
 A blade component:
 
 ```blade
-// views/livewire/component.blade.php
+{{-- views/livewire/component.blade.php --}}
 <div>
     {{ $this->form }}
 </div>
@@ -372,7 +370,7 @@ A blade component:
 A blade layout:
 
 ```blade
-// views/components/layouts/app.blade.php
+{{-- views/components/layouts/app.blade.php --}}
 <html>
 <head>
     <meta name="csrf-token" content="{{ csrf_token() }}">
