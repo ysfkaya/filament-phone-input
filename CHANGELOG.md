@@ -2,6 +2,12 @@
 
 All notable changes to `filament-phone-input` will be documented in this file
 
+## 1.3.3 - 2023-07-20
+
+### What's Changed
+
+- Fix #16
+
 ## 1.3.2 - 2023-03-02
 
 ### What's Changed

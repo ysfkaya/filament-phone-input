@@ -183,7 +183,7 @@ class PhoneInput extends Field
 
     public function isRtl()
     {
-        $direction = __('filament::layout.direction') ?? 'ltr';
+        $direction = __('filament::layout.direction') ?? 'ltr'; // @phpstan-ignore-line
 
         return $direction === 'rtl';
     }

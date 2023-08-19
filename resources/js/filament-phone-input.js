@@ -64,9 +64,15 @@ document.addEventListener("alpine:init", () => {
 
                 options: {}, // intlTelInput options
 
-                intlTelInputSelectedCountryCookie: "intlTelInputSelectedCountry",
+                intlTelInputSelectedCountryCookie:
+                    "intlTelInputSelectedCountry",
 
-                init() {
+                async init() {
+                    // Wait for intlTelInput to be loaded
+                    // Loads the component after a certain time because it
+                    // causes problems with the elements added to the DOM later. e.g. Repeater
+                    await new Promise(resolve => setTimeout(resolve, 150));
+
                     this.options = getInputTelOptionsUsing(intlTelInput);
 
                     this.applyGeoIpLookup();
@@ -109,13 +115,15 @@ document.addEventListener("alpine:init", () => {
 
                     this.$watch("state", (value) => {
                         this.$nextTick(() => {
-                            if (value !== null) {
+                            if (value !== null && value !== undefined) {
                                 this.instance.setNumber(value);
-                            }else{
-                                this.instance.setNumber('');
+                            } else {
+                                this.instance.setNumber("");
                             }
 
-                            this.updateState();
+                            if (value !== undefined) {
+                                this.updateState();
+                            }
                         });
                     });
                 },
