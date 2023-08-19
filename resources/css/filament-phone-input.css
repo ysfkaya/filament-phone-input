@@ -1,3 +1,20 @@
+@import "intl-tel-input/build/css/intlTelInput.css";
+
+
+.iti {
+    width: 100%;
+}
+
+.iti__flag {
+    background-image: url("/filament-phone-input-flags.png");
+}
+
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .iti__flag {
+        background-image: url("/filament-phone-input-flags@2x.png");
+    }
+}
+
 .filament-phone-input-field .iti__country-list {
     @apply dark:bg-gray-700 dark:text-white;
 }
@@ -7,5 +24,6 @@
 }
 
 .filament-phone-input-field.rtl input{
-    @apply !pl-[6px] !pr-[52px];
+    @apply !pl-[20px] !pr-[52px] ;
+    direction: ltr;
 }
