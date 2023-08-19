@@ -1,19 +1,21 @@
 {
     "scripts": {
-        "dev": "npm run development",
-        "development": "mix",
+        "build": "node bin/build.js",
+        "build:dev": "node bin/build.js --dev",
+        "dev": "mix && npm run build",
         "watch": "mix watch",
-        "watch-poll": "mix watch -- --watch-options-poll=1000",
-        "hot": "mix watch --hot",
-        "prod": "npm run production",
-        "production": "mix --production"
+        "prod": "mix --production && npm run build"
+    },
+    "type": "module",
+    "dependencies": {
+        "intl-tel-input": "^18.2.1"
     },
     "devDependencies": {
-        "laravel-mix": "^6.0.27",
-        "tailwindcss": "^3.1.8"
-    },
-    "dependencies": {
-        "intl-tel-input": "^17.0.18"
+        "@tailwindcss/forms": "^0.5.4",
+        "@tailwindcss/typography": "^0.5.9",
+        "esbuild": "^0.19.2",
+        "laravel-mix": "^6.0.43",
+        "tailwindcss": "^3.3.3"
     },
     "private": true
 }

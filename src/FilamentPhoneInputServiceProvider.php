@@ -2,35 +2,34 @@
 
 namespace Ysfkaya\FilamentPhoneInput;
 
-use Filament\PluginServiceProvider;
+use Filament\Support\Assets\AlpineComponent;
+use Filament\Support\Assets\Css;
+use Filament\Support\Facades\FilamentAsset;
 use Illuminate\Support\Facades\Route;
+use Spatie\LaravelPackageTools\Package;
+use Spatie\LaravelPackageTools\PackageServiceProvider;
 
-class FilamentPhoneInputServiceProvider extends PluginServiceProvider
+class FilamentPhoneInputServiceProvider extends PackageServiceProvider
 {
-    public static string $name = 'filament-phone-input';
-
-    protected array $styles = [
-        'filament-phone-input' => __DIR__.'/../dist/css/filament-phone-input.css',
-        'intl-tel-input' => __DIR__.'/../dist/css/intl-tel-input.css',
-    ];
-
-    protected array $beforeCoreScripts = [
-        'filament-phone-input' => __DIR__.'/../dist/js/filament-phone-input.js',
-    ];
-
-    protected array $scripts = [
-        'intl-tel-input-utils' => __DIR__.'/../dist/intl-tel-input/utils.js',
-    ];
+    public function configurePackage(Package $package): void
+    {
+        $package
+            ->name('filament-phone-input')
+            ->hasViews();
+    }
 
     public function packageBooted(): void
     {
-        parent::packageBooted();
+        FilamentAsset::register([
+            Css::make('filament-phone-input', __DIR__.'/../dist/css/filament-phone-input.css')->loadedOnRequest(),
+            AlpineComponent::make('filament-phone-input', __DIR__.'/../dist/js/filament-phone-input.js'),
+        ], package: 'ysfkaya/filament-phone-input');
 
-        Route::get('/filament-phone-input-flags.png', function () {
+        Route::get('/phone-input-flags.png', function () {
             return response()->file(__DIR__.'/../images/vendor/intl-tel-input/build/flags.png');
         });
 
-        Route::get('/filament-phone-input-flags@2x.png', function () {
+        Route::get('/phone-input-flags@2x.png', function () {
             return response()->file(__DIR__.'/../images/vendor/intl-tel-input/build/flags@2x.png');
         });
     }

@@ -1,3 +1,0 @@
-<?php
-
-// TODO: Write tests
