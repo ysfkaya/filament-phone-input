@@ -1,7 +1,5 @@
 <?php
 
-use function Pest\Laravel\assertDatabaseHas;
-use function Pest\Livewire\livewire;
 use Ysfkaya\FilamentPhoneInput\Forms\PhoneInput;
 use Ysfkaya\FilamentPhoneInput\PhoneInputNumberType;
 use Ysfkaya\FilamentPhoneInput\Tables\PhoneInputColumn;
@@ -9,6 +7,9 @@ use Ysfkaya\FilamentPhoneInput\Tests\Fixtures\FilamentPhoneInputUser;
 use Ysfkaya\FilamentPhoneInput\Tests\Fixtures\FilamentPhoneInputUserResource;
 use Ysfkaya\FilamentPhoneInput\Tests\Fixtures\FilamentPhoneInputUserResource\Pages\ListUsers;
 use Ysfkaya\FilamentPhoneInput\Tests\TestCase;
+
+use function Pest\Laravel\assertDatabaseHas;
+use function Pest\Livewire\livewire;
 
 uses(TestCase::class);
 
