@@ -9,6 +9,7 @@ use Filament\FilamentServiceProvider;
 use Filament\Forms\FormsServiceProvider;
 use Filament\Notifications\NotificationsServiceProvider;
 use Filament\Support\SupportServiceProvider;
+use Filament\Tables\TablesServiceProvider;
 use Filament\Widgets\WidgetsServiceProvider;
 use Livewire\LivewireServiceProvider;
 use RyanChandler\BladeCaptureDirective\BladeCaptureDirectiveServiceProvider;
@@ -27,6 +28,7 @@ trait TestSuite
             LivewireServiceProvider::class,
             FilamentServiceProvider::class,
             FormsServiceProvider::class,
+            TablesServiceProvider::class,
             SupportServiceProvider::class,
             ActionsServiceProvider::class,
             WidgetsServiceProvider::class,

@@ -9,6 +9,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Hash;
 use Ysfkaya\FilamentPhoneInput\Forms\PhoneInput;
+use Ysfkaya\FilamentPhoneInput\Tables\PhoneInputColumn;
 use Ysfkaya\FilamentPhoneInput\Tests\Fixtures\FilamentPhoneInputUserResource\Pages;
 
 class FilamentPhoneInputUserResource extends Resource
@@ -18,6 +19,8 @@ class FilamentPhoneInputUserResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected static $phoneInputCallback = null;
+
+    protected static $phoneTableColumn = null;
 
     protected static ?string $slug = 'users';
 
@@ -33,6 +36,20 @@ class FilamentPhoneInputUserResource extends Resource
         };
 
         return $callback(PhoneInput::make('phone'));
+    }
+
+    public static function phoneTableColumn(callable $callback = null): void
+    {
+        self::$phoneTableColumn = $callback;
+    }
+
+    public static function getPhoneTableColumn(): ?PhoneInputColumn
+    {
+        $callback = self::$phoneTableColumn ?: function (PhoneInputColumn $input) {
+            return $input;
+        };
+
+        return $callback(PhoneInputColumn::make('phone'));
     }
 
     public static function form(Form $form): Form
@@ -71,6 +88,8 @@ class FilamentPhoneInputUserResource extends Resource
                 Tables\Columns\TextColumn::make('email')
                     ->sortable()
                     ->searchable(),
+
+                static::getPhoneTableColumn(),
             ])
             ->filters([
                 //
