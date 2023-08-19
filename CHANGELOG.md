@@ -2,6 +2,22 @@
 
 All notable changes to `filament-phone-input` will be documented in this file
 
+## 2.0.0 - 2023-08-19
+
+This version brings compatibility with Filament v3 and introduces a range of new features and improvements:
+
+### What's New
+
+- Full compatibility with Filament v3.
+- Comprehensive unit tests.
+- Thorough browser tests.
+- Separation of country area code into a dedicated state.
+- Introduction of a class for table building.
+- Implementation of a customizable validation method.
+- Extended usage beyond Filament.
+- Updated documentation.
+- Updated intl-tel-input version to `v18.2.1`
+
 ## 1.3.3 - 2023-07-20
 
 ### What's Changed
