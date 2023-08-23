@@ -11,7 +11,7 @@
 </p>
 
 <a class="filament-hidden">
-Table of Contents
+<h2>Table of Contents</h2>
 
 -   [Introduction](#introduction)
 -   [Installation](#installation)
