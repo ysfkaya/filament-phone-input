@@ -1,6 +1,6 @@
 # Filament Phone Input
 
-<p align="center"><img src="/screenshots/input.png" alt="Filament Phone Input"></p>
+<p align="center"><img src="https://raw.githubusercontent.com/ysfkaya/filament-phone-input/main/screenshots/input.png" alt="Filament Phone Input"></p>
 
 <p align="center">
 <a href="https://packagist.org/packages/ysfkaya/filament-phone-input" rel="nofollow"><img src="https://camo.githubusercontent.com/62003a16457f1d78e40daffa586f4cba87f7ce85ae515f17f9d4c5bb040d0c84/68747470733a2f2f696d672e736869656c64732e696f2f7061636b61676973742f762f7973666b6179612f66696c616d656e742d70686f6e652d696e7075743f636f6c6f723d72676228353625323031383925323032343829266c6162656c3d72656c65617365267374796c653d666f722d7468652d6261646765" alt="Latest Version on Packagist" data-canonical-src="https://img.shields.io/packagist/v/ysfkaya/filament-phone-input?color=rgb(56%20189%20248)&amp;label=release&amp;style=for-the-badge" style="max-width: 100%;"></a>
@@ -14,7 +14,6 @@
 
 -   [Introduction](#introduction)
 -   [Installation](#installation)
--   [Upgrade From 1.x](#upgrade-from-1x)
 -   [Usage](#usage)
     -   [Seperate Country Code](#seperate-country-code)
     -   [Validation](#validation)
@@ -32,6 +31,7 @@
     -   [Separate Dial Code](#separate-dial-code)
     -   [Outside Filament](#outside-filament)
     -   [More](#more)
+-   [Upgrade From 1.x](#upgrade-from-1x)
 -   [Testing](#testing)
 -   [Changelog](#changelog)
 -   [Credits](#credits)
@@ -52,29 +52,6 @@ You can install the package via composer:
 
 ```bash
 composer require ysfkaya/filament-phone-input
-```
-
-## Upgrade From 1.x
-
-If you are upgrading from 1.x, you should publish the assets again.
-
-```bash
-php artisan filament:assets
-```
-
-#### Namespace
-
-```diff
-- use Ysfkaya\FilamentPhoneInput\PhoneInput;
-+ use Ysfkaya\FilamentPhoneInput\Forms\PhoneInput;
-```
-
-#### Deprecates
-
-<!-- Diff -->    
-```diff
-- protected ?string $customPlaceholder = null;
-- public function customPlaceholder(?string $value)
 ```
 
 ## Usage
@@ -171,7 +148,7 @@ PhoneInput::make('phone')
     ->displayNumberFormat(PhoneInputNumberType::E164),
 ```
 
-<p align="left"><img src="/screenshots/display-number-format.png" alt="Filament Phone Input"></p>
+<p align="left"><img src="https://raw.githubusercontent.com/ysfkaya/filament-phone-input/main/screenshots/display-number-format.png" alt="Filament Phone Input"></p>
 
 #### Input Number Format
 ----
@@ -193,7 +170,7 @@ PhoneInput::make('phone')
     ->focusNumberFormat(PhoneInputNumberType::E164),
 ```
 
-<p align="left"><img src="/screenshots/focus-input-type.gif" alt="Filament Phone Input"></p>
+<p align="left"><img src="https://raw.githubusercontent.com/ysfkaya/filament-phone-input/main/screenshots/focus-input-type.gif" alt="Filament Phone Input"></p>
 
 #### Disallow Dropdown
 ----
@@ -205,7 +182,7 @@ PhoneInput::make('phone')
     ->disallowDropdown(),
 ```
 
-<p align="left"><img src="/screenshots/disallowed-dropdown.png" alt="Filament Phone Input"></p>
+<p align="left"><img src="https://raw.githubusercontent.com/ysfkaya/filament-phone-input/main/screenshots/disallowed-dropdown.png" alt="Filament Phone Input"></p>
 
 #### Auto Placeholder
 ----
@@ -257,7 +234,7 @@ PhoneInput::make('phone')
     ->onlyCountries(['tr','us', 'gb']),
 ```
 
-<p align="left"><img src="/screenshots/only-countries.png" alt="Filament Phone Input"></p>
+<p align="left"><img src="https://raw.githubusercontent.com/ysfkaya/filament-phone-input/main/screenshots/only-countries.png" alt="Filament Phone Input"></p>
 
 #### Format On Display
 
@@ -396,6 +373,29 @@ A blade layout:
 ----
 
 You can find the more documentation for the intel tel input [here](https://intl-tel-input.com/)
+
+## Upgrade From 1.x
+
+If you are upgrading from 1.x, you should publish the assets again.
+
+```bash
+php artisan filament:assets
+```
+
+#### Namespace
+
+```diff
+- use Ysfkaya\FilamentPhoneInput\PhoneInput;
++ use Ysfkaya\FilamentPhoneInput\Forms\PhoneInput;
+```
+
+#### Deprecated
+
+<!-- Diff -->    
+```diff
+- protected ?string $customPlaceholder = null;
+- public function customPlaceholder(?string $value)
+```
 
 
 <a name="testing"></a>
