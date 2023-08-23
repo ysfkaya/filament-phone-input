@@ -10,7 +10,8 @@
 <a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/a571aa4ecfbe895b6edb4a58a79a859f2060b7ea30cda5f0450002849bda0bf3/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f66696c616d656e742d332d7267622832333525323036382532303530293f7374796c653d666f722d7468652d6261646765266c6f676f3d6c61726176656c"><img src="https://camo.githubusercontent.com/a571aa4ecfbe895b6edb4a58a79a859f2060b7ea30cda5f0450002849bda0bf3/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f66696c616d656e742d332d7267622832333525323036382532303530293f7374796c653d666f722d7468652d6261646765266c6f676f3d6c61726176656c" alt="Filament Version" data-canonical-src="https://img.shields.io/badge/filament-3-rgb(235%2068%2050)?style=for-the-badge&amp;logo=laravel" style="max-width: 100%;"></a>
 </p>
 
-## Table of Contents
+<a class="filament-hidden">
+Table of Contents
 
 -   [Introduction](#introduction)
 -   [Installation](#installation)
@@ -36,8 +37,9 @@
 -   [Changelog](#changelog)
 -   [Credits](#credits)
 -   [License](#license)
+</a>
 
-### Introduction
+## Introduction
 
 This package provides a phone input component for [Laravel Filament](https://filamentphp.com/). It uses [International Telephone Input](https://github.com/jackocnr/intl-tel-input) to provide a dropdown of countries and flags.
 
