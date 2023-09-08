@@ -21,7 +21,7 @@ class FilamentPhoneInputServiceProvider extends PackageServiceProvider
     public function packageBooted(): void
     {
         FilamentAsset::register([
-            Css::make('filament-phone-input', __DIR__.'/../dist/css/filament-phone-input.css')->loadedOnRequest(),
+            Css::make('filament-phone-input', __DIR__.'/../dist/css/filament-phone-input.css'),
             AlpineComponent::make('filament-phone-input', __DIR__.'/../dist/js/filament-phone-input.js'),
         ], package: 'ysfkaya/filament-phone-input');
 
