@@ -14,9 +14,9 @@ use Ysfkaya\FilamentPhoneInput\PhoneInputNumberType;
 
 class PhoneInput extends Field
 {
-    use HasPlaceholder,
-        HasAffixes,
-        HasExtraInputAttributes;
+    use HasAffixes,
+        HasExtraInputAttributes,
+        HasPlaceholder;
 
     protected string $view = 'filament-phone-input::phone-input';
 
@@ -99,6 +99,8 @@ class PhoneInput extends Field
         ]);
 
         $this->afterStateHydrated(function (PhoneInput $component, $livewire, $state) {
+            $country = null;
+
             if ($component->hasCountryStatePath()) {
                 $country = data_get($livewire, $countryStatePath = $component->getCountryStatePath());
 
@@ -111,15 +113,7 @@ class PhoneInput extends Field
 
             $format = PhoneInputNumberType::from($component->getInputNumberFormat());
 
-            $country = null;
-
-            $component->state(
-                phone(
-                    $state,
-                    country: $country,
-                    format: $format->toLibPhoneNumberFormat()
-                )
-            );
+            $component->state($this->phoneFormat($state, $country, $format->toLibPhoneNumberFormat()));
         });
 
         $this->beforeStateDehydrated(function (PhoneInput $component, $state) {
@@ -141,14 +135,25 @@ class PhoneInput extends Field
                 $format = PhoneInputNumberType::NATIONAL;
             }
 
-            $component->state(
-                phone(
-                    $state,
-                    country: $country,
-                    format: $format->toLibPhoneNumberFormat()
-                )
-            );
+            $component->state($this->phoneFormat($state, $country, $format->toLibPhoneNumberFormat()));
         });
+    }
+
+    protected function phoneFormat($state, $country, $format)
+    {
+        $instance = phone(number: $state, country: $country);
+
+        if ($instance->isValid()) {
+            return $instance->format($format);
+        }
+
+        $lenientInstance = $instance->lenient();
+
+        if ($lenientInstance->isValid()) {
+            return $lenientInstance->format($format);
+        }
+
+        return $state;
     }
 
     public function dehydrateValidationRules(array &$rules): void
