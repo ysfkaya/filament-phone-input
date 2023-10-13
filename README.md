@@ -18,6 +18,7 @@
     <li><a href="#usage">Usage</a>
     <ul dir="auto">
     <li><a href="#seperate-country-code">Seperate Country Code</a></li>
+    <li><a href="#default-country">Default Country</a></li>
     <li><a href="#validation">Validation</a></li>
     <li><a href="#display-number-format">Display Number Format</a></li>
     <li><a href="#input-number-format">Input Number Format</a></li>
@@ -132,7 +133,7 @@ PhoneInput::make('phone')
 ```
 
 > [!NOTE]
-> I think the main source of this problem is that there is no area code in the phone number previously recorded in your database. To fix this, `libphonenumber`` expects a default phone number from us. Unfortunately, there is no ability to guess the country by phone number yet.
+> I think the main source of this problem is that there is no area code in the phone number previously recorded in your database. To fix this, `libphonenumber` expects a default phone number from us. Unfortunately, there is no ability to guess the country by phone number yet.
 
 
 #### Validation
