@@ -2,6 +2,13 @@
 
 All notable changes to `filament-phone-input` will be documented in this file
 
+## 2.1.0 - 2023-10-13
+
+### What's Changed
+
+- Fixed error in phone number parse. #21
+- Added `defaultCountry` method
+
 ## 2.0.0 - 2023-08-19
 
 This version brings compatibility with Filament v3 and introduces a range of new features and improvements:
