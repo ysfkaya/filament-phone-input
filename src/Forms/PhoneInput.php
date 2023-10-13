@@ -62,6 +62,8 @@ class PhoneInput extends Field
 
     public bool $countryStatePathIsAbsolute = false;
 
+    public ?string $defaultCountry = null;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -139,8 +141,22 @@ class PhoneInput extends Field
         });
     }
 
+    /**
+     * Default country code uses when parsing the phone number to avoid exceptions.
+     *
+     * @return $this
+     */
+    public function defaultCountry(string $value)
+    {
+        $this->defaultCountry = $value;
+
+        return $this;
+    }
+
     protected function phoneFormat($state, $country, $format)
     {
+        $country ??= $this->defaultCountry;
+
         $instance = phone(number: $state, country: $country);
 
         if ($instance->isValid()) {

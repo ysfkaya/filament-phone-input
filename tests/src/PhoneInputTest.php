@@ -14,7 +14,6 @@ use function Pest\Livewire\livewire;
 
 uses(TestCase::class);
 
-// Test (555) 123-4567
 it('hydrate the phone number given specific number and country', function () {
     FilamentPhoneInputUser::create([
         'name' => 'test',
@@ -29,6 +28,21 @@ it('hydrate the phone number given specific number and country', function () {
     livewire(EditUser::class, ['record' => 1])
         ->assertSuccessful()
         ->assertSet('data.phone', '+15551234567');
+});
+
+it('hydrate the phone number given specific number and default country', function () {
+    FilamentPhoneInputUser::create([
+        'name' => 'test',
+        'email' => fake()->unique()->safeEmail(),
+        'password' => bcrypt('password'),
+        'phone' => '212-975-4846',
+    ]);
+
+    FilamentPhoneInputUserResource::phoneInput(fn (PhoneInput $input) => $input->defaultCountry('US'));
+
+    livewire(EditUser::class, ['record' => 1])
+        ->assertSuccessful()
+        ->assertSet('data.phone', '+12129754846');
 });
 
 it('should be fill the phone input', function ($type) {

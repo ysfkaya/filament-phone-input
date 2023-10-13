@@ -35,6 +35,7 @@
     <li><a href="#more">More</a></li>
     </ul>
     </li>
+    <li><a href="#troubleshooting">Troubleshooting</a></li>
     <li><a href="#upgrade-from-1x">Upgrade From 1.x</a></li>
     <li><a href="#testing">Testing</a></li>
     <li><a href="#changelog">Changelog</a></li>
@@ -118,6 +119,21 @@ PhoneInputColumn::make('phone')
 ```
 
 When you use the `countryStatePath` method, the country code will be saved to the `phone_country` column and the phone number will be saved to the `phone` column.
+
+#### Default Country
+
+---
+
+The default country value is will be used while parsing the phone number. If you can getting the `Number requires a country to be specified.` or `Number does not match the provided country` error, you should set the default country.
+
+```php
+PhoneInput::make('phone')
+    ->defaultCountry('US'),
+```
+
+> [!NOTE]
+> I think the main source of this problem is that there is no area code in the phone number previously recorded in your database. To fix this, `libphonenumber`` expects a default phone number from us. Unfortunately, there is no ability to guess the country by phone number yet.
+
 
 #### Validation
 
@@ -395,6 +411,12 @@ A blade layout:
 ---
 
 You can find the more documentation for the intel tel input [here](https://intl-tel-input.com/)
+
+## Troubleshooting
+
+#### `Propaganistas\LaravelPhone\Exceptions\NumberParseException` error
+
+- Make sure you have set the [default country](#default-country). If you still receive this error, you can open an issue detailing what you did.
 
 ## Upgrade From 1.x
 
