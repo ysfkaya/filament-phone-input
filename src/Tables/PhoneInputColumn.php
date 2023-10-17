@@ -20,7 +20,7 @@ class PhoneInputColumn extends TextColumn
         $this->displayFormat(PhoneInputNumberType::NATIONAL);
     }
 
-    public function countryColumn(string|Closure $column)
+    public function countryColumn(string|Closure $column): static
     {
         $this->countryColumn = $column;
 

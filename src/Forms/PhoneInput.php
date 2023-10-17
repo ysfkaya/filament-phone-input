@@ -146,7 +146,7 @@ class PhoneInput extends Field
      *
      * @return $this
      */
-    public function defaultCountry(string $value)
+    public function defaultCountry(string $value): static
     {
         $this->defaultCountry = $value;
 
@@ -188,7 +188,7 @@ class PhoneInput extends Field
         return $this->countryStatePath !== null;
     }
 
-    public function countryStatePath(string|Closure $statePath, bool $isStatePathAbsolute = false)
+    public function countryStatePath(string|Closure $statePath, bool $isStatePathAbsolute = false): static
     {
         $this->countryStatePath = $statePath;
         $this->countryStatePathIsAbsolute = $isStatePathAbsolute;
@@ -216,14 +216,14 @@ class PhoneInput extends Field
         ]);
     }
 
-    public function disableIpLookUp()
+    public function disableIpLookUp(): static
     {
         $this->canPerformIpLookup = false;
 
         return $this;
     }
 
-    public function ipLookup(Closure $callback)
+    public function ipLookup(Closure $callback): static
     {
         $this->ipLookupCallback = $callback;
 
@@ -235,14 +235,14 @@ class PhoneInput extends Field
         return $this->evaluate($this->ipLookupCallback);
     }
 
-    public function displayNumberFormat(PhoneInputNumberType $format): self
+    public function displayNumberFormat(PhoneInputNumberType $format): static
     {
         $this->displayNumberFormat = $format->value;
 
         return $this;
     }
 
-    public function focusNumberFormat(PhoneInputNumberType|false $format): self
+    public function focusNumberFormat(PhoneInputNumberType|false $format): static
     {
         if ($format !== false) {
             $format = $format->value;
@@ -253,7 +253,7 @@ class PhoneInput extends Field
         return $this;
     }
 
-    public function inputNumberFormat(PhoneInputNumberType $format): self
+    public function inputNumberFormat(PhoneInputNumberType $format): static
     {
         $this->inputNumberFormat = $format->value;
 
@@ -265,91 +265,91 @@ class PhoneInput extends Field
         return $this->inputNumberFormat;
     }
 
-    public function disallowDropdown()
+    public function disallowDropdown(): static
     {
         $this->allowDropdown = false;
 
         return $this;
     }
 
-    public function autoPlaceholder(string $value)
+    public function autoPlaceholder(string $value): static
     {
         $this->autoPlaceholder = $value;
 
         return $this;
     }
 
-    public function customContainer(string $value)
+    public function customContainer(string $value): static
     {
         $this->customContainer = $value;
 
         return $this;
     }
 
-    public function dropdownContainer(?string $value)
+    public function dropdownContainer(?string $value): static
     {
         $this->dropdownContainer = $value;
 
         return $this;
     }
 
-    public function excludeCountries(array $value)
+    public function excludeCountries(array $value): static
     {
         $this->excludeCountries = $value;
 
         return $this;
     }
 
-    public function formatOnDisplay(bool $value)
+    public function formatOnDisplay(bool $value): static
     {
         $this->formatOnDisplay = $value;
 
         return $this;
     }
 
-    public function initialCountry(string $value)
+    public function initialCountry(string $value): static
     {
         $this->initialCountry = $value;
 
         return $this;
     }
 
-    public function localizedCountries(array $value)
+    public function localizedCountries(array $value): static
     {
         $this->localizedCountries = $value;
 
         return $this;
     }
 
-    public function nationalMode(bool $value)
+    public function nationalMode(bool $value): static
     {
         $this->nationalMode = $value;
 
         return $this;
     }
 
-    public function onlyCountries(array $value)
+    public function onlyCountries(array $value): static
     {
         $this->onlyCountries = $value;
 
         return $this;
     }
 
-    public function placeholderNumberType(string $value)
+    public function placeholderNumberType(string $value): static
     {
         $this->placeholderNumberType = $value;
 
         return $this;
     }
 
-    public function preferredCountries(array $value)
+    public function preferredCountries(array $value): static
     {
         $this->preferredCountries = $value;
 
         return $this;
     }
 
-    public function separateDialCode(bool $value = true)
+    public function separateDialCode(bool $value = true): static
     {
         $this->separateDialCode = $value;
 
