@@ -2,6 +2,12 @@
 
 All notable changes to `filament-phone-input` will be documented in this file
 
+## 2.1.1 - 2023-10-17
+
+### What's Changed
+
+- Added `static` return type by @akunbeben #23
+
 ## 2.1.0 - 2023-10-13
 
 ### What's Changed
