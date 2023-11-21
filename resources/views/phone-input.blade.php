@@ -1,4 +1,6 @@
 @php
+    use Filament\Support\Facades\FilamentView;
+    
     $id = $getId();
     $isConcealed = $isConcealed();
     $isDisabled = $isDisabled();
@@ -50,7 +52,11 @@
             <span
                 class="w-full"
                 x-ignore
-                ax-load
+                @if (FilamentView::hasSpaMode())
+                    ax-load="visible"
+                @else
+                    ax-load
+                @endif
                 ax-load-src="{{ \Filament\Support\Facades\FilamentAsset::getAlpineComponentSrc('filament-phone-input', package: 'ysfkaya/filament-phone-input') }}"
                 x-data="phoneInputFormComponent({
                     getInputTelOptionsUsing: (intlTelInput) => ({{ $getJsonPhoneInputConfiguration() }}),
