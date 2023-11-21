@@ -2,6 +2,12 @@
 
 All notable changes to `filament-phone-input` will be documented in this file
 
+## 2.1.2 - 2023-11-21
+
+### What's Changed
+
+- Fixed form field ax-load issue on spa-mode by @ArtMin96 #26
+
 ## 2.1.1 - 2023-10-17
 
 ### What's Changed
