@@ -5,7 +5,7 @@ use Ysfkaya\FilamentPhoneInput\Tests\Fixtures\FilamentPhoneInputUserResource\Pag
 
 use function Pest\Livewire\livewire;
 
-function phoneTest(callable $cb = null)
+function phoneTest(?callable $cb = null)
 {
     FilamentPhoneInputUserResource::phoneInput($cb);
 
