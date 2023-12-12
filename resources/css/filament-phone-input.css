@@ -1,6 +1,6 @@
 @import "intl-tel-input/build/css/intlTelInput.css";
 
-.iti {
+body:not(.iti-fullscreen-popup) .iti {
     width: 100%;
 }
 

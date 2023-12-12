@@ -62,6 +62,10 @@ class PhoneInput extends Field
 
     public bool $countryStatePathIsAbsolute = false;
 
+    public bool $showFlags = true;
+
+    public bool $useFullscreenPopup = false;
+
     public ?string $defaultCountry = null;
 
     protected function setUp(): void
@@ -141,18 +145,6 @@ class PhoneInput extends Field
         });
     }
 
-    /**
-     * Default country code uses when parsing the phone number to avoid exceptions.
-     *
-     * @return $this
-     */
-    public function defaultCountry(string $value): static
-    {
-        $this->defaultCountry = $value;
-
-        return $this;
-    }
-
     protected function phoneFormat($state, $country, $format)
     {
         $country ??= $this->defaultCountry;
@@ -214,6 +206,18 @@ class PhoneInput extends Field
         return $this->rules([
             $rule,
         ]);
+    }
+
+    /**
+     * Default country code uses when parsing the phone number to avoid exceptions.
+     *
+     * @return $this
+     */
+    public function defaultCountry(string $value): static
+    {
+        $this->defaultCountry = $value;
+
+        return $this;
     }
 
     public function disableIpLookUp(): static
@@ -335,6 +339,23 @@ class PhoneInput extends Field
         return $this;
     }
 
+    /**
+     * Must be used in combination with `separateDialCode` option, or with setting `disallowDropdown`
+     */
+    public function showFlags(bool $value): static
+    {
+        $this->showFlags = $value;
+
+        return $this;
+    }
+
+    public function useFullscreenPopup(bool $value = true): static
+    {
+        $this->useFullscreenPopup = $value;
+
+        return $this;
+    }
+
     public function placeholderNumberType(string $value): static
     {
         $this->placeholderNumberType = $value;
@@ -367,6 +388,10 @@ class PhoneInput extends Field
     {
         return json_encode([
             'allowDropdown' => $this->allowDropdown,
+
+            'showFlags' => $this->showFlags,
+
+            'useFullscreenPopup' => $this->useFullscreenPopup,
 
             'autoPlaceholder' => $this->autoPlaceholder,
 

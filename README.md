@@ -24,6 +24,8 @@
     <li><a href="#input-number-format">Input Number Format</a></li>
     <li><a href="#focus-input-type">Focus Input Type</a></li>
     <li><a href="#disallow-dropdown">Disallow Dropdown</a></li>
+    <li><a href="#hide-flags">Hide Flags</a></li>
+    <li><a href="#show-fullscreen-popup">Show Fullscreen Popup</a></li>
     <li><a href="#custom-container">Custom Container</a></li>
     <li><a href="#exclude-countries">Exclude Countries</a></li>
     <li><a href="#initial-country">Initial Country</a></li>
@@ -212,6 +214,31 @@ PhoneInput::make('phone')
 ```
 
 <p align="left"><img src="https://raw.githubusercontent.com/ysfkaya/filament-phone-input/main/screenshots/disallowed-dropdown.png" alt="Filament Phone Input"></p>
+
+#### Hide Flags
+
+---
+
+If you want to hide the flags, you may use the `showFlags` method:
+
+```php
+PhoneInput::make('phone')
+    ->showFlags(false),
+```
+
+> **Warning**
+> Must be used in combination with `separateDialCode` option, or with `disallowDropdown`
+
+#### Show Fullscreen Popup
+
+---
+
+If you want to show the fullscreen popup on mobile devices, you may use the `useFullscreenPopup` method:
+
+```php
+PhoneInput::make('phone')
+    ->useFullscreenPopup(),
+```
 
 #### Auto Placeholder
 
