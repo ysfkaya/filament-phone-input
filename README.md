@@ -52,7 +52,7 @@ This package provides a phone input component for [Laravel Filament](https://fil
 
 This package also includes with [Laravel Phone](https://github.com/propaganistas/laravel-phone) package. You can use all the methods of the Laravel Phone package.
 
-> **Note**
+> ![NOTE]
 > For **Filament 2.x** use **[1.x](https://github.com/ysfkaya/filament-phone-input/tree/1.x)** branch
 
 ## Installation
@@ -153,7 +153,7 @@ PhoneInput::make('phone')
     ),
 ```
 
-> **Warning**
+> ![WARNING]
 > Add an extra translation to your `validation.php` file.
 
 You can find more information about the validation [here](https://github.com/Propaganistas/Laravel-Phone#validation)
@@ -226,7 +226,7 @@ PhoneInput::make('phone')
     ->showFlags(false),
 ```
 
-> **Warning**
+> ![WARNING]
 > Must be used in combination with `separateDialCode` option, or with `disallowDropdown`
 
 #### Show Fullscreen Popup

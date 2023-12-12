@@ -18,6 +18,7 @@ class PhoneInputFullScreenPopupFlagTest extends BrowserTestCase
         $this->phoneTest(
             fn (Browser $browser) => $browser
                 ->waitFor('@phone-input.data.phone')
+                ->pause(500)
                 ->assertPresent('body.iti-fullscreen-popup')
         );
     }
