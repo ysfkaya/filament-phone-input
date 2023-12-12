@@ -2,6 +2,13 @@
 
 All notable changes to `filament-phone-input` will be documented in this file
 
+## 2.2.0 - 2023-12-12
+
+### What's Changed
+
+- Added `showFlags` option
+- Added `useFullscreenPopup`option
+
 ## 2.1.2 - 2023-11-21
 
 ### What's Changed
