@@ -1,5 +1,6 @@
 <?php
 
+use libphonenumber\PhoneNumberType;
 use Ysfkaya\FilamentPhoneInput\Forms\PhoneInput;
 use Ysfkaya\FilamentPhoneInput\PhoneInputNumberType;
 use Ysfkaya\FilamentPhoneInput\Tables\PhoneInputColumn;
@@ -89,7 +90,7 @@ it('validate for', function (string $country, string $phone, bool $pass, $type =
     ['AUTO', '+905301111111', true],
     ['TR', '+18143511527', false],
     ['TR', '5301111111', true, null, true],
-    ['TR', '0530 111 11 11', true, PhoneInputNumberType::NATIONAL->toLibPhoneNumberFormat()],
+    ['TR', '+902125111111', true, PhoneNumberType::FIXED_LINE],
 ]);
 
 it('can saves the country code to the database', function () {

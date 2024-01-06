@@ -24,7 +24,7 @@ class FilamentPhoneInputUserResource extends Resource
 
     protected static ?string $slug = 'users';
 
-    public static function phoneInput(?callable $callback = null): void
+    public static function phoneInput(callable $callback = null): void
     {
         self::$phoneInputCallback = $callback;
     }
@@ -38,7 +38,7 @@ class FilamentPhoneInputUserResource extends Resource
         return $callback(PhoneInput::make('phone'));
     }
 
-    public static function phoneTableColumn(?callable $callback = null): void
+    public static function phoneTableColumn(callable $callback = null): void
     {
         self::$phoneTableColumn = $callback;
     }
