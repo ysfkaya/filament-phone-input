@@ -2,6 +2,12 @@
 
 All notable changes to `filament-phone-input` will be documented in this file
 
+## 2.2.1 - 2024-01-06
+
+### What's Changed
+
+- Fixed `validateFor` method by using `int` instead of `string` in `$type` parameter
+
 ## 2.2.0 - 2023-12-12
 
 ### What's Changed
