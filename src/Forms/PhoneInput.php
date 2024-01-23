@@ -56,7 +56,7 @@ class PhoneInput extends Field
 
     public bool $canPerformIpLookup = true;
 
-    public ?string $validatedCountry = null;
+    public string|array $validatedCountry = [];
 
     public string|Closure|null $countryStatePath = null;
 
