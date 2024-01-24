@@ -129,12 +129,12 @@ test('table column formats the phone number', function ($type) {
 
     livewire(ListUsers::class)
         ->assertSuccessful()
-        ->assertSee(
+        ->assertSeeHtml(
             match ($type) {
                 PhoneInputNumberType::E164->value => '+905301111111',
                 PhoneInputNumberType::INTERNATIONAL->value => '+90 530 111 11 11',
                 PhoneInputNumberType::NATIONAL->value => '0530 111 11 11',
-                PhoneInputNumberType::RFC3966->value => 'tel:+90-530-111-11-11',
+                PhoneInputNumberType::RFC3966->value => 'tel:&#43;90-530-111-11-11',
             }
         );
 })->with([
@@ -157,12 +157,12 @@ test('table column formats with country code', function ($type) {
 
     livewire(ListUsers::class)
         ->assertSuccessful()
-        ->assertSee(
+        ->assertSeeHtml(
             match ($type) {
                 PhoneInputNumberType::E164->value => '+905301111111',
                 PhoneInputNumberType::INTERNATIONAL->value => '+90 530 111 11 11',
                 PhoneInputNumberType::NATIONAL->value => '0530 111 11 11',
-                PhoneInputNumberType::RFC3966->value => 'tel:+90-530-111-11-11',
+                PhoneInputNumberType::RFC3966->value => 'tel:&#43;90-530-111-11-11',
             }
         );
 })->with([
