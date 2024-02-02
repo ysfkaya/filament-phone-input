@@ -2,6 +2,12 @@
 
 All notable changes to `filament-phone-input` will be documented in this file
 
+## 2.2.2 - 2024-01-24
+
+### What's Changed
+
+- Accept an array to the `validatedCountry` property by @adesege #32
+
 ## 2.2.1 - 2024-01-06
 
 ### What's Changed
