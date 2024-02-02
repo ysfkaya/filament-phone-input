@@ -3,7 +3,6 @@
 namespace Ysfkaya\FilamentPhoneInput\Tests\Browser;
 
 use Laravel\Dusk\Browser;
-use Laravel\Dusk\ElementResolver;
 use Ysfkaya\FilamentPhoneInput\Forms\PhoneInput;
 use Ysfkaya\FilamentPhoneInput\Tests\BrowserTestCase;
 use Ysfkaya\FilamentPhoneInput\Tests\Fixtures\FilamentPhoneInputUserResource;
@@ -18,14 +17,11 @@ class PhoneInputFullScreenPopupFlagTest extends BrowserTestCase
         $this->phoneTest(
             fn (Browser $browser) => $browser
                 ->waitFor('@phone-input.data.phone')
-                ->pause(500)
-                ->assertPresent('body.iti-fullscreen-popup')
+                ->pause(300)
+                ->click('@phone-input.data.phone .iti__selected-flag')
+                ->pause(300)
+                ->assertPresent('.iti--fullscreen-popup')
         );
-    }
-
-    protected function newBrowser($driver)
-    {
-        return new Browser($driver, new ElementResolver($driver, 'html'));
     }
 }
 

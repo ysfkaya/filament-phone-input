@@ -1,23 +1,35 @@
 @import "intl-tel-input/build/css/intlTelInput.css";
 
-body:not(.iti-fullscreen-popup) .iti {
+.iti {
     width: 100%;
 }
 
 .iti__flag {
-    background-image: url("/phone-input-flags.png");
+    background-image: url("/vendor/filament-phone-input/flags.png");
 }
 
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
     .iti__flag {
-        background-image: url("/phone-input-flags@2x.png");
+        background-image: url("/vendor/filament-phone-input/flags@2x.png");
     }
 }
 
-.fi-fo-phone-input .iti__country-list {
+.fi-fo-phone-input .iti__country-list{
     @apply dark:bg-gray-700 dark:text-white;
 }
 
-.fi-fo-phone-input.rtl input{
+.iti--fullscreen-popup.iti--country-search .iti__dropdown-content {
+    @apply dark:bg-gray-700 dark:text-white;
+}
+
+.iti__search-input {
+    @apply block w-full border-none py-1.5 text-base text-gray-950 transition duration-75 placeholder:text-gray-400 focus:ring-0 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-500 dark:disabled:text-gray-400 sm:text-sm sm:leading-6 bg-white/0;
+}
+
+.fi-fo-phone-input .iti__highlight{
+    @apply dark:bg-gray-600;
+}
+
+.fi-fo-phone-input.rtl input {
     direction: rtl;
 }

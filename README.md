@@ -34,8 +34,11 @@
     <li><a href="#format-on-display">Format On Display</a></li>
     <li><a href="#geo-ip-lookup">Geo Ip Lookup</a></li>
     <li><a href="#placeholder-number-type">Placeholder Number Type</a></li>
-    <li><a href="#separate-dial-code">Separate Dial Code</a></li>
-    <li><a href="#outside-filament">Outside Filament</a></li>
+    <li><a href="#show-selected-dial-code">Show Selected Dial Code</a></li>
+    <li><a href="#auto-insert-dial-code">Auto Insert Dial Code</a></li>
+    <li><a href="#country-search">Country Search</a></li>
+    <li><a href="#format-as-you-type">Format As You Type</a></li>
+    <li><a href="#using-the-phoneinput-outside-of-filament">Using the `PhoneInput` outside of Filament</a></li>
     <li><a href="#more">More</a></li>
     </ul>
     </li>
@@ -349,18 +352,83 @@ PhoneInput::make('phone')
     ->preferredCountries(['tr','us', 'gb']),
 ```
 
-#### Separate Dial Code
+> [!CAUTION]
+> This method will also disable the country search option. `countrySearch(false)`
+
+
+#### Show Selected Dial Code
 
 ---
 
-You may set the separate dial code by using the `separateDialCode` method:
+You may want to show selected country dial code by using the `showSelectedDialCode` method:
 
 ```php
 PhoneInput::make('phone')
-    ->separateDialCode(true),
+    ->showSelectedDialCode(true),
 ```
 
-#### Outside Filament
+#### Auto Insert Dial Code
+
+---
+
+You may want to insert the dial code of selected country by using `autoInsertDialCode` method:
+
+```php
+PhoneInput::make('phone')
+    ->autoInsertDialCode(true),
+```
+
+> [!CAUTION]
+> You have to disable the `nationalMode` option to use this feature. See the [intl-tel-input](https://github.com/jackocnr/intl-tel-input#autoInsertDialCode) documentation for more information.
+
+#### Country Search
+
+---
+
+By default, the country search mode is set to active. You can disable it by using the `countrySearch` method:
+
+```php
+PhoneInput::make('phone')
+    ->countrySearch(false),
+```
+
+#### i18n
+
+---
+
+You can configure the localization of the component by using the `i18n` method. See the [intl-tel-input](https://github.com/jackocnr/intl-tel-input#i18n) for more information:
+
+```php
+PhoneInput::make('phone')
+    ->i18n([
+        // Country names
+        'fr' => "Frankreich",
+        'de' => "Deutschland",
+        'es' => "Spanien",
+        'it' => "Italien",
+        'ch' => "Schweiz",
+        'nl' => "Niederlande",
+        'at' => "Österreich",
+        'dk' => "Dänemark",
+        // Other plugin text
+        "selectedCountryAriaLabel" =>'Ausgewähltes Land',
+        "countryListAriaLabel" =>'Liste der Länder',
+        "searchPlaceholder" =>'Suchen',
+    ]),
+```
+
+#### Format as You Type
+
+---
+
+Automatically format the number as the user types. You can disable it by using the `formatAsYouType` method:
+
+```php
+PhoneInput::make('phone')
+    ->formatAsYouType(false),
+```
+
+#### Using the `PhoneInput` outside of Filament
 
 A livewire component:
 

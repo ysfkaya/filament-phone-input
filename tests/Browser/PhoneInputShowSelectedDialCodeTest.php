@@ -7,9 +7,9 @@ use Ysfkaya\FilamentPhoneInput\Forms\PhoneInput;
 use Ysfkaya\FilamentPhoneInput\Tests\BrowserTestCase;
 use Ysfkaya\FilamentPhoneInput\Tests\Fixtures\FilamentPhoneInputUserResource;
 
-class PhoneInputSeperateDialCodeTest extends BrowserTestCase
+class PhoneInputShowSelectedDialCodeTest extends BrowserTestCase
 {
-    protected ?string $resource = PhoneInputSeparateDialCodeResource::class;
+    protected ?string $resource = PhoneInputShowDialCodeResource::class;
 
     /** @test */
     public function it_should_be_render_with_separate_dial_code()
@@ -26,10 +26,10 @@ class PhoneInputSeperateDialCodeTest extends BrowserTestCase
     }
 }
 
-class PhoneInputSeparateDialCodeResource extends FilamentPhoneInputUserResource
+class PhoneInputShowDialCodeResource extends FilamentPhoneInputUserResource
 {
     public static function getPhoneInput(): ?PhoneInput
     {
-        return parent::getPhoneInput()->initialCountry('TR')->separateDialCode();
+        return parent::getPhoneInput()->initialCountry('TR')->showSelectedDialCode();
     }
 }

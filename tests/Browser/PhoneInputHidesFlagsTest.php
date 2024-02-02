@@ -17,6 +17,7 @@ class PhoneInputHidesFlagsTest extends BrowserTestCase
         $this->phoneTest(
             fn (Browser $browser) => $browser
                 ->waitFor('@phone-input.data.phone')
+                ->pause(500)
                 ->assertMissing('.iti__flag-container')
         );
     }
