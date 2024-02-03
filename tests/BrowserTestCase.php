@@ -73,7 +73,7 @@ class BrowserTestCase extends Orchestra
         $this->getTestSuiteEnvironmentSetUp($app);
 
         $app['config']->set('view.paths', [
-            __DIR__.'/Browser/views',
+            __DIR__ . '/Browser/views',
             resource_path('views'),
         ]);
 

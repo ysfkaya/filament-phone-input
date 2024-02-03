@@ -14,9 +14,9 @@ use Ysfkaya\FilamentPhoneInput\PhoneInputNumberType;
 
 class PhoneInput extends Field
 {
-    use HasAffixes,
-        HasExtraInputAttributes,
-        HasPlaceholder;
+    use HasAffixes;
+    use HasExtraInputAttributes;
+    use HasPlaceholder;
 
     protected string $view = 'filament-phone-input::phone-input';
 
@@ -24,7 +24,7 @@ class PhoneInput extends Field
 
     protected string $inputNumberFormat = 'E164';
 
-    protected string|false $focusNumberFormat = false;
+    protected string | false $focusNumberFormat = false;
 
     protected bool $autoInsertDialCode = false;
 
@@ -60,9 +60,9 @@ class PhoneInput extends Field
 
     public bool $canPerformIpLookup = true;
 
-    public string|array $validatedCountry = [];
+    public string | array $validatedCountry = [];
 
-    public string|Closure|null $countryStatePath = null;
+    public string | Closure | null $countryStatePath = null;
 
     public bool $countryStatePathIsAbsolute = false;
 
@@ -186,7 +186,7 @@ class PhoneInput extends Field
         return $this->countryStatePath !== null;
     }
 
-    public function countryStatePath(string|Closure $statePath, bool $isStatePathAbsolute = false): static
+    public function countryStatePath(string | Closure $statePath, bool $isStatePathAbsolute = false): static
     {
         $this->countryStatePath = $statePath;
         $this->countryStatePathIsAbsolute = $isStatePathAbsolute;
@@ -199,7 +199,7 @@ class PhoneInput extends Field
         return $this->generateRelativeStatePath($this->countryStatePath, $this->countryStatePathIsAbsolute);
     }
 
-    public function validateFor(string|array $country = 'AUTO', ?int $type = null, bool $lenient = false)
+    public function validateFor(string | array $country = 'AUTO', ?int $type = null, bool $lenient = false)
     {
         $this->validatedCountry = $country;
 
@@ -250,7 +250,7 @@ class PhoneInput extends Field
         return $this;
     }
 
-    public function focusNumberFormat(PhoneInputNumberType|false $format): static
+    public function focusNumberFormat(PhoneInputNumberType | false $format): static
     {
         if ($format !== false) {
             $format = $format->value;

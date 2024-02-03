@@ -45,7 +45,7 @@ trait TestSuite
     protected function defineDatabaseMigrations(): void
     {
         // Test migrations
-        $this->loadMigrationsFrom(__DIR__.'/database/migrations');
+        $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
     }
 
     public function getEnvironmentSetUp($app)

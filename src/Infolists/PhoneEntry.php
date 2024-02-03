@@ -1,15 +1,15 @@
 <?php
 
-namespace Ysfkaya\FilamentPhoneInput\Tables;
+namespace Ysfkaya\FilamentPhoneInput\Infolists;
 
 use Closure;
-use Filament\Tables\Columns\TextColumn;
+use Filament\Infolists\Components\TextEntry;
 use Illuminate\Support\HtmlString;
 use libphonenumber\PhoneNumberFormat;
 use Propaganistas\LaravelPhone\Exceptions\NumberParseException;
 use Ysfkaya\FilamentPhoneInput\PhoneInputNumberType;
 
-class PhoneColumn extends TextColumn
+class PhoneEntry extends TextEntry
 {
     protected string | Closure | null $countryColumn = null;
 
@@ -76,6 +76,6 @@ class PhoneColumn extends TextColumn
             } catch (NumberParseException $e) {
                 return $state;
             }
-        })->when($format === PhoneInputNumberType::RFC3966, fn (PhoneColumn $column) => $column->disabledClick());
+        });
     }
 }

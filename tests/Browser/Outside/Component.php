@@ -30,6 +30,6 @@ class Component extends Livewire implements HasForms
 
     public function render()
     {
-        return View::file(__DIR__.'/view.blade.php');
+        return View::file(__DIR__ . '/view.blade.php');
     }
 }

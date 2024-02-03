@@ -71,10 +71,27 @@ composer require ysfkaya/filament-phone-input
 
 ```php
 use Filament\Forms;
+use Filament\Forms\Form;
+use Filament\Tables;
+use Filament\Tables\Table;
+use Filament\Infolists;
+use Filament\Infolists\Infolist;
 use Ysfkaya\FilamentPhoneInput\Forms\PhoneInput;
-use Ysfkaya\FilamentPhoneInput\Tables\PhoneInputColumn;
+use Ysfkaya\FilamentPhoneInput\Tables\PhoneColumn;
+use Ysfkaya\FilamentPhoneInput\Infolists\PhoneEntry;
+use Ysfkaya\FilamentPhoneInput\Infolists\PhoneInputNumberType;
 
-  //...
+  
+    public static function infolists(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->columns([
+                Infolists\Components\TextEntry::make('name'),
+                Tables\Columns\TextColumn::make('email'),
+                PohoneEntry::make('phone')->displayFormat(PhoneInputNumberType::NATIONAL),
+            ]);
+    }
+
     public static function form(Form $form): Form
     {
         return $form
@@ -102,7 +119,7 @@ use Ysfkaya\FilamentPhoneInput\Tables\PhoneInputColumn;
                     ->sortable()
                     ->searchable(),
 
-                PhoneInputColumn::make('phone')
+                PhoneColumn::make('phone')->displayFormat(PhoneInputNumberType::NATIONAL)
             ]);
     }
 ```
@@ -121,7 +138,14 @@ PhoneInput::make('phone')
 Table column:
 
 ```php
-PhoneInputColumn::make('phone')
+PhoneColumn::make('phone')
+    ->countryColumn('phone_country')
+```
+
+Infolist entry:
+
+```php
+PhoneEntry::make('phone')
     ->countryColumn('phone_country')
 ```
 
