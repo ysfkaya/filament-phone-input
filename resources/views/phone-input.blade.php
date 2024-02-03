@@ -1,6 +1,6 @@
 @php
     use Filament\Support\Facades\FilamentView;
-    
+
     $id = $getId();
     $isConcealed = $isConcealed();
     $isDisabled = $isDisabled();
@@ -13,6 +13,11 @@
     $suffixIcon = $getSuffixIcon();
     $suffixLabel = $getSuffixLabel();
     $statePath = $getStatePath();
+
+    $isLive = $isLive();
+    $isLiveOnBlur = $isLiveOnBlur();
+    $isLiveDebounced = $isLiveDebounced();
+    $liveDebounce = $getLiveDebounce();
 
     $cssUrl = \Filament\Support\Facades\FilamentAsset::getStyleHref('filament-phone-input', package: 'ysfkaya/filament-phone-input');
 
@@ -60,10 +65,14 @@
                 ax-load-src="{{ \Filament\Support\Facades\FilamentAsset::getAlpineComponentSrc('filament-phone-input', package: 'ysfkaya/filament-phone-input') }}"
                 x-data="phoneInputFormComponent({
                     getInputTelOptionsUsing: (intlTelInput) => ({{ $getJsonPhoneInputConfiguration() }}),
-                    state: $wire.{{ $applyStateBindingModifiers("entangle('{$statePath}')") }},
+                    state: $wire.$entangle('{{ $statePath }}'),
                     statePath: @js($statePath),
+                    isLive: @js($isLive),
+                    isLiveDebounced: @js($isLiveDebounced),
+                    isLiveOnBlur: @js($isLiveOnBlur),
+                    liveDebounce: @js($liveDebounce),
                     @if ($hasCountryStatePath() && $countryStatePath = $getCountryStatePath())
-                        country: $wire.{{ $applyStateBindingModifiers("entangle('{$countryStatePath}')") }},
+                        country: $wire.$entangle('{{ $countryStatePath }}'),
                     @endif
                 })"
             >
@@ -80,7 +89,7 @@
                                 'placeholder' => $getPlaceholder(),
                                 'required' => $isRequired() && (! $isConcealed),
                                 'type' => 'tel',
-                                'x-model' . ($isLiveDebounced() ? '.debounce.' . $getLiveDebounce() : null) => 'state',
+                                'x-model' . ($isLiveDebounced ? '.debounce.' . $liveDebounce : null) => 'state',
                             ], escape: false)
                     "
                 />

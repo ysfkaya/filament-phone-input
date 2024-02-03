@@ -1,10 +1,10 @@
 {
     "scripts": {
-        "build": "node bin/build.js",
-        "build:dev": "node bin/build.js --dev",
-        "dev": "mix && npm run build",
+        "js:build": "node bin/build.js",
+        "js:dev": "node bin/build.js --dev",
+        "dev": "mix",
         "watch": "mix watch",
-        "prod": "mix --production && npm run build"
+        "prod": "mix --production && npm run js:build"
     },
     "type": "module",
     "dependencies": {
