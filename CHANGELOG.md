@@ -2,6 +2,14 @@
 
 All notable changes to `filament-phone-input` will be documented in this file
 
+## v2.3.1 - 2024-02-03
+
+### What's Changed
+
+- Fixed an issue with instant detection of state change
+
+**Full Changelog**: https://github.com/ysfkaya/filament-phone-input/compare/v2.3.0...v2.3.1
+
 ## 2.3.0 - 2024-02-03
 
 ### What's Changed
