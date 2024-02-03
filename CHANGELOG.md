@@ -2,6 +2,21 @@
 
 All notable changes to `filament-phone-input` will be documented in this file
 
+## 2.3.0 - 2024-02-03
+
+### What's Changed
+
+- Updated to the latest version of the `intl-tel-input` library.
+- Renamed `separateDialCode` method to `showSelectedDialCode`. The `separateDialCode` method will be removed in a major version update.
+- Added `autoInsertDialCode` method. For details, see [here](https://github.com/jackocnr/intl-tel-input#autoInsertDialCode).
+- Introduced a search input for countries with the new version. To hide this, the `countrySearch` method has been added.
+- Added `formatAsYouType` method.
+- This extension now publishes and utilizes flag icons available in the `intl-tel-input` library. Reading files via routes will be removed in the next major version.
+- Renamed `PhoneInputColumn` to `PhoneColumn`. This class will be removed in a major version update.
+- Added `PhoneEntry` class for use in InfoList.
+
+**Full Changelog**: https://github.com/ysfkaya/filament-phone-input/compare/v2.2.2...v2.3.0
+
 ## 2.2.2 - 2024-01-24
 
 ### What's Changed
