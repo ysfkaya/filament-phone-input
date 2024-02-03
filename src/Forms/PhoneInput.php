@@ -373,7 +373,7 @@ class PhoneInput extends Field
     }
 
     /**
-     * Must be used in combination with `separateDialCode` option, or with setting `disallowDropdown`
+     * Must be used in combination with `disallowDropdown`
      */
     public function showFlags(bool $value): static
     {

@@ -17,6 +17,7 @@ export default function phoneInputFormComponent({
         country,
         input: null,
         intlTelInput: null,
+        initialized: false,
 
         options: {}, // intlTelInput options
 
@@ -46,6 +47,10 @@ export default function phoneInputFormComponent({
                 }, 1);
             }
 
+            this.$nextTick(() => {
+                this.initialized = true;
+            });
+
             this.input.addEventListener("countrychange", () => {
                 let countryData = this.intlTelInput.getSelectedCountryData();
 
@@ -56,6 +61,10 @@ export default function phoneInputFormComponent({
                     );
 
                     this.updateState();
+
+                    if (this.initialized) {
+                        this.commitLiveState();
+                    }
                 }
             });
 
@@ -64,7 +73,9 @@ export default function phoneInputFormComponent({
             });
 
             this.input.addEventListener("input", (e) => {
-                this.commitLiveState();
+                this.commitLiveState(() => {
+                    this.updateState();
+                });
             });
 
             this.input.addEventListener("blur", (e) => {
@@ -104,15 +115,26 @@ export default function phoneInputFormComponent({
             });
         },
 
-        commitLiveState() {
+        async commitLiveState(cbx = null) {
             if (!isLiveOnBlur && (isLive || isLiveDebounced)) {
-                this.updateState();
+                await this.$nextTick();
+
+                if (cbx) {
+                    cbx();
+                }
 
                 const value = this.intlTelInput.getNumber(
                     window.intlTelInputUtils.numberFormat["E164"]
                 );
 
-                if (this.state !== value) {
+                const selectedCountry = this.intlTelInput
+                    .getSelectedCountryData()
+                    .iso2?.toUpperCase();
+
+                if (
+                    this.state !== value ||
+                    (this.country && this.country !== selectedCountry)
+                ) {
                     return;
                 }
 
@@ -129,21 +151,20 @@ export default function phoneInputFormComponent({
         updateState() {
             const displayNumberFormat =
                 this.options.displayNumberFormat || "E164";
-            const inputNumberFormat = "E164";
 
             this.state = this.intlTelInput.getNumber(
-                window.intlTelInputUtils.numberFormat[inputNumberFormat]
+                window.intlTelInputUtils.numberFormat["E164"]
             );
 
             this.input.value = this.intlTelInput.getNumber(
                 window.intlTelInputUtils.numberFormat[displayNumberFormat]
             );
 
-            this.updateCountryState(!this.state ? null : undefined);
+            this.updateCountryState();
         },
 
         updateCountryState(value = undefined) {
-            if (this.country !== undefined) {
+            if (country !== undefined) {
                 if (value !== undefined) {
                     this.country = value;
 
@@ -153,8 +174,6 @@ export default function phoneInputFormComponent({
                 const countryData = this.intlTelInput.getSelectedCountryData();
 
                 this.country = countryData.iso2?.toUpperCase();
-
-                this.commitLiveState();
             }
         },
 
