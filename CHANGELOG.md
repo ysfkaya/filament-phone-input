@@ -2,6 +2,14 @@
 
 All notable changes to `filament-phone-input` will be documented in this file
 
+## 2.3.2 - 2024-02-03
+
+### What's Changed
+
+- Fixed infinite recursion issue while using country state path.
+
+**Full Changelog**: https://github.com/ysfkaya/filament-phone-input/compare/v2.3.1...v2.3.2
+
 ## v2.3.1 - 2024-02-03
 
 ### What's Changed
