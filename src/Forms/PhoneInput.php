@@ -199,7 +199,7 @@ class PhoneInput extends Field
         return $this->generateRelativeStatePath($this->countryStatePath, $this->countryStatePathIsAbsolute);
     }
 
-    public function validateFor(string | array $country = 'AUTO', int|array|null $type = null, bool $lenient = false)
+    public function validateFor(string | array $country = 'AUTO', int | array | null $type = null, bool $lenient = false)
     {
         $this->validatedCountry = $country;
 
