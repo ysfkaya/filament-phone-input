@@ -2,6 +2,18 @@
 
 All notable changes to `filament-phone-input` will be documented in this file
 
+## 2.3.3 - 2024-02-24
+
+### What's Changed
+
+* allowing array as value for type parameter in PhoneInput@validateFor by @Carnicero90 in https://github.com/ysfkaya/filament-phone-input/pull/35
+
+### New Contributors
+
+* @Carnicero90 made their first contribution in https://github.com/ysfkaya/filament-phone-input/pull/35
+
+**Full Changelog**: https://github.com/ysfkaya/filament-phone-input/compare/v2.3.2...v2.3.3
+
 ## 2.3.2 - 2024-02-03
 
 ### What's Changed
