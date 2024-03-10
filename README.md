@@ -88,7 +88,7 @@ use Ysfkaya\FilamentPhoneInput\Infolists\PhoneInputNumberType;
             ->columns([
                 Infolists\Components\TextEntry::make('name'),
                 Tables\Columns\TextColumn::make('email'),
-                PohoneEntry::make('phone')->displayFormat(PhoneInputNumberType::NATIONAL),
+                PhoneEntry::make('phone')->displayFormat(PhoneInputNumberType::NATIONAL),
             ]);
     }
 
