@@ -3,7 +3,7 @@
 use libphonenumber\PhoneNumberType;
 use Ysfkaya\FilamentPhoneInput\Forms\PhoneInput;
 use Ysfkaya\FilamentPhoneInput\PhoneInputNumberType;
-use Ysfkaya\FilamentPhoneInput\Tables\PhoneInputColumn;
+use Ysfkaya\FilamentPhoneInput\Tables\PhoneColumn;
 use Ysfkaya\FilamentPhoneInput\Tests\Fixtures\FilamentPhoneInputUser;
 use Ysfkaya\FilamentPhoneInput\Tests\Fixtures\FilamentPhoneInputUserResource;
 use Ysfkaya\FilamentPhoneInput\Tests\Fixtures\FilamentPhoneInputUserResource\Pages\EditUser;
@@ -125,7 +125,7 @@ test('table column formats the phone number', function ($type) {
         'phone' => '+905301111111',
     ]);
 
-    FilamentPhoneInputUserResource::phoneTableColumn(fn (PhoneInputColumn $column) => $column->displayFormat(PhoneInputNumberType::from($type)));
+    FilamentPhoneInputUserResource::phoneTableColumn(fn (PhoneColumn $column) => $column->displayFormat(PhoneInputNumberType::from($type)));
 
     livewire(ListUsers::class)
         ->assertSuccessful()
@@ -134,7 +134,7 @@ test('table column formats the phone number', function ($type) {
                 PhoneInputNumberType::E164->value => '+905301111111',
                 PhoneInputNumberType::INTERNATIONAL->value => '+90 530 111 11 11',
                 PhoneInputNumberType::NATIONAL->value => '0530 111 11 11',
-                PhoneInputNumberType::RFC3966->value => 'tel:&#43;90-530-111-11-11',
+                PhoneInputNumberType::RFC3966->value => 'tel:+90-530-111-11-11',
             }
         );
 })->with([
@@ -153,7 +153,7 @@ test('table column formats with country code', function ($type) {
         'phone_country' => 'TR',
     ]);
 
-    FilamentPhoneInputUserResource::phoneTableColumn(fn (PhoneInputColumn $column) => $column->countryColumn('phone_country')->displayFormat(PhoneInputNumberType::from($type)));
+    FilamentPhoneInputUserResource::phoneTableColumn(fn (PhoneColumn $column) => $column->countryColumn('phone_country')->displayFormat(PhoneInputNumberType::from($type)));
 
     livewire(ListUsers::class)
         ->assertSuccessful()
@@ -162,7 +162,7 @@ test('table column formats with country code', function ($type) {
                 PhoneInputNumberType::E164->value => '+905301111111',
                 PhoneInputNumberType::INTERNATIONAL->value => '+90 530 111 11 11',
                 PhoneInputNumberType::NATIONAL->value => '0530 111 11 11',
-                PhoneInputNumberType::RFC3966->value => 'tel:&#43;90-530-111-11-11',
+                PhoneInputNumberType::RFC3966->value => 'tel:+90-530-111-11-11',
             }
         );
 })->with([
