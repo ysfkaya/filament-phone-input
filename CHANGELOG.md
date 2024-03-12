@@ -2,6 +2,19 @@
 
 All notable changes to `filament-phone-input` will be documented in this file
 
+## 2.3.4 - 2024-03-12
+
+### What's Changed
+
+* Update README.md by @nathanpelton in https://github.com/ysfkaya/filament-phone-input/pull/37
+* Uptade dependecy version of `spatie/laravel-package-tools`
+
+### New Contributors
+
+* @nathanpelton made their first contribution in https://github.com/ysfkaya/filament-phone-input/pull/37
+
+**Full Changelog**: https://github.com/ysfkaya/filament-phone-input/compare/v2.3.3...v2.3.4
+
 ## 2.3.3 - 2024-02-24
 
 ### What's Changed
