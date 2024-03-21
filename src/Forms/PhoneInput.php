@@ -471,6 +471,8 @@ class PhoneInput extends Field
             'displayNumberFormat' => $this->displayNumberFormat,
 
             'focusNumberFormat' => $this->focusNumberFormat,
+
+            'inputNumberFormat' => $this->inputNumberFormat,
         ]);
     }
 }

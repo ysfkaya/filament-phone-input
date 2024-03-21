@@ -149,11 +149,11 @@ export default function phoneInputFormComponent({
         },
 
         updateState() {
-            const displayNumberFormat =
-                this.options.displayNumberFormat || "E164";
+            const displayNumberFormat = this.options.displayNumberFormat || "E164";
+            const numberFormat = this.options.inputNumberFormat || "E164";
 
             this.state = this.intlTelInput.getNumber(
-                window.intlTelInputUtils.numberFormat["E164"]
+                window.intlTelInputUtils.numberFormat[numberFormat]
             );
 
             this.input.value = this.intlTelInput.getNumber(
