@@ -2,6 +2,12 @@
 
 All notable changes to `filament-phone-input` will be documented in this file
 
+## v2.3.5 - 2024-03-21
+
+### What's Changed
+
+- Fixed an issue triggering `unsavedChangeAlerts` event. #38
+
 ## 2.3.4 - 2024-03-12
 
 ### What's Changed
