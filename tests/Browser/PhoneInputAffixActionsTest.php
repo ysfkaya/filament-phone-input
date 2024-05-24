@@ -6,6 +6,7 @@ use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Form;
 use Laravel\Dusk\Browser;
 use Ysfkaya\FilamentPhoneInput\Forms\PhoneInput;
+use Ysfkaya\FilamentPhoneInput\PhoneInputNumberType;
 use Ysfkaya\FilamentPhoneInput\Tests\BrowserTestCase;
 use Ysfkaya\FilamentPhoneInput\Tests\Fixtures\FilamentPhoneInputUserResource;
 
@@ -24,7 +25,7 @@ class PhoneInputAffixActionsTest extends BrowserTestCase
                 ->pause(400)
                 ->click('button[title="Copy contact to whats app"')
                 ->waitFor('@phone-input.data.whatsapp_number')
-                ->assertValue('@phone-input.data.whatsapp_number input.fi-input', '0555 555 55 55')
+                ->assertValue('@phone-input.data.whatsapp_number input.fi-input', '+905555555555')
         );
     }
 }
@@ -39,6 +40,8 @@ class PhoneInputAffixActionsResource extends FilamentPhoneInputUserResource
                     ->label('Contact Number')
                     ->required()
                     ->debounce(350)
+                    ->initialCountry('TR')
+                    ->displayNumberFormat(PhoneInputNumberType::E164)
                     ->suffixAction(
                         Action::make('copyContactToWhatsApp')
                             ->icon('heroicon-m-clipboard')
@@ -48,6 +51,8 @@ class PhoneInputAffixActionsResource extends FilamentPhoneInputUserResource
                     ),
                 PhoneInput::make('whatsapp_number')
                     ->label('WhatsApp Number')
+                    ->initialCountry('TR')
+                    ->displayNumberFormat(PhoneInputNumberType::E164)
                     ->debounce(),
             ]);
     }
