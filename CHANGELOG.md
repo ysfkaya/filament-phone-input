@@ -2,6 +2,14 @@
 
 All notable changes to `filament-phone-input` will be documented in this file
 
+## v2.3.6 - 2024-05-24
+
+### What's Changed
+
+- Fixed affix actions #42
+
+**Full Changelog**: https://github.com/ysfkaya/filament-phone-input/compare/v2.3.5...v2.3.6
+
 ## v2.3.5 - 2024-03-21
 
 ### What's Changed
