@@ -79,7 +79,7 @@ use Filament\Infolists\Infolist;
 use Ysfkaya\FilamentPhoneInput\Forms\PhoneInput;
 use Ysfkaya\FilamentPhoneInput\Tables\PhoneColumn;
 use Ysfkaya\FilamentPhoneInput\Infolists\PhoneEntry;
-use Ysfkaya\FilamentPhoneInput\Infolists\PhoneInputNumberType;
+use Ysfkaya\FilamentPhoneInput\PhoneInputNumberType;
 
   
     public static function infolists(Infolist $infolist): Infolist
