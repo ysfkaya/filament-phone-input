@@ -18,7 +18,7 @@
     <li><a href="#installation">Installation</a></li>
     <li><a href="#usage">Usage</a>
     <ul dir="auto">
-    <li><a href="#seperate-country-code">Seperate Country Code</a></li>
+    <li><a href="#separate-country-code">Separate Country Code</a></li>
     <li><a href="#default-country">Default Country</a></li>
     <li><a href="#validation">Validation</a></li>
     <li><a href="#display-number-format">Display Number Format</a></li>
@@ -124,7 +124,7 @@ use Ysfkaya\FilamentPhoneInput\PhoneInputNumberType;
     }
 ```
 
-#### Seperate Country Code
+#### Separate Country Code
 
 ---
 
