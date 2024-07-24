@@ -23,7 +23,6 @@ export default function phoneInputFormComponent({
 
         options: {}, // intlTelInput options
 
-
         async init() {
             // Waits for until intlTelInput to be fully loaded
             // Loads the component after a certain time because it
@@ -38,15 +37,7 @@ export default function phoneInputFormComponent({
 
             this.intlTelInput = intlTelInput(this.input, this.options);
 
-            if (this.state) {
-                const value = this.state?.valueOf();
-
-                this.intlTelInput.setNumber(value);
-
-                this.$nextTick(() => {
-                    this.formatState();
-                });
-            }
+            this.initState(this.state);
 
             this.input.addEventListener("countrychange", () => {
                 let countryData = this.intlTelInput.getSelectedCountryData();
@@ -84,6 +75,10 @@ export default function phoneInputFormComponent({
                         intlTelInput.utils.numberFormat[format]
                     );
                 }
+            });
+
+            this.$watch("state", (value) => {
+                this.initState(value);
             });
         },
 
@@ -127,6 +122,18 @@ export default function phoneInputFormComponent({
                 } else if (isLive) {
                     this.commitState();
                 }
+            }
+        },
+
+        initState(value){
+            if (value) {
+                value = value?.valueOf();
+
+                this.intlTelInput.setNumber(value);
+
+                this.$nextTick(() => {
+                    this.formatState();
+                });
             }
         },
 
@@ -181,7 +188,9 @@ export default function phoneInputFormComponent({
             }
 
             this.options.geoIpLookup = async function (success, failure) {
-                let country = getCookie(this.intlTelInputSelectedCountryCookieName);
+                let country = getCookie(
+                    this.intlTelInputSelectedCountryCookieName
+                );
 
                 if (country) {
                     success(country);

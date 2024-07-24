@@ -262,13 +262,6 @@ class PhoneInput extends Field implements HasAffixActions
         return $this->evaluate($this->performIpLookup);
     }
 
-    public function isRtl()
-    {
-        $direction = __('filament::layout.direction') ?? 'ltr'; // @phpstan-ignore-line
-
-        return $direction === 'rtl';
-    }
-
     public function inputNumberFormat(PhoneInputNumberType | Closure $format): static
     {
         $this->inputNumberFormat = $format->value;

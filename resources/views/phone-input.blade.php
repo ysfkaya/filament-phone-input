@@ -56,7 +56,6 @@
             \Filament\Support\prepare_inherited_attributes($getExtraAttributeBag())
                 ->class([
                     'fi-fo-phone-input',
-                    'rtl' => $isRtl(),
                 ])
         "
         x-data="{}"

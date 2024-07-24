@@ -19,7 +19,7 @@ class PhoneInputDisplayFormatTest extends BrowserTestCase
             fn (Browser $browser) => $browser
                 ->waitFor('@phone-input.data.phone')
                 ->click('@phone-input.data.phone input.fi-input')
-                ->keys('@phone-input.data.phone input.fi-input', '5301111111')
+                ->typeSlowly('@phone-input.data.phone input.fi-input', '5301111111')
                 ->pause(300)
                 ->assertValue('@phone-input.data.phone input.fi-input', '+90 530 111 11 11')
         );
@@ -30,6 +30,6 @@ class PhoneInputDisplayFormatResource extends FilamentPhoneInputUserResource
 {
     public static function getPhoneInput(): ?PhoneInput
     {
-        return parent::getPhoneInput()->initialCountry('TR')->displayNumberFormat(PhoneInputNumberType::INTERNATIONAL);
+        return parent::getPhoneInput()->initialCountry('TR')->displayNumberFormat(PhoneInputNumberType::INTERNATIONAL)->formatAsYouType(false);
     }
 }

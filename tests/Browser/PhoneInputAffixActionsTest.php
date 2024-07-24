@@ -42,6 +42,7 @@ class PhoneInputAffixActionsResource extends FilamentPhoneInputUserResource
                     ->debounce(350)
                     ->initialCountry('TR')
                     ->displayNumberFormat(PhoneInputNumberType::E164)
+                    ->formatAsYouType(false)
                     ->suffixAction(
                         Action::make('copyContactToWhatsApp')
                             ->icon('heroicon-m-clipboard')
@@ -53,6 +54,7 @@ class PhoneInputAffixActionsResource extends FilamentPhoneInputUserResource
                     ->label('WhatsApp Number')
                     ->initialCountry('TR')
                     ->displayNumberFormat(PhoneInputNumberType::E164)
+                    ->formatAsYouType(false)
                     ->debounce(),
             ]);
     }
