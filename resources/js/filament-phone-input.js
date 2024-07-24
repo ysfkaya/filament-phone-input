@@ -1,27 +1,28 @@
-import intlTelInput from "intl-tel-input";
-import "intl-tel-input/build/js/utils";
+import intlTelInput from "intl-tel-input/intlTelInputWithUtils";
+import * as locales from "intl-tel-input/i18n";
 
 export default function phoneInputFormComponent({
-    getInputTelOptionsUsing,
+    options,
+    locale,
     state,
+    countryState = undefined,
+    intlTelInputSelectedCountryCookieName,
     statePath,
     isLive,
     isLiveDebounced,
     isLiveOnBlur,
     liveDebounce,
-    country = undefined,
 }) {
     return {
         state,
+        countryState,
         statePath,
-        country,
         input: null,
         intlTelInput: null,
-        initialized: false,
+        intlTelInputSelectedCountryCookieName,
 
         options: {}, // intlTelInput options
 
-        intlTelInputSelectedCountryCookie: "intlTelInputSelectedCountry",
 
         async init() {
             // Waits for until intlTelInput to be fully loaded
@@ -29,7 +30,7 @@ export default function phoneInputFormComponent({
             // causes problems with the elements added to the DOM later. e.g. Repeater
             await new Promise((resolve) => setTimeout(resolve, 150));
 
-            this.options = getInputTelOptionsUsing(intlTelInput);
+            this.initOptions();
 
             this.applyGeoIpLookup();
 
@@ -42,44 +43,33 @@ export default function phoneInputFormComponent({
 
                 this.intlTelInput.setNumber(value);
 
-                setTimeout(() => {
-                    this.updateState();
-                }, 1);
+                this.$nextTick(() => {
+                    this.formatState();
+                });
             }
-
-            this.$nextTick(() => {
-                this.initialized = true;
-            });
 
             this.input.addEventListener("countrychange", () => {
                 let countryData = this.intlTelInput.getSelectedCountryData();
 
                 if (countryData.iso2) {
                     setCookie(
-                        this.intlTelInputSelectedCountryCookie,
+                        this.intlTelInputSelectedCountryCookieName,
                         countryData.iso2?.toUpperCase()
                     );
 
-                    this.updateState();
+                    this.formatState();
 
-                    if (this.initialized) {
-                        this.commitLiveState();
-                    }
+                    this.$nextTick(() => this.commitLiveState());
                 }
             });
 
-            this.input.addEventListener("change", (e) => {
-                this.updateState();
-            });
-
             this.input.addEventListener("input", (e) => {
-                this.commitLiveState(() => {
-                    this.updateState();
-                });
+                this.formatState();
+                this.commitLiveState();
             });
 
             this.input.addEventListener("blur", (e) => {
-                this.updateState();
+                this.formatState();
 
                 if (isLiveOnBlur) {
                     this.commitState();
@@ -91,28 +81,20 @@ export default function phoneInputFormComponent({
 
                 if (format !== false) {
                     this.input.value = this.intlTelInput.getNumber(
-                        window.intlTelInputUtils.numberFormat[format]
+                        intlTelInput.utils.numberFormat[format]
                     );
                 }
             });
+        },
 
-            this.$watch("state", (value) => {
-                this.$nextTick(() => {
-                    if (value !== null && value !== undefined) {
-                        this.intlTelInput.setNumber(value);
-                    } else {
-                        this.intlTelInput.setNumber("");
-
-                        this.updateCountryState(null);
-                    }
-
-                    if (value !== undefined) {
-                        this.updateState();
-                    } else {
-                        this.updateCountryState(null);
-                    }
-                });
-            });
+        initOptions() {
+            this.options = {
+                i18n: {
+                    ...(locales[locale] ?? {}),
+                    ...options.i18n,
+                },
+                ...options,
+            };
         },
 
         async commitLiveState(cbx = null) {
@@ -124,7 +106,7 @@ export default function phoneInputFormComponent({
                 }
 
                 const value = this.intlTelInput.getNumber(
-                    window.intlTelInputUtils.numberFormat["E164"]
+                    intlTelInput.utils.numberFormat.E164
                 );
 
                 const selectedCountry = this.intlTelInput
@@ -133,7 +115,7 @@ export default function phoneInputFormComponent({
 
                 if (
                     this.state !== value ||
-                    (this.country && this.country !== selectedCountry)
+                    (this.countryState && this.countryState !== selectedCountry)
                 ) {
                     return;
                 }
@@ -148,33 +130,38 @@ export default function phoneInputFormComponent({
             }
         },
 
-        updateState() {
-            const displayNumberFormat = this.options.displayNumberFormat || "E164";
+        formatState() {
+            const displayNumberFormat =
+                this.options.displayNumberFormat || "E164";
             const numberFormat = this.options.inputNumberFormat || "E164";
 
-            this.state = this.intlTelInput.getNumber(
-                window.intlTelInputUtils.numberFormat[numberFormat]
-            );
+            this.state =
+                this.intlTelInput.getNumber(
+                    intlTelInput.utils.numberFormat[numberFormat]
+                ) || null;
 
-            this.input.value = this.intlTelInput.getNumber(
-                window.intlTelInputUtils.numberFormat[displayNumberFormat]
-            );
-
-            this.updateCountryState();
+            if (this.options.formatAsYouType !== true) {
+                this.input.value =
+                    this.intlTelInput.getNumber(
+                        intlTelInput.utils.numberFormat[displayNumberFormat]
+                    ) || null;
+            }
         },
 
         updateCountryState(value = undefined) {
-            if (country !== undefined) {
-                if (value !== undefined) {
-                    this.country = value;
-
-                    return;
-                }
-
-                const countryData = this.intlTelInput.getSelectedCountryData();
-
-                this.country = countryData.iso2?.toUpperCase();
+            if (countryState === undefined) {
+                return;
             }
+
+            if (value !== undefined) {
+                this.countryState = value;
+
+                return;
+            }
+
+            const countryData = this.intlTelInput.getSelectedCountryData();
+
+            this.countryState = countryData.iso2?.toUpperCase();
         },
 
         commitState() {
@@ -194,7 +181,7 @@ export default function phoneInputFormComponent({
             }
 
             this.options.geoIpLookup = async function (success, failure) {
-                let country = getCookie(this.intlTelInputSelectedCountryCookie);
+                let country = getCookie(this.intlTelInputSelectedCountryCookieName);
 
                 if (country) {
                     success(country);
@@ -235,7 +222,7 @@ export default function phoneInputFormComponent({
                         this.$nextTick(() => {
                             success(country);
                             setCookie(
-                                this.intlTelInputSelectedCountryCookie,
+                                this.intlTelInputSelectedCountryCookieName,
                                 country
                             );
                         });

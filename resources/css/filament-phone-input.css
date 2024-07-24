@@ -1,17 +1,13 @@
 @import "intl-tel-input/build/css/intlTelInput.css";
 
+
 .iti {
+    --iti-path-flags-1x: url('/vendor/filament-phone-input/flags.webp');
+    --iti-path-flags-2x: url('/vendor/filament-phone-input/flags@2x.webp');
+    --iti-path-globe-1x: url('/vendor/filament-phone-input/globe.webp');
+    --iti-path-globe-2x: url('/vendor/filament-phone-input/globe@2x.webp');
+
     width: 100%;
-}
-
-.iti__flag {
-    background-image: url("/vendor/filament-phone-input/flags.png");
-}
-
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-    .iti__flag {
-        background-image: url("/vendor/filament-phone-input/flags@2x.png");
-    }
 }
 
 .fi-fo-phone-input .iti__country-list{
