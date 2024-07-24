@@ -17,7 +17,7 @@ class PhoneInputOnlyCountriesTest extends BrowserTestCase
         $this->phoneTest(
             fn (Browser $browser) => $browser
                 ->pause(300)
-                ->click('@phone-input.data.phone .iti__selected-flag')
+                ->click('@phone-input.data.phone .iti__selected-country')
                 ->pause(700)
                 ->with('@phone-input.data.phone .iti__country-list', function (Browser $browser) {
                     $browser->assertDataAttribute('.iti__country:nth-child(1)', 'country-code', 'az');
@@ -34,6 +34,6 @@ class PhoneInputOnlyCountriesResource extends FilamentPhoneInputUserResource
 {
     public static function getPhoneInput(): ?PhoneInput
     {
-        return parent::getPhoneInput()->onlyCountries(['tr', 'gb', 'us', 'az', 'ru'])->preferredCountries([]);
+        return parent::getPhoneInput()->onlyCountries(['tr', 'gb', 'us', 'az', 'ru']);
     }
 }

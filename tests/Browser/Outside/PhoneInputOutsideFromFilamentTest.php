@@ -33,9 +33,7 @@ class PhoneInputOutsideFromFilamentTest extends BrowserTestCase
             $browser->visit('/world')
                 ->waitForLivewireToLoad()
                 ->pause(250)
-                ->withIn('@phone-input.data.phone', function (Browser $browser) {
-                    $browser->assertScript('document.querySelector(".iti__flag-container").nodeName', 'DIV');
-                });
+                ->assertPresent('@phone-input.data.phone .iti__country-container');
         });
     }
 }
