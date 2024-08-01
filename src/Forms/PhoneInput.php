@@ -84,6 +84,8 @@ class PhoneInput extends Field implements HasAffixActions
 
     protected string | array $validatedCountry = [];
 
+    protected string | Closure | null $locale = null;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -558,6 +560,18 @@ class PhoneInput extends Field implements HasAffixActions
     public function getCookieName(): string
     {
         return $this->evaluate($this->cookieName);
+    }
+
+    public function locale(string | Closure $value): static
+    {
+        $this->locale = $value;
+
+        return $this;
+    }
+
+    public function getLocale(): string
+    {
+        return $this->evaluate($this->locale) ?? app()->getLocale();
     }
 
     public function customOptions(array | Closure $value): static

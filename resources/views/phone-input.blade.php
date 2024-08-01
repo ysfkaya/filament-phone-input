@@ -103,7 +103,7 @@
                         focusNumberFormat: @js($getFocusNumberFormat()),
                         ...@js($getCustomOptions()),
                     },
-                    locale: @js(app()->getLocale()),
+                    locale: @js($getLocale()),
                     intlTelInputSelectedCountryCookieName: @js($getCookieName()),
                     state: $wire.$entangle('{{ $statePath }}'),
                     statePath: @js($statePath),
