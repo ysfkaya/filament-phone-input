@@ -134,24 +134,19 @@ export default function phoneInputFormComponent({
                 this.$nextTick(() => {
                     this.formatState();
                 });
+
+                this.updateCountryState();
             }
         },
 
         formatState() {
-            const displayNumberFormat =
-                this.options.displayNumberFormat || "E164";
+            const displayNumberFormat = this.options.displayNumberFormat || "E164";
             const numberFormat = this.options.inputNumberFormat || "E164";
 
-            this.state =
-                this.intlTelInput.getNumber(
-                    intlTelInput.utils.numberFormat[numberFormat]
-                ) || null;
+            this.state = this.intlTelInput.getNumber(intlTelInput.utils.numberFormat[numberFormat]) || null;
 
             if (this.options.formatAsYouType !== true) {
-                this.input.value =
-                    this.intlTelInput.getNumber(
-                        intlTelInput.utils.numberFormat[displayNumberFormat]
-                    ) || null;
+                this.input.value = this.intlTelInput.getNumber(intlTelInput.utils.numberFormat[displayNumberFormat]) || null;
             }
         },
 
@@ -169,6 +164,8 @@ export default function phoneInputFormComponent({
             const countryData = this.intlTelInput.getSelectedCountryData();
 
             this.countryState = countryData.iso2?.toUpperCase();
+
+            window.duskCountryValue = this.countryState;
         },
 
         commitState() {

@@ -66,7 +66,7 @@
             dusk="phone-input.{{ $id }}"
             class="inline-flex w-full"
         >
-            <span
+            <div
                 class="w-full"
                 x-ignore
                 @if (FilamentView::hasSpaMode())
@@ -132,7 +132,7 @@
                             ], escape: false)
                     "
                 />
-            </span>
+            </div>
         </div>
     </x-filament::input.wrapper>
 </x-dynamic-component>
