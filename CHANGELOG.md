@@ -2,6 +2,22 @@
 
 All notable changes to `filament-phone-input` will be documented in this file
 
+## v3.0.0 - 2024-08-10
+
+### What's Changed
+
+* Upgraded latest version of `intl-tel-input`
+* Fixed path to `use PhoneInputNumberType;` by @snipe in https://github.com/ysfkaya/filament-phone-input/pull/43
+* Update README.md by @marcos-aparicio in https://github.com/ysfkaya/filament-phone-input/pull/44
+* Version 3 by @ysfkaya in https://github.com/ysfkaya/filament-phone-input/pull/45
+
+### New Contributors
+
+* @snipe made their first contribution in https://github.com/ysfkaya/filament-phone-input/pull/43
+* @marcos-aparicio made their first contribution in https://github.com/ysfkaya/filament-phone-input/pull/44
+
+**Full Changelog**: https://github.com/ysfkaya/filament-phone-input/compare/v2.3.6...v3.0.0
+
 ## v2.3.6 - 2024-05-24
 
 ### What's Changed
