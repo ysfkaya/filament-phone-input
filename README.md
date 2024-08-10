@@ -8,46 +8,132 @@
 <a href="https://packagist.org/packages/ysfkaya/filament-phone-input/stats" rel="nofollow"><img src="https://img.shields.io/packagist/dt/ysfkaya/filament-phone-input.svg?color=rgb(249%20115%2022)&style=for-the-badge" alt="Total Downloads" style="max-width: 100%;"></a>
 <a href="https://packagist.org/packages/ysfkaya/filament-phone-input" rel="nofollow"><img src="https://img.shields.io/packagist/v/ysfkaya/filament-phone-input?style=for-the-badge&logo=packagist&label=Version" style="max-width: 100%;"></a>
 <a target="_blank" rel="noopener noreferrer nofollow" href="https://filamentphp.com/"><img src="https://img.shields.io/badge/filament-3-rgb(235%2068%2050)?style=for-the-badge&amp;logo=laravel" alt="Filament Version" style="max-width: 100%;"></a>
-<a target="_blank" rel="noopener noreferrer nofollow" href="#"><img src="https://img.shields.io/badge/php-8.1-rgb(249%20115%2022)?style=for-the-badge&logo=php" alt="PHP Version" style="max-width: 100%;"></a>
+<a target="_blank" rel="noopener noreferrer nofollow" href="#"><img src="https://img.shields.io/badge/php-^8.1-rgb(249%20115%2022)?style=for-the-badge&logo=php" alt="PHP Version" style="max-width: 100%;"></a>
 </p>
 
 <h2 class="filament-hidden">Table of Contents</h2>
 
-<ul dir="auto" class="filament-hidden">
-    <li><a href="#introduction">Introduction</a></li>
-    <li><a href="#installation">Installation</a></li>
-    <li><a href="#quick-preview">Quick Preview</a>
-    <li><a href="#usage">Usage</a>
-    <ul dir="auto">
-    <li><a href="#separate-country-code">Separate Country Code</a></li>
-    <li><a href="#default-country">Default Country</a></li>
-    <li><a href="#validation">Validation</a></li>
-    <li><a href="#display-number-format">Display Number Format</a></li>
-    <li><a href="#input-number-format">Input Number Format</a></li>
-    <li><a href="#focus-input-type">Focus Input Type</a></li>
-    <li><a href="#disallow-dropdown">Disallow Dropdown</a></li>
-    <li><a href="#hide-flags">Hide Flags</a></li>
-    <li><a href="#show-fullscreen-popup">Show Fullscreen Popup</a></li>
-    <li><a href="#custom-container">Custom Container</a></li>
-    <li><a href="#exclude-countries">Exclude Countries</a></li>
-    <li><a href="#initial-country">Initial Country</a></li>
-    <li><a href="#only-countries">Only Countries</a></li>
-    <li><a href="#format-on-display">Format On Display</a></li>
-    <li><a href="#geo-ip-lookup">Geo Ip Lookup</a></li>
-    <li><a href="#placeholder-number-type">Placeholder Number Type</a></li>
-    <li><a href="#show-selected-dial-code">Show Selected Dial Code</a></li>
-    <li><a href="#country-search">Country Search</a></li>
-    <li><a href="#format-as-you-type">Format As You Type</a></li>
-    <li><a href="#using-the-phoneinput-outside-of-filament">Using the `PhoneInput` outside of Filament</a></li>
-    <li><a href="#more">More</a></li>
-    </ul>
-    </li>
-    <li><a href="#troubleshooting">Troubleshooting</a></li>
-    <li><a href="#upgrade-from-1x">Upgrade From 1.x</a></li>
-    <li><a href="#testing">Testing</a></li>
-    <li><a href="#changelog">Changelog</a></li>
-    <li><a href="#credits">Credits</a></li>
-    <li><a href="#license">License</a></li>
+<ul class="table-of-contents filament-hidden" dir="auto">
+<li>
+<a href="#introduction">Introduction</a>
+</li>
+<li>
+<a href="#installation">Installation</a>
+</li>
+<li>
+<a href="#quick-preview">Quick Preview</a>
+</li>
+<li>
+<a href="#usage">Usage</a>
+<ul>
+<li>
+<a href="#separate-country-code">Separate Country Code</a>
+</li>
+<li>
+<a href="#default-country">Default Country</a>
+</li>
+<li>
+<a href="#validation">Validation</a>
+</li>
+<li>
+<a href="#display-number-format">Display Number Format</a>
+</li>
+<li>
+<a href="#input-number-format">Input Number Format</a>
+</li>
+<li>
+<a href="#focus-input-type">Focus Input Type</a>
+</li>
+<li>
+<a href="#disallow-dropdown">Disallow Dropdown</a>
+</li>
+<li>
+<a href="#hide-flags">Hide Flags</a>
+</li>
+<li>
+<a href="#show-fullscreen-popup">Show Fullscreen Popup</a>
+</li>
+<li>
+<a href="#auto-placeholder">Auto Placeholder</a>
+</li>
+<li>
+<a href="#custom-container">Custom Container</a>
+</li>
+<li>
+<a href="#exclude-countries">Exclude Countries</a>
+</li>
+<li>
+<a href="#initial-country">Initial Country</a>
+</li>
+<li>
+<a href="#only-countries">Only Countries</a>
+</li>
+<li>
+<a href="#format-on-display">Format On Display</a>
+</li>
+<li>
+<a href="#geo-ip-lookup">Geo Ip Lookup</a>
+</li>
+<li>
+<a href="#placeholder-number-type">Placeholder Number Type</a>
+</li>
+<li>
+<a href="#country-order">Country Order</a>
+</li>
+<li>
+<a href="#country-search">Country Search</a>
+</li>
+<li>
+<a href="#strict-mode">Strict Mode</a>
+</li>
+<li>
+<a href="#cookie-name">Cookie Name</a>
+</li>
+<li>
+<a href="#locale">Locale</a>
+</li>
+<li>
+<a href="#i18n">i18n</a>
+</li>
+<li>
+<a href="#format-as-you-type">Format as You Type</a>
+</li>
+<li>
+<a href="#using-the-phoneinput-outside-of-filament">Using the PhoneInput outside of Filament</a>
+</li>
+<li>
+<a href="#more">More</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#troubleshooting">Troubleshooting</a>
+<ul>
+<li>
+<a href="#propaganistaslaravelphoneexceptionsnumberparseexception-error">Propaganistas\LaravelPhone\Exceptions\NumberParseException error</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#upgrade-from-2x">Upgrade From 2.x</a>
+<ul>
+<li>
+<a href="#deprecated">Deprecated</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#testing">Testing</a>
+</li>
+<li>
+<a href="#changelog">Changelog</a>
+</li>
+<li>
+<a href="#credits">Credits</a>
+</li>
+<li>
+<a href="#license">License</a>
+</li>
 </ul>
 
 ## Introduction
