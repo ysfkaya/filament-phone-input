@@ -70,6 +70,7 @@ composer require ysfkaya/filament-phone-input
 Publish the assets:
 
 ```bash
+php artisan filament:assets
 php artisan vendor:publish --tag=filament-phone-input-assets
 ```
 
@@ -593,6 +594,7 @@ You can find the more documentation for the intel tel input [here](https://intl-
 If you are upgrading from 2.x, you should publish the assets again.
 
 ```bash
+php artisan filament:assets
 php artisan vendor:publish --tag=filament-phone-input-assets
 ```
 
