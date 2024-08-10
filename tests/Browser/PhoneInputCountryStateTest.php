@@ -7,26 +7,28 @@ use Ysfkaya\FilamentPhoneInput\Forms\PhoneInput;
 use Ysfkaya\FilamentPhoneInput\Tests\BrowserTestCase;
 use Ysfkaya\FilamentPhoneInput\Tests\Fixtures\FilamentPhoneInputUserResource;
 
-class PhoneInputAutoInsertTest extends BrowserTestCase
+class PhoneInputCountryStateTest extends BrowserTestCase
 {
-    protected ?string $resource = PhoneInputAutoInsertResource::class;
+    protected ?string $resource = PhoneInputCountryStateResource::class;
 
     /** @test */
-    public function it_should_be_auto_insert_dial_code()
+    public function it_can_state_phone_country()
     {
         $this->phoneTest(
             fn (Browser $browser) => $browser
                 ->waitFor('@phone-input.data.phone')
                 ->pause(300)
-                ->assertValue('@phone-input.data.phone input.fi-input', '+90')
+                ->typeSlowly('@phone-input.data.phone input.fi-input', '5301111111')
+                ->pause(300)
+                ->assertScript('window.duskCountryValue', 'US')
         );
     }
 }
 
-class PhoneInputAutoInsertResource extends FilamentPhoneInputUserResource
+class PhoneInputCountryStateResource extends FilamentPhoneInputUserResource
 {
     public static function getPhoneInput(): ?PhoneInput
     {
-        return parent::getPhoneInput()->initialCountry('TR')->autoInsertDialCode()->nationalMode(false);
+        return parent::getPhoneInput()->countryStatePath('phone_country')->initialCountry('US');
     }
 }

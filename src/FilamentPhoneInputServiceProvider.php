@@ -5,7 +5,6 @@ namespace Ysfkaya\FilamentPhoneInput;
 use Filament\Support\Assets\AlpineComponent;
 use Filament\Support\Assets\Css;
 use Filament\Support\Facades\FilamentAsset;
-use Illuminate\Support\Facades\Route;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -28,14 +27,5 @@ class FilamentPhoneInputServiceProvider extends PackageServiceProvider
         $this->publishes([
             $this->package->basePath('/../images/vendor/intl-tel-input/build') => public_path("vendor/{$this->package->shortName()}"),
         ], "{$this->package->shortName()}-assets");
-
-        // These routes will be deprecated in the next major release.
-        Route::get('/vendor/filament-phone-input/flags.png', function () {
-            return response()->file(__DIR__ . '/../images/vendor/intl-tel-input/build/flags.png');
-        });
-
-        Route::get('/vendor/filament-phone-input/flags@2x.png', function () {
-            return response()->file(__DIR__ . '/../images/vendor/intl-tel-input/build/flags@2x.png');
-        });
     }
 }

@@ -9,6 +9,7 @@ use Filament\Forms\Components\Concerns\HasPlaceholder;
 use Filament\Forms\Components\Contracts\HasAffixActions;
 use Filament\Forms\Components\Field;
 use Filament\Pages\Page;
+use Filament\Support\RawJs;
 use Illuminate\Support\Facades\Http;
 use Propaganistas\LaravelPhone\Rules\Phone as PhoneRule;
 use Ysfkaya\FilamentPhoneInput\PhoneInputNumberType;
@@ -21,59 +22,69 @@ class PhoneInput extends Field implements HasAffixActions
 
     protected string $view = 'filament-phone-input::phone-input';
 
-    protected string $displayNumberFormat = 'NATIONAL';
+    protected string | Closure | PhoneInputNumberType $displayNumberFormat = PhoneInputNumberType::NATIONAL;
 
-    protected string $inputNumberFormat = 'E164';
+    protected string | Closure | PhoneInputNumberType $inputNumberFormat = PhoneInputNumberType::E164;
 
-    protected string | false $focusNumberFormat = false;
+    protected string | false | Closure | PhoneInputNumberType $focusNumberFormat = false;
 
-    protected bool $autoInsertDialCode = false;
+    protected string | Closure $placeholderNumberType = 'MOBILE';
 
-    protected bool $allowDropdown = true;
+    protected bool | Closure $allowDropdown = true;
 
-    protected string $autoPlaceholder = 'aggressive';
+    protected string | Closure $autoPlaceholder = 'polite';
 
-    protected bool $countrySearch = true;
+    protected bool | Closure $countrySearch = true;
 
-    protected bool $formatAsYouType = true;
+    protected bool | Closure $formatAsYouType = true;
 
-    protected string $customContainer = '';
+    protected string | null | Closure $dropdownContainer = null;
 
-    protected ?string $dropdownContainer = null;
+    protected array | Closure $excludeCountries = [];
 
-    protected array $excludeCountries = [];
+    protected bool | Closure $formatOnDisplay = true;
 
-    protected bool $formatOnDisplay = true;
+    protected string | Closure $initialCountry = 'auto';
 
-    protected string $initialCountry = 'auto';
+    protected string | Closure $containerClass = '';
 
-    protected array $i18n = [];
+    protected array | Closure $i18n = [];
 
-    protected bool $nationalMode = true;
+    protected bool | Closure $nationalMode = true;
 
-    protected array $onlyCountries = [];
+    protected bool | Closure $fixDropdownWidth = true;
 
-    protected string $placeholderNumberType = 'MOBILE';
+    protected array | Closure $onlyCountries = [];
 
-    protected array $preferredCountries = ['us', 'gb'];
+    protected array | null | Closure $countryOrder = null;
+
+    protected string | RawJs | Closure | null $customPlaceholder = null;
+
+    protected bool | Closure $showFlags = true;
+
+    protected bool | Closure $separateDialCode = false;
+
+    protected bool | Closure $useFullscreenPopup = false;
+
+    protected bool | Closure $isStrictMode = false;
+
+    protected array | Closure $customOptions = [];
+
+    protected string | Closure $cookieName = 'intlTelInputSelectedCountry';
 
     protected ?Closure $ipLookupCallback = null;
 
-    public bool $canPerformIpLookup = true;
+    protected bool | Closure $performIpLookup = true;
 
-    public string | array $validatedCountry = [];
+    protected string | Closure | null $countryStatePath = null;
 
-    public string | Closure | null $countryStatePath = null;
+    protected string | Closure | null $defaultCountry = null;
 
-    public bool $countryStatePathIsAbsolute = false;
+    protected bool $countryStatePathIsAbsolute = false;
 
-    public bool $showFlags = true;
+    protected string | array $validatedCountry = [];
 
-    public bool $showSelectedDialCode = false;
-
-    public bool $useFullscreenPopup = false;
-
-    public ?string $defaultCountry = null;
+    protected string | Closure | null $locale = null;
 
     protected function setUp(): void
     {
@@ -90,7 +101,7 @@ class PhoneInput extends Field implements HasAffixActions
                         return;
                     }
 
-                    if (! $component->canPerformIpLookup) {
+                    if (! $component->canPerformIpLookup()) {
                         return;
                     }
 
@@ -154,7 +165,7 @@ class PhoneInput extends Field implements HasAffixActions
 
     protected function phoneFormat($state, $country, $format)
     {
-        $country ??= $this->defaultCountry;
+        $country ??= $this->getDefaultCountry() ?? [];
 
         $instance = phone(number: $state, country: $country);
 
@@ -195,9 +206,15 @@ class PhoneInput extends Field implements HasAffixActions
         return $this;
     }
 
-    public function getCountryStatePath()
+    public function getCountryStatePath(): ?string
     {
-        return $this->generateRelativeStatePath($this->countryStatePath, $this->countryStatePathIsAbsolute);
+        if (! $this->hasCountryStatePath()) {
+            return null;
+        }
+
+        $path = $this->evaluate($this->countryStatePath);
+
+        return $this->generateRelativeStatePath($path, $this->countryStatePathIsAbsolute);
     }
 
     public function validateFor(string | array $country = 'AUTO', int | array | null $type = null, bool $lenient = false)
@@ -218,18 +235,16 @@ class PhoneInput extends Field implements HasAffixActions
      *
      * @return $this
      */
-    public function defaultCountry(string $value): static
+    public function defaultCountry(string | Closure $value): static
     {
         $this->defaultCountry = $value;
 
         return $this;
     }
 
-    public function disableIpLookUp(): static
+    public function getDefaultCountry(): ?string
     {
-        $this->canPerformIpLookup = false;
-
-        return $this;
+        return $this->evaluate($this->defaultCountry);
     }
 
     public function ipLookup(Closure $callback): static
@@ -244,14 +259,54 @@ class PhoneInput extends Field implements HasAffixActions
         return $this->evaluate($this->ipLookupCallback);
     }
 
-    public function displayNumberFormat(PhoneInputNumberType $format): static
+    public function disableLookup(): static
+    {
+        $this->performIpLookup = false;
+
+        return $this;
+    }
+
+    public function enableIpLookup(bool | Closure $value = true): static
+    {
+        $this->performIpLookup = $value;
+
+        return $this;
+    }
+
+    public function canPerformIpLookup(): bool
+    {
+        return $this->evaluate($this->performIpLookup);
+    }
+
+    public function inputNumberFormat(PhoneInputNumberType | Closure $format): static
+    {
+        $this->inputNumberFormat = $format->value;
+
+        return $this;
+    }
+
+    public function getInputNumberFormat(): string
+    {
+        $value = $this->evaluate($this->inputNumberFormat);
+
+        return $value instanceof PhoneInputNumberType ? $value->value : $value;
+    }
+
+    public function displayNumberFormat(PhoneInputNumberType | Closure $format): static
     {
         $this->displayNumberFormat = $format->value;
 
         return $this;
     }
 
-    public function focusNumberFormat(PhoneInputNumberType | false $format): static
+    public function getDisplayNumberFormat(): string
+    {
+        $value = $this->evaluate($this->displayNumberFormat);
+
+        return $value instanceof PhoneInputNumberType ? $value->value : $value;
+    }
+
+    public function focusNumberFormat(PhoneInputNumberType | false | Closure $format): static
     {
         if ($format !== false) {
             $format = $format->value;
@@ -262,44 +317,11 @@ class PhoneInput extends Field implements HasAffixActions
         return $this;
     }
 
-    public function inputNumberFormat(PhoneInputNumberType $format): static
+    public function getFocusNumberFormat(): string | false
     {
-        $this->inputNumberFormat = $format->value;
+        $value = $this->evaluate($this->focusNumberFormat);
 
-        return $this;
-    }
-
-    public function getInputNumberFormat(): string
-    {
-        return $this->inputNumberFormat;
-    }
-
-    public function autoInsertDialCode(bool $value = true): static
-    {
-        $this->autoInsertDialCode = $value;
-
-        return $this;
-    }
-
-    public function countrySearch(bool $value = true): static
-    {
-        $this->countrySearch = $value;
-
-        return $this;
-    }
-
-    public function formatAsYouType(bool $value = true): static
-    {
-        $this->formatAsYouType = $value;
-
-        return $this;
-    }
-
-    public function i18n(array $value): static
-    {
-        $this->i18n = $value;
-
-        return $this;
+        return $value instanceof PhoneInputNumberType ? $value->value : $value;
     }
 
     public function disallowDropdown(): static
@@ -309,171 +331,279 @@ class PhoneInput extends Field implements HasAffixActions
         return $this;
     }
 
-    public function autoPlaceholder(string $value): static
+    public function allowDropdown(bool | Closure $value = true): static
+    {
+        $this->allowDropdown = $value;
+
+        return $this;
+    }
+
+    public function isAllowDropdown(): bool
+    {
+        return $this->evaluate($this->allowDropdown);
+    }
+
+    public function autoPlaceholder(string | Closure $value): static
     {
         $this->autoPlaceholder = $value;
 
         return $this;
     }
 
-    public function customContainer(string $value): static
+    public function getAutoPlaceholder(): string
     {
-        $this->customContainer = $value;
+        return $this->evaluate($this->autoPlaceholder);
+    }
+
+    public function containerClass(string | Closure $value): static
+    {
+        $this->containerClass = $value;
 
         return $this;
     }
 
-    public function dropdownContainer(?string $value): static
+    public function getContainerClass(): string
+    {
+        return $this->evaluate($this->containerClass);
+    }
+
+    public function countryOrder(array | Closure | null $value): static
+    {
+        $this->countryOrder = $value;
+
+        return $this;
+    }
+
+    public function getCountryOrder(): ?array
+    {
+        return $this->evaluate($this->countryOrder);
+    }
+
+    public function countrySearch(bool | Closure $value = true): static
+    {
+        $this->countrySearch = $value;
+
+        return $this;
+    }
+
+    public function isCountrySearch(): bool
+    {
+        return $this->evaluate($this->countrySearch);
+    }
+
+    public function customPlaceholder(string | RawJs | Closure | null $value): static
+    {
+        $this->customPlaceholder = $value;
+
+        return $this;
+    }
+
+    public function getCustomPlaceholder(): ?RawJs
+    {
+        return $this->evaluate($this->customPlaceholder);
+    }
+
+    public function dropdownContainer(string | null | Closure $value): static
     {
         $this->dropdownContainer = $value;
 
         return $this;
     }
 
-    public function excludeCountries(array $value): static
+    public function getDropdownContainer(): ?string
+    {
+        return $this->evaluate($this->dropdownContainer);
+    }
+
+    public function excludeCountries(array | Closure $value): static
     {
         $this->excludeCountries = $value;
 
         return $this;
     }
 
-    public function formatOnDisplay(bool $value): static
+    public function getExcludeCountries(): array
+    {
+        return $this->evaluate($this->excludeCountries);
+    }
+
+    public function fixDropdownWidth(bool | Closure $value = true): static
+    {
+        $this->fixDropdownWidth = $value;
+
+        return $this;
+    }
+
+    public function isFixDropdownWidth(): bool
+    {
+        return $this->evaluate($this->fixDropdownWidth);
+    }
+
+    public function formatAsYouType(bool | Closure $value = true): static
+    {
+        $this->formatAsYouType = $value;
+
+        return $this;
+    }
+
+    public function isFormatAsYouType(): bool
+    {
+        return $this->evaluate($this->formatAsYouType);
+    }
+
+    public function formatOnDisplay(bool | Closure $value = true): static
     {
         $this->formatOnDisplay = $value;
 
         return $this;
     }
 
-    public function initialCountry(string $value): static
+    public function isFormatOnDisplay(): bool
     {
-        $this->initialCountry = strtolower($value);
+        return $this->evaluate($this->formatOnDisplay);
+    }
+
+    public function i18n(array | Closure $value): static
+    {
+        $this->i18n = $value;
 
         return $this;
     }
 
-    /**
-     * @deprecated Use `i18n` method instead
-     */
-    public function localizedCountries(array $value): static
+    public function getI18n(): array
     {
-        return $this->i18n($value);
+        return $this->evaluate($this->i18n);
     }
 
-    public function nationalMode(bool $value): static
+    public function initialCountry(string | Closure $value): static
+    {
+        $this->initialCountry = $value;
+
+        return $this;
+    }
+
+    public function getInitialCountry(): string
+    {
+        return $this->evaluate($this->initialCountry);
+    }
+
+    public function nationalMode(bool | Closure $value = true): static
     {
         $this->nationalMode = $value;
 
         return $this;
     }
 
-    public function onlyCountries(array $value): static
+    public function isNationalMode(): bool
+    {
+        return $this->evaluate($this->nationalMode);
+    }
+
+    public function onlyCountries(array | Closure $value): static
     {
         $this->onlyCountries = $value;
 
         return $this;
     }
 
-    /**
-     * Must be used in combination with `disallowDropdown`
-     */
-    public function showFlags(bool $value): static
+    public function getOnlyCountries(): array
     {
-        $this->showFlags = $value;
-
-        return $this;
+        return $this->evaluate($this->onlyCountries);
     }
 
-    public function showSelectedDialCode(bool $value = true): static
-    {
-        $this->showSelectedDialCode = $value;
-
-        return $this;
-    }
-
-    public function useFullscreenPopup(bool $value = true): static
-    {
-        $this->useFullscreenPopup = $value;
-
-        return $this;
-    }
-
-    public function placeholderNumberType(string $value): static
+    public function placeholderNumberType(string | Closure $value): static
     {
         $this->placeholderNumberType = $value;
 
         return $this;
     }
 
-    public function preferredCountries(array $value): static
+    public function getPlaceholderNumberType(): string
     {
-        $this->preferredCountries = $value;
+        return $this->evaluate($this->placeholderNumberType);
+    }
 
-        $this->countrySearch(false);
+    public function showFlags(bool | Closure $value = true): static
+    {
+        $this->showFlags = $value;
 
         return $this;
     }
 
-    /**
-     * @deprecated Use `showSelectedDialCode` method instead
-     */
-    public function separateDialCode(bool $value = true): static
+    public function isShowFlags(): bool
     {
-        return $this->showSelectedDialCode($value);
+        return $this->evaluate($this->showFlags);
     }
 
-    public function isRtl()
+    public function separateDialCode(bool | Closure $value = true): static
     {
-        $direction = __('filament::layout.direction') ?? 'ltr'; // @phpstan-ignore-line
+        $this->separateDialCode = $value;
 
-        return $direction === 'rtl';
+        return $this;
     }
 
-    public function getJsonPhoneInputConfiguration(): string
+    public function isSeparateDialCode(): bool
     {
-        return json_encode([
-            'allowDropdown' => $this->allowDropdown,
+        return $this->evaluate($this->separateDialCode);
+    }
 
-            'autoInsertDialCode' => $this->autoInsertDialCode,
+    public function useFullscreenPopup(bool | Closure $value = true): static
+    {
+        $this->useFullscreenPopup = $value;
 
-            'countrySearch' => $this->countrySearch,
+        return $this;
+    }
 
-            'formatAsYouType' => $this->formatAsYouType,
+    public function isUseFullscreenPopup(): bool
+    {
+        return $this->evaluate($this->useFullscreenPopup);
+    }
 
-            'showFlags' => $this->showFlags,
+    public function strictMode(bool | Closure $value = true): static
+    {
+        $this->isStrictMode = $value;
 
-            'useFullscreenPopup' => $this->useFullscreenPopup,
+        return $this;
+    }
 
-            'autoPlaceholder' => $this->autoPlaceholder,
+    public function isStrictMode(): bool
+    {
+        return $this->evaluate($this->isStrictMode);
+    }
 
-            'customContainer' => $this->customContainer,
+    public function cookieName(string | Closure $value): static
+    {
+        $this->cookieName = $value;
 
-            'dropdownContainer' => $this->dropdownContainer,
+        return $this;
+    }
 
-            'excludeCountries' => $this->excludeCountries,
+    public function getCookieName(): string
+    {
+        return $this->evaluate($this->cookieName);
+    }
 
-            'formatOnDisplay' => $this->formatOnDisplay,
+    public function locale(string | Closure $value): static
+    {
+        $this->locale = $value;
 
-            'performIpLookup' => $this->canPerformIpLookup,
+        return $this;
+    }
 
-            'initialCountry' => $this->initialCountry,
+    public function getLocale(): string
+    {
+        return $this->evaluate($this->locale) ?? app()->getLocale();
+    }
 
-            'i18n' => $this->i18n,
+    public function customOptions(array | Closure $value): static
+    {
+        $this->customOptions = $value;
 
-            'showSelectedDialCode' => $this->showSelectedDialCode,
+        return $this;
+    }
 
-            'nationalMode' => $this->nationalMode,
-
-            'onlyCountries' => $this->onlyCountries,
-
-            'placeholderNumberType' => $this->placeholderNumberType,
-
-            'preferredCountries' => $this->preferredCountries,
-
-            'displayNumberFormat' => $this->displayNumberFormat,
-
-            'focusNumberFormat' => $this->focusNumberFormat,
-
-            'inputNumberFormat' => $this->inputNumberFormat,
-        ]);
+    public function getCustomOptions(): array
+    {
+        return $this->evaluate($this->customOptions);
     }
 }

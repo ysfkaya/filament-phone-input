@@ -32,6 +32,7 @@ class BrowserTestCase extends Orchestra
         Browser::mixin(new DuskBrowserMacros);
 
         $this->artisan('filament:assets');
+        $this->artisan('vendor:publish', ['--tag' => 'filament-phone-input-assets']);
     }
 
     public function createApplication()

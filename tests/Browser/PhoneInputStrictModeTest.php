@@ -7,28 +7,27 @@ use Ysfkaya\FilamentPhoneInput\Forms\PhoneInput;
 use Ysfkaya\FilamentPhoneInput\Tests\BrowserTestCase;
 use Ysfkaya\FilamentPhoneInput\Tests\Fixtures\FilamentPhoneInputUserResource;
 
-class PhoneInputCountrySelectTest extends BrowserTestCase
+class PhoneInputStrictModeTest extends BrowserTestCase
 {
-    protected ?string $resource = PhoneInputCountrySelectResource::class;
+    protected ?string $resource = PhoneInputStrictModeResource::class;
 
     /** @test */
-    public function it_should_be_hidden_country_select_input()
+    public function it_should_be_not_allow_string()
     {
         $this->phoneTest(
             fn (Browser $browser) => $browser
                 ->waitFor('@phone-input.data.phone')
+                ->typeSlowly('@phone-input.data.phone input.fi-input', 'not allow string 5301111111')
                 ->pause(300)
-                ->click('@phone-input.data.phone .iti__selected-country')
-                ->pause(300)
-                ->assertMissing('.iti__search-input')
+                ->assertValue('@phone-input.data.phone input.fi-input', '(530) 111-1111')
         );
     }
 }
 
-class PhoneInputCountrySelectResource extends FilamentPhoneInputUserResource
+class PhoneInputStrictModeResource extends FilamentPhoneInputUserResource
 {
     public static function getPhoneInput(): ?PhoneInput
     {
-        return parent::getPhoneInput()->countrySearch(false);
+        return parent::getPhoneInput()->strictMode()->initialCountry('US');
     }
 }

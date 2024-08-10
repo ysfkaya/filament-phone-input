@@ -18,7 +18,7 @@ class PhoneInputHidesFlagsTest extends BrowserTestCase
             fn (Browser $browser) => $browser
                 ->waitFor('@phone-input.data.phone')
                 ->pause(500)
-                ->assertMissing('.iti__flag-container')
+                ->assertPresent('.iti__flag.iti__globe')
         );
     }
 }
@@ -27,6 +27,6 @@ class PhoneInputHidesFlagResource extends FilamentPhoneInputUserResource
 {
     public static function getPhoneInput(): ?PhoneInput
     {
-        return parent::getPhoneInput()->showFlags(false)->disallowDropdown();
+        return parent::getPhoneInput()->showFlags(false);
     }
 }

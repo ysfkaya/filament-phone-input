@@ -7,28 +7,26 @@ use Ysfkaya\FilamentPhoneInput\Forms\PhoneInput;
 use Ysfkaya\FilamentPhoneInput\Tests\BrowserTestCase;
 use Ysfkaya\FilamentPhoneInput\Tests\Fixtures\FilamentPhoneInputUserResource;
 
-class PhoneInputCountrySelectTest extends BrowserTestCase
+class PhoneInputSeparateDialCodeTest extends BrowserTestCase
 {
-    protected ?string $resource = PhoneInputCountrySelectResource::class;
+    protected ?string $resource = PhoneInputSeparateDialCode::class;
 
     /** @test */
-    public function it_should_be_hidden_country_select_input()
+    public function it_should_be_separate_dial_code()
     {
         $this->phoneTest(
             fn (Browser $browser) => $browser
                 ->waitFor('@phone-input.data.phone')
                 ->pause(300)
-                ->click('@phone-input.data.phone .iti__selected-country')
-                ->pause(300)
-                ->assertMissing('.iti__search-input')
+                ->assertSeeIn('@phone-input.data.phone .iti__selected-dial-code', '+90')
         );
     }
 }
 
-class PhoneInputCountrySelectResource extends FilamentPhoneInputUserResource
+class PhoneInputSeparateDialCode extends FilamentPhoneInputUserResource
 {
     public static function getPhoneInput(): ?PhoneInput
     {
-        return parent::getPhoneInput()->countrySearch(false);
+        return parent::getPhoneInput()->initialCountry('TR')->separateDialCode()->nationalMode(false);
     }
 }

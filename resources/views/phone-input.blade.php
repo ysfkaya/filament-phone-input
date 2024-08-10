@@ -56,7 +56,6 @@
             \Filament\Support\prepare_inherited_attributes($getExtraAttributeBag())
                 ->class([
                     'fi-fo-phone-input',
-                    'rtl' => $isRtl(),
                 ])
         "
         x-data="{}"
@@ -67,7 +66,7 @@
             dusk="phone-input.{{ $id }}"
             class="inline-flex w-full"
         >
-            <span
+            <div
                 class="w-full"
                 x-ignore
                 @if (FilamentView::hasSpaMode())
@@ -77,7 +76,35 @@
                 @endif
                 ax-load-src="{{ \Filament\Support\Facades\FilamentAsset::getAlpineComponentSrc('filament-phone-input', package: 'ysfkaya/filament-phone-input') }}"
                 x-data="phoneInputFormComponent({
-                    getInputTelOptionsUsing: (intlTelInput) => ({{ $getJsonPhoneInputConfiguration() }}),
+                    options: {
+                        allowDropdown: @js($isAllowDropdown()),
+                        autoPlaceholder: @js($getAutoPlaceholder()),
+                        containerClass: @js($getContainerClass()),
+                        countryOrder: @js($getCountryOrder()),
+                        countrySearch: @js($isCountrySearch()),
+                        customPlaceholder: @js($getCustomPlaceholder()),
+                        dropdownContainer: @js($getDropdownContainer()),
+                        excludeCountries: @js($getExcludeCountries()),
+                        fixDropdownWidth: @js($isFixDropdownWidth()),
+                        formatAsYouType: @js($isFormatAsYouType()),
+                        formatOnDisplay: @js($isFormatOnDisplay()),
+                        performIpLookup: @js($canPerformIpLookup()),
+                        i18n: @js($getI18n()),
+                        initialCountry: @js($getInitialCountry()),
+                        nationalMode: @js($isNationalMode()),
+                        onlyCountries: @js($getOnlyCountries()),
+                        placeholderNumberType: @js($getPlaceholderNumberType()),
+                        showFlags: @js($isShowFlags()),
+                        separateDialCode: @js($isSeparateDialCode()),
+                        strictMode: @js($isStrictMode()),
+                        useFullscreenPopup: @js($isUseFullscreenPopup()),
+                        displayNumberFormat: @js($getDisplayNumberFormat()),
+                        inputNumberFormat: @js($getInputNumberFormat()),
+                        focusNumberFormat: @js($getFocusNumberFormat()),
+                        ...@js($getCustomOptions()),
+                    },
+                    locale: @js($getLocale()),
+                    intlTelInputSelectedCountryCookieName: @js($getCookieName()),
                     state: $wire.$entangle('{{ $statePath }}'),
                     statePath: @js($statePath),
                     isLive: @js($isLive),
@@ -85,7 +112,7 @@
                     isLiveOnBlur: @js($isLiveOnBlur),
                     liveDebounce: @js($liveDebounce),
                     @if ($hasCountryStatePath() && $countryStatePath = $getCountryStatePath())
-                        country: $wire.$entangle('{{ $countryStatePath }}'),
+                        countryState: $wire.$entangle('{{ $countryStatePath }}'),
                     @endif
                 })"
             >
@@ -102,11 +129,10 @@
                                 'placeholder' => $getPlaceholder(),
                                 'required' => $isRequired() && (! $isConcealed),
                                 'type' => 'tel',
-                                'x-model' . ($isLiveDebounced ? '.debounce.' . $liveDebounce : null) => 'state',
                             ], escape: false)
                     "
                 />
-            </span>
+            </div>
         </div>
     </x-filament::input.wrapper>
 </x-dynamic-component>
