@@ -9,7 +9,7 @@ This package provides a phone input component for [Laravel Filament](https://fil
 You can install the package via composer:
 
 ```bash
-composer require ysfkaya/filament-phone-input
+composer require ysfkaya/filament-phone-input:^1.0
 ```
 
 ## Usage
