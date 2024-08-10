@@ -165,7 +165,7 @@ class PhoneInput extends Field implements HasAffixActions
 
     protected function phoneFormat($state, $country, $format)
     {
-        $country ??= $this->getDefaultCountry();
+        $country ??= $this->getDefaultCountry() ?? [];
 
         $instance = phone(number: $state, country: $country);
 
@@ -242,7 +242,7 @@ class PhoneInput extends Field implements HasAffixActions
         return $this;
     }
 
-    public function getDefaultCountry(): string
+    public function getDefaultCountry(): ?string
     {
         return $this->evaluate($this->defaultCountry);
     }
