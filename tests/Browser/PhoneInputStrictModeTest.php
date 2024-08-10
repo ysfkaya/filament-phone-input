@@ -19,7 +19,7 @@ class PhoneInputStrictModeTest extends BrowserTestCase
                 ->waitFor('@phone-input.data.phone')
                 ->typeSlowly('@phone-input.data.phone input.fi-input', 'not allow string 5301111111')
                 ->pause(300)
-                ->assertValue('@phone-input.data.phone input.fi-input', '0530 111 11 11')
+                ->assertValue('@phone-input.data.phone input.fi-input', '(530) 111-1111')
         );
     }
 }
@@ -28,6 +28,6 @@ class PhoneInputStrictModeResource extends FilamentPhoneInputUserResource
 {
     public static function getPhoneInput(): ?PhoneInput
     {
-        return parent::getPhoneInput()->strictMode()->defaultCountry('TR');
+        return parent::getPhoneInput()->strictMode()->initialCountry('US');
     }
 }

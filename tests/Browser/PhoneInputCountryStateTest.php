@@ -20,7 +20,7 @@ class PhoneInputCountryStateTest extends BrowserTestCase
                 ->pause(300)
                 ->typeSlowly('@phone-input.data.phone input.fi-input', '5301111111')
                 ->pause(300)
-                ->assertScript('window.duskCountryValue', 'TR')
+                ->assertScript('window.duskCountryValue', 'US')
         );
     }
 }
@@ -29,6 +29,6 @@ class PhoneInputCountryStateResource extends FilamentPhoneInputUserResource
 {
     public static function getPhoneInput(): ?PhoneInput
     {
-        return parent::getPhoneInput()->countryStatePath('phone_country')->defaultCountry('TR');
+        return parent::getPhoneInput()->countryStatePath('phone_country')->initialCountry('US');
     }
 }
