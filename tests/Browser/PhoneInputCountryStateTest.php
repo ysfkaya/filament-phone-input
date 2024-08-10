@@ -29,6 +29,6 @@ class PhoneInputCountryStateResource extends FilamentPhoneInputUserResource
 {
     public static function getPhoneInput(): ?PhoneInput
     {
-        return parent::getPhoneInput()->countryStatePath('phone_country');
+        return parent::getPhoneInput()->countryStatePath('phone_country')->defaultCountry('TR');
     }
 }

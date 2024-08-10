@@ -28,6 +28,6 @@ class PhoneInputStrictModeResource extends FilamentPhoneInputUserResource
 {
     public static function getPhoneInput(): ?PhoneInput
     {
-        return parent::getPhoneInput()->strictMode();
+        return parent::getPhoneInput()->strictMode()->defaultCountry('TR');
     }
 }
