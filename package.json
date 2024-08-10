@@ -8,7 +8,7 @@
     },
     "type": "module",
     "dependencies": {
-        "intl-tel-input": "^23.6.1"
+        "intl-tel-input": "^23.8.1"
     },
     "devDependencies": {
         "@tailwindcss/forms": "^0.5.4",

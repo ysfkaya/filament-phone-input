@@ -16,6 +16,7 @@
 <ul dir="auto" class="filament-hidden">
     <li><a href="#introduction">Introduction</a></li>
     <li><a href="#installation">Installation</a></li>
+    <li><a href="#quick-preview">Quick Preview</a>
     <li><a href="#usage">Usage</a>
     <ul dir="auto">
     <li><a href="#separate-country-code">Separate Country Code</a></li>
@@ -35,7 +36,6 @@
     <li><a href="#geo-ip-lookup">Geo Ip Lookup</a></li>
     <li><a href="#placeholder-number-type">Placeholder Number Type</a></li>
     <li><a href="#show-selected-dial-code">Show Selected Dial Code</a></li>
-    <li><a href="#auto-insert-dial-code">Auto Insert Dial Code</a></li>
     <li><a href="#country-search">Country Search</a></li>
     <li><a href="#format-as-you-type">Format As You Type</a></li>
     <li><a href="#using-the-phoneinput-outside-of-filament">Using the `PhoneInput` outside of Filament</a></li>
@@ -65,6 +65,51 @@ You can install the package via composer:
 
 ```bash
 composer require ysfkaya/filament-phone-input
+```
+
+Publish the assets:
+
+```bash
+php artisan vendor:publish --tag=filament-phone-input-assets
+```
+
+## Quick Preview
+
+```php
+    PhoneInput::make(string $name)
+        ->countryStatePath(string | Closure $statePath, bool $isStatePathAbsolute)
+        ->validateFor(string | array $country = 'AUTO', int | array | null $type = null, bool $lenient = false)
+        ->defaultCountry(string $value)
+        ->ipLookup(Closure $callback)
+        ->disableIpLookup()
+        ->enableIpLookup(bool | Closure $value = true)
+        ->inputNumberFormat(PhoneInputNumberType | Closure $format)
+        ->displayNumberFormat(PhoneInputNumberType | Closure $format)
+        ->focusNumberFormat(PhoneInputNumberType | Closure $format)
+        ->placeholderNumberType(PhoneInputNumberType | Closure $format)
+        ->disallowDropdown()
+        ->allowDropdown(bool | Closure $value = true)
+        ->autoPlaceholder(string $value = 'polite')
+        ->containerClass(string | Closure $value)
+        ->countryOrder(array | Closure | null $value)
+        ->countrySearch(bool | Closure $value = true)
+        ->customPlaceholder(string | RawJs | Closure | null $value)
+        ->dropdownContainer(string | null | Closure $value)
+        ->excludeCountries(array | Closure $value)
+        ->fixDropdownWidth(bool | Closure $value = true)
+        ->formatAsYouType(bool | Closure $value = true)
+        ->formatOnDisplay(bool | Closure $value = true)
+        ->i18n(array | Closure $value)
+        ->initialCountry(string | Closure $value)
+        ->nationalMode(bool | Closure $value = true)
+        ->onlyCountries(array | Closure $value)
+        ->showFlags(bool | Closure $value = true)
+        ->separateDialCode(bool | Closure $value = true)
+        ->useFullscreenPopup(bool | Closure $value = true)
+        ->strictMode(bool | Closure $value = true)
+        ->cookieName(string | Closure $value)
+        ->locale(string | Closure $value)
+        ->customOptions(array | Closure $value)
 ```
 
 ## Usage
@@ -276,7 +321,7 @@ You may set the auto placeholder type by using the `autoPlaceholder` method:
 
 ```php
 PhoneInput::make('phone')
-    ->autoPlaceholder('polite'), // default is 'aggressive'
+    ->autoPlaceholder('aggressive'), // default is 'polite'
 ```
 
 #### Custom Container
@@ -365,45 +410,16 @@ PhoneInput::make('phone')
     ->placeholderNumberType('FIXED_LINE'),
 ```
 
-#### Preferred Countries
+#### Country Order
 
 ---
 
-You may set the preferred countries by using the `preferredCountries` method:
+You may set the country order by using the `countryOrder` method:
 
 ```php
 PhoneInput::make('phone')
-    ->preferredCountries(['tr','us', 'gb']),
+    ->countryOrder(['us', 'gb', 'tr']),
 ```
-
-> [!CAUTION]
-> This method will also disable the country search option. `countrySearch(false)`
-
-
-#### Show Selected Dial Code
-
----
-
-You may want to show selected country dial code by using the `showSelectedDialCode` method:
-
-```php
-PhoneInput::make('phone')
-    ->showSelectedDialCode(true),
-```
-
-#### Auto Insert Dial Code
-
----
-
-You may want to insert the dial code of selected country by using `autoInsertDialCode` method:
-
-```php
-PhoneInput::make('phone')
-    ->autoInsertDialCode(true),
-```
-
-> [!CAUTION]
-> You have to disable the `nationalMode` option to use this feature. See the [intl-tel-input](https://github.com/jackocnr/intl-tel-input#autoInsertDialCode) documentation for more information.
 
 #### Country Search
 
@@ -414,6 +430,39 @@ By default, the country search mode is set to active. You can disable it by usin
 ```php
 PhoneInput::make('phone')
     ->countrySearch(false),
+```
+
+#### Strict Mode
+
+---
+
+As the user types in the input, ignore any irrelevant characters. You can find more information about the strict mode in the [intl-tel-input](https://github.com/jackocnr/intl-tel-input#strictmode) documentation.
+
+```php
+PhoneInput::make('phone')
+    ->strictMode(),
+```
+
+#### Cookie Name
+
+---
+
+When use the ip lookup feature, the package stores the country code in the cookie. The default cookie name is `intlTelInputSelectedCountry`. You can change it by using the `cookieName` method:
+
+```php
+PhoneInput::make('phone')
+    ->cookieName('myCookieName'),
+```
+
+#### Locale
+
+---
+
+Default locale is coming from the `app()->getLocale()`. You can change it by using the `locale` method:
+
+```php
+PhoneInput::make('phone')
+    ->locale('en'),
 ```
 
 #### i18n
@@ -470,7 +519,7 @@ class Component extends Livewire implements HasForms
 {
     use InteractsWithForms;
 
-    public $data;
+    public array $data = [];
 
     public function mount()
     {
@@ -535,32 +584,27 @@ You can find the more documentation for the intel tel input [here](https://intl-
 
 ## Troubleshooting
 
-#### `Propaganistas\LaravelPhone\Exceptions\NumberParseException` error
+### `Propaganistas\LaravelPhone\Exceptions\NumberParseException` error
 
 - Make sure you have set the [default country](#default-country). If you still receive this error, you can open an issue detailing what you did.
 
-## Upgrade From 1.x
+## Upgrade From 2.x
 
-If you are upgrading from 1.x, you should publish the assets again.
+If you are upgrading from 2.x, you should publish the assets again.
 
 ```bash
-php artisan filament:assets
+php artisan vendor:publish --tag=filament-phone-input-assets
 ```
 
-#### Namespace
-
-```diff
-- use Ysfkaya\FilamentPhoneInput\PhoneInput;
-+ use Ysfkaya\FilamentPhoneInput\Forms\PhoneInput;
-```
-
-#### Deprecated
+### Deprecated
 
 <!-- Diff -->
 
 ```diff
-- protected ?string $customPlaceholder = null;
-- public function customPlaceholder(?string $value)
+- public function autoInsertDialCode()
+- public function localizedCountries()
+- public function showSelectedDialCode()
+- public function preferredCountries()
 ```
 
 <a name="testing"></a>
@@ -590,10 +634,11 @@ Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recen
 ## Credits
 
 -   [Yusuf Kaya](https://github.com/ysfkaya)
--   [All Contributors](../../contributors)
+-   [All Contributors](https://github.com/ysfkaya/filament-phone-input/graphs/contributors)
 
 <a name="license"></a>
 
 ## License
 
-The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
+The MIT License (MIT). Please see [License File](https://github.com/ysfkaya/filament-phone-input/blob/main/LICENCE.md) for more information.
+```

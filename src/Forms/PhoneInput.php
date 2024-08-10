@@ -165,7 +165,7 @@ class PhoneInput extends Field implements HasAffixActions
 
     protected function phoneFormat($state, $country, $format)
     {
-        $country ??= $this->defaultCountry;
+        $country ??= $this->getDefaultCountry();
 
         $instance = phone(number: $state, country: $country);
 
@@ -212,7 +212,9 @@ class PhoneInput extends Field implements HasAffixActions
             return null;
         }
 
-        return $this->generateRelativeStatePath($this->countryStatePath, $this->countryStatePathIsAbsolute);
+        $path = $this->evaluate($this->countryStatePath);
+
+        return $this->generateRelativeStatePath($path, $this->countryStatePathIsAbsolute);
     }
 
     public function validateFor(string | array $country = 'AUTO', int | array | null $type = null, bool $lenient = false)
@@ -233,11 +235,16 @@ class PhoneInput extends Field implements HasAffixActions
      *
      * @return $this
      */
-    public function defaultCountry(string $value): static
+    public function defaultCountry(string | Closure $value): static
     {
         $this->defaultCountry = $value;
 
         return $this;
+    }
+
+    public function getDefaultCountry(): string
+    {
+        return $this->evaluate($this->defaultCountry);
     }
 
     public function ipLookup(Closure $callback): static
@@ -250,6 +257,13 @@ class PhoneInput extends Field implements HasAffixActions
     public function performIpLookup()
     {
         return $this->evaluate($this->ipLookupCallback);
+    }
+
+    public function disableLookup(): static
+    {
+        $this->performIpLookup = false;
+
+        return $this;
     }
 
     public function enableIpLookup(bool | Closure $value = true): static
@@ -308,6 +322,13 @@ class PhoneInput extends Field implements HasAffixActions
         $value = $this->evaluate($this->focusNumberFormat);
 
         return $value instanceof PhoneInputNumberType ? $value->value : $value;
+    }
+
+    public function disallowDropdown(): static
+    {
+        $this->allowDropdown = false;
+
+        return $this;
     }
 
     public function allowDropdown(bool | Closure $value = true): static
