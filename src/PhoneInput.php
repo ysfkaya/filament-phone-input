@@ -9,9 +9,9 @@ use Filament\Forms\Components\Field;
 
 class PhoneInput extends Field
 {
-    use HasPlaceholder,
-        HasAffixes,
-        HasExtraInputAttributes;
+    use HasAffixes,
+        HasExtraInputAttributes,
+        HasPlaceholder;
 
     protected string $view = 'filament-phone-input::phone-input';
 
