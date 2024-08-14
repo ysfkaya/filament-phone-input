@@ -2,6 +2,18 @@
 
 All notable changes to `filament-phone-input` will be documented in this file
 
+## v3.0.1 - 2024-08-14
+
+### What's Changed
+
+* fix async alpine not loading reliably in spa mode by @smiliyas in https://github.com/ysfkaya/filament-phone-input/pull/47
+
+### New Contributors
+
+* @smiliyas made their first contribution in https://github.com/ysfkaya/filament-phone-input/pull/47
+
+**Full Changelog**: https://github.com/ysfkaya/filament-phone-input/compare/v3.0.0...v3.0.1
+
 ## v3.0.0 - 2024-08-10
 
 ### What's Changed
