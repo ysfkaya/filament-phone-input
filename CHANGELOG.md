@@ -2,6 +2,22 @@
 
 All notable changes to `filament-phone-input` will be documented in this file
 
+## v2.3.7 - 2024-08-14
+
+### What's Changed
+
+* Fixed path to `use PhoneInputNumberType;` by @snipe in https://github.com/ysfkaya/filament-phone-input/pull/43
+* Update README.md by @marcos-aparicio in https://github.com/ysfkaya/filament-phone-input/pull/44
+* fix async alpine not loading reliably in spa mode by @smiliyas in https://github.com/ysfkaya/filament-phone-input/pull/47
+
+### New Contributors
+
+* @snipe made their first contribution in https://github.com/ysfkaya/filament-phone-input/pull/43
+* @marcos-aparicio made their first contribution in https://github.com/ysfkaya/filament-phone-input/pull/44
+* @smiliyas made their first contribution in https://github.com/ysfkaya/filament-phone-input/pull/47
+
+**Full Changelog**: https://github.com/ysfkaya/filament-phone-input/compare/v2.3.6...v2.3.7
+
 ## v3.0.1 - 2024-08-14
 
 ### What's Changed
