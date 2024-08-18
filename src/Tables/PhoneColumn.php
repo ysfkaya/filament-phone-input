@@ -46,13 +46,13 @@ class PhoneColumn extends TextColumn
 
                 $format = $format->toLibPhoneNumberFormat();
 
-                if ($format === PhoneNumberFormat::RFC3966) {
-                    $formatted = phone(
-                        number: $state,
-                        country: $country,
-                        format: $format
-                    );
+                $formatted = phone(
+                    number: $state,
+                    country: $country,
+                    format: $format
+                );
 
+                if ($format === PhoneNumberFormat::RFC3966) {
                     $national = phone(
                         number: $state,
                         country: $country,
@@ -60,19 +60,22 @@ class PhoneColumn extends TextColumn
                     );
 
                     $html = <<<HTML
-                        <a href="$formatted">
+                        <a href="$formatted" dir="ltr">
                             $national
                         </a>
                     HTML;
 
-                    return new HtmlString($html);
+
+                } else {
+                    $html = <<<HTML
+                        <span dir="ltr">
+                            $formatted
+                        </span>
+                    HTML;
                 }
 
-                return phone(
-                    number: $state,
-                    country: $country,
-                    format: $format
-                );
+
+                return new HtmlString($html);
             } catch (NumberParseException $e) {
                 return $state;
             }
