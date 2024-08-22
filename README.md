@@ -681,7 +681,7 @@ If you are upgrading from 2.x, you should publish the assets again.
 
 ```bash
 php artisan filament:assets
-php artisan vendor:publish --tag=filament-phone-input-assets
+php artisan filament-phone-input:install
 ```
 
 ### Deprecated
