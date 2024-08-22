@@ -65,7 +65,6 @@ class PhoneColumn extends TextColumn
                         </a>
                     HTML;
 
-
                 } else {
                     $html = <<<HTML
                         <span dir="ltr">
@@ -73,7 +72,6 @@ class PhoneColumn extends TextColumn
                         </span>
                     HTML;
                 }
-
 
                 return new HtmlString($html);
             } catch (NumberParseException $e) {
