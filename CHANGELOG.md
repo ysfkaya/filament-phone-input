@@ -2,6 +2,18 @@
 
 All notable changes to `filament-phone-input` will be documented in this file
 
+## v3.0.2 - 2024-08-22
+
+### What's Changed
+
+* Fix RTL Phone Number Display by @emargareten in https://github.com/ysfkaya/filament-phone-input/pull/48
+
+### New Contributors
+
+* @emargareten made their first contribution in https://github.com/ysfkaya/filament-phone-input/pull/48
+
+**Full Changelog**: https://github.com/ysfkaya/filament-phone-input/compare/v3.0.1...v3.0.2
+
 ## v2.3.7 - 2024-08-14
 
 ### What's Changed
