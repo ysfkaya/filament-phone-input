@@ -5,6 +5,7 @@ namespace Ysfkaya\FilamentPhoneInput;
 use Filament\Support\Assets\AlpineComponent;
 use Filament\Support\Assets\Css;
 use Filament\Support\Facades\FilamentAsset;
+use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -14,7 +15,11 @@ class FilamentPhoneInputServiceProvider extends PackageServiceProvider
     {
         $package
             ->name('filament-phone-input')
-            ->hasViews();
+            ->hasViews()
+            ->hasInstallCommand(function (InstallCommand $command) {
+                $command->publishAssets();
+                $command->askToStarRepoOnGitHub('ysfkaya/filament-phone-input');
+            });
     }
 
     public function packageBooted(): void

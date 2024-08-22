@@ -157,7 +157,7 @@ Publish the assets:
 
 ```bash
 php artisan filament:assets
-php artisan vendor:publish --tag=filament-phone-input-assets
+php artisan filament-phone-input:install
 ```
 
 ## Quick Preview
