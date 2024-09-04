@@ -84,11 +84,11 @@ export default function phoneInputFormComponent({
 
         initOptions() {
             this.options = {
+                ...options,
                 i18n: {
                     ...(locales[locale] ?? {}),
                     ...options.i18n,
                 },
-                ...options,
             };
         },
 
