@@ -80,6 +80,14 @@ export default function phoneInputFormComponent({
             this.$watch("state", (value) => {
                 this.initState(value);
             });
+
+            document.addEventListener("phoneInput:isDisabled", (event) => {
+                if (event.detail.statePath !== this.statePath) {
+                    return;
+                }
+
+                this.$refs.input.disabled = event.detail.isDisabled;
+            });
         },
 
         initOptions() {
@@ -125,7 +133,7 @@ export default function phoneInputFormComponent({
             }
         },
 
-        initState(value){
+        initState(value) {
             if (value) {
                 value = value?.valueOf();
 
@@ -140,13 +148,20 @@ export default function phoneInputFormComponent({
         },
 
         formatState() {
-            const displayNumberFormat = this.options.displayNumberFormat || "E164";
+            const displayNumberFormat =
+                this.options.displayNumberFormat || "E164";
             const numberFormat = this.options.inputNumberFormat || "E164";
 
-            this.state = this.intlTelInput.getNumber(intlTelInput.utils.numberFormat[numberFormat]) || null;
+            this.state =
+                this.intlTelInput.getNumber(
+                    intlTelInput.utils.numberFormat[numberFormat]
+                ) || null;
 
             if (this.options.formatAsYouType !== true) {
-                this.input.value = this.intlTelInput.getNumber(intlTelInput.utils.numberFormat[displayNumberFormat]) || null;
+                this.input.value =
+                    this.intlTelInput.getNumber(
+                        intlTelInput.utils.numberFormat[displayNumberFormat]
+                    ) || null;
             }
         },
 

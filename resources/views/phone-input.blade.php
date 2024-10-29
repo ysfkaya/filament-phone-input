@@ -58,13 +58,20 @@
                     'fi-fo-phone-input',
                 ])
         "
-        x-data="{}"
+        x-data="{
+            isDisabled: {{ $isDisabled ? 'true' : 'false' }},
+            init(){
+                $nextTick(() => {
+                    $dispatch('phoneInput:isDisabled', { statePath: '{{ $statePath }}', isDisabled: this.isDisabled });
+                });
+            }
+        }"
         x-load-css="[{{ $compiledCssUrl }}]"
     >
         <div
-            wire:ignore
             dusk="phone-input.{{ $id }}"
             class="inline-flex w-full"
+            wire:ignore
         >
             <div
                 class="w-full"
@@ -121,9 +128,9 @@
                     :attributes="
                         \Filament\Support\prepare_inherited_attributes($getExtraInputAttributeBag())
                             ->merge([
+                                'id' => $id,
                                 'autofocus' => $isAutofocused(),
                                 'disabled' => $isDisabled,
-                                'id' => $id,
                                 'inlinePrefix' => $isPrefixInline && (count($prefixActions) || $prefixIcon || filled($prefixLabel)),
                                 'inlineSuffix' => $isSuffixInline && (count($suffixActions) || $suffixIcon || filled($suffixLabel)),
                                 'placeholder' => $getPlaceholder(),
