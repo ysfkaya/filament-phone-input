@@ -2,6 +2,15 @@
 
 All notable changes to `filament-phone-input` will be documented in this file
 
+## 3.1.1 - 2024-10-29
+
+### What's Changed
+
+- Fixed an issue regarding whether the input in the reactive state is disabled or not
+- Bump intl-tel-input version to `24.6.0`
+
+**Full Changelog**: https://github.com/ysfkaya/filament-phone-input/compare/v3.1.0...v3.1.1
+
 ## 3.1.0 - 2024-09-04
 
 ### What's Changed
@@ -13,6 +22,7 @@ The flag images have been updated in the latest version of the `intl-tel-input` 
 
 ```bash
 php artisan vendor:publish --tag="filament-phone-input-assets" --force
+
 
 ```
 Otherwise the flag images may not be reflected correctly.
