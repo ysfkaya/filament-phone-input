@@ -87,6 +87,22 @@ export default function phoneInputFormComponent({
                 }
 
                 this.$refs.input.disabled = event.detail.isDisabled;
+
+                const itiContainer = this.$refs.input.closest(".iti");
+
+                itiContainer.querySelector(
+                    "button.iti__selected-country"
+                ).disabled = event.detail.isDisabled;
+
+                if (event.detail.isDisabled) {
+                    itiContainer.querySelector(
+                        "button.iti__selected-country"
+                    ).tabIndex = -1;
+                } else {
+                    itiContainer
+                        .querySelector("button.iti__selected-country")
+                        .removeAttribute("tabindex");
+                }
             });
         },
 
