@@ -2,6 +2,14 @@
 
 All notable changes to `filament-phone-input` will be documented in this file
 
+## 3.1.2 - 2024-10-31
+
+### What's Changed
+
+- Disabling country selection when input set disabled
+
+**Full Changelog**: https://github.com/ysfkaya/filament-phone-input/compare/v3.1.1...v3.1.2
+
 ## 3.1.1 - 2024-10-29
 
 ### What's Changed
@@ -22,6 +30,7 @@ The flag images have been updated in the latest version of the `intl-tel-input` 
 
 ```bash
 php artisan vendor:publish --tag="filament-phone-input-assets" --force
+
 
 
 ```
