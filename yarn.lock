@@ -3238,10 +3238,10 @@ interpret@^2.2.0:
   resolved "https://registry.yarnpkg.com/interpret/-/interpret-2.2.0.tgz#1a78a0b5965c40a5416d007ad6f50ad27c417df9"
   integrity sha512-Ju0Bz/cEia55xDwUWEa8+olFpCiQoypjnQySseKtmjNrnps3P+xfpUmGr90T7yjlVJmOtybRvPXhKMbHr+fWnw==
 
-intl-tel-input@^24.6.0:
-  version "24.6.0"
-  resolved "https://registry.yarnpkg.com/intl-tel-input/-/intl-tel-input-24.6.0.tgz#f3b070b337f6981493b2c3b9d28e31828ce32a2f"
-  integrity sha512-3ZlxJk7IOhNCRRxGrAcGiP1uzZFaDEQUIHNHk516RORZpOoPh1kqZP8ksE8nm+/5HZk+tRV7F/iex0aWnkkixQ==
+intl-tel-input@^25.2.0:
+  version "25.2.0"
+  resolved "https://registry.yarnpkg.com/intl-tel-input/-/intl-tel-input-25.2.0.tgz#cd95f7c2b00c92e5cfe19659c76507815582e1d2"
+  integrity sha512-1eUkLngMyQaeTo37KGCcR6AEro/lO8DIaZRhbmVPmMagyHa4APTnigdTkDEqymF/iOMouDt3JHrhsrIFDpz+5g==
 
 ipaddr.js@1.9.1:
   version "1.9.1"

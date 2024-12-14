@@ -9,7 +9,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Hash;
 use Ysfkaya\FilamentPhoneInput\Forms\PhoneInput;
-use Ysfkaya\FilamentPhoneInput\Tables\PhoneInputColumn;
+use Ysfkaya\FilamentPhoneInput\Tables\PhoneColumn;
 use Ysfkaya\FilamentPhoneInput\Tests\Fixtures\FilamentPhoneInputUserResource\Pages;
 
 class FilamentPhoneInputUserResource extends Resource
@@ -43,13 +43,13 @@ class FilamentPhoneInputUserResource extends Resource
         self::$phoneTableColumn = $callback;
     }
 
-    public static function getPhoneTableColumn(): ?PhoneInputColumn
+    public static function getPhoneTableColumn(): ?PhoneColumn
     {
-        $callback = self::$phoneTableColumn ?: function (PhoneInputColumn $input) {
+        $callback = self::$phoneTableColumn ?: function (PhoneColumn $input) {
             return $input;
         };
 
-        return $callback(PhoneInputColumn::make('phone'));
+        return $callback(PhoneColumn::make('phone'));
     }
 
     public static function form(Form $form): Form

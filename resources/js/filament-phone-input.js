@@ -160,6 +160,10 @@ export default function phoneInputFormComponent({
                 });
 
                 this.updateCountryState();
+            } else if (value === null) {
+                this.input.value = "";
+
+                this.state = null;
             }
         },
 
