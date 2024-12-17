@@ -1,5 +1,6 @@
 @php
     use Filament\Support\Facades\FilamentView;
+    use Illuminate\Support\Js;
 
     $hasInlineLabel = $hasInlineLabel();
     $id = $getId();
