@@ -2,6 +2,12 @@
 
 All notable changes to `filament-phone-input` will be documented in this file
 
+## 3.1.5 - 2025-02-10
+
+### What's Changed
+
+- Fixed an issue where the associative values of `PhoneEntry` and `PhoneColumn` components were not showing up.
+
 ## 3.1.4 - 2024-12-17
 
 ### What's Changed
@@ -51,6 +57,7 @@ The flag images have been updated in the latest version of the `intl-tel-input` 
 
 ```bash
 php artisan vendor:publish --tag="filament-phone-input-assets" --force
+
 
 
 
