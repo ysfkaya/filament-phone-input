@@ -4,7 +4,7 @@ All notable changes to `filament-phone-input` will be documented in this file
 
 ## 3.1.5 - 2025-02-10
 
-### What's Changed
+### What's Changed
 
 - Fixed an issue where the associative values of `PhoneEntry` and `PhoneColumn` components were not showing up.
 
