@@ -2,6 +2,18 @@
 
 All notable changes to `filament-phone-input` will be documented in this file
 
+## 3.1.4 - 2024-12-17
+
+### What's Changed
+
+* Fixes `Js` class implementation issue in `phone-input.blade.php` by @elegasoft in https://github.com/ysfkaya/filament-phone-input/pull/60
+
+### New Contributors
+
+* @elegasoft made their first contribution in https://github.com/ysfkaya/filament-phone-input/pull/60
+
+**Full Changelog**: https://github.com/ysfkaya/filament-phone-input/compare/v3.1.3...v3.1.4
+
 ## 3.1.3 - 2024-12-14
 
 ### What's New
@@ -39,6 +51,7 @@ The flag images have been updated in the latest version of the `intl-tel-input` 
 
 ```bash
 php artisan vendor:publish --tag="filament-phone-input-assets" --force
+
 
 
 
