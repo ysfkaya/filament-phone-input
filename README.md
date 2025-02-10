@@ -168,7 +168,7 @@ PhoneInput::make(string $name)
     ->validateFor(string | array $country = 'AUTO', int | array | null $type = null, bool $lenient = false)
     ->defaultCountry(string $value)
     ->ipLookup(Closure $callback)
-    ->disableIpLookup()
+    ->disableLookup()
     ->enableIpLookup(bool | Closure $value = true)
     ->inputNumberFormat(PhoneInputNumberType | Closure $format)
     ->displayNumberFormat(PhoneInputNumberType | Closure $format)
@@ -470,11 +470,11 @@ PhoneInput::make('phone')
 
 ---
 
-In default, the package performs a geoIp lookup to set the initial country while mounting the component. To disable this feature, you may use the `disableIpLookUp` method:
+In default, the package performs a geoIp lookup to set the initial country while mounting the component. To disable this feature, you may use the `disableLookup` method:
 
 ```php
 PhoneInput::make('phone')
-    ->disableIpLookUp(),
+    ->disableLookup(),
 ```
 
 You may set the geoIp lookup by using the `geoIpLookup` method:
