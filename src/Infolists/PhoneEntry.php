@@ -4,6 +4,8 @@ namespace Ysfkaya\FilamentPhoneInput\Infolists;
 
 use Closure;
 use Filament\Infolists\Components\TextEntry;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Illuminate\Support\HtmlString;
 use libphonenumber\PhoneNumberFormat;
 use Propaganistas\LaravelPhone\Exceptions\NumberParseException;
@@ -34,14 +36,14 @@ class PhoneEntry extends TextEntry
 
     public function displayFormat(PhoneInputNumberType $format)
     {
-        return $this->formatStateUsing(function ($state, $record) use ($format) {
+        return $this->formatStateUsing(function (PhoneEntry $entry, $state) use ($format) {
             try {
                 $countryColumn = $this->getCountryColumn();
 
                 $country = [];
 
                 if ($countryColumn) {
-                    $country = $record->getAttributeValue($countryColumn);
+                    $country = $entry->getCountryState();
                 }
 
                 $format = $format->toLibPhoneNumberFormat();
@@ -77,5 +79,51 @@ class PhoneEntry extends TextEntry
                 return $state;
             }
         });
+    }
+
+    public function getCountryState()
+    {
+        if (! $this->getRecord()) {
+            return null;
+        }
+
+        $column = $this->getCountryColumn();
+
+        if (! $column) {
+            return null;
+        }
+
+        $record = $this->getRecord();
+
+        $state = data_get($record, $column);
+
+        if ($state !== null) {
+            return $state;
+        }
+
+        if (! $this->hasRelationship($record)) {
+            return null;
+        }
+
+        $relationship = $this->getRelationship($record);
+
+        if (! $relationship) {
+            return null;
+        }
+
+        $relationshipAttribute = $this->getRelationshipAttribute($column);
+
+        $state = collect($this->getRelationshipResults($record))
+            ->filter(fn (Model $record): bool => array_key_exists($relationshipAttribute, $record->attributesToArray()))
+            ->pluck($relationshipAttribute)
+            ->filter(fn ($state): bool => filled($state))
+            ->when($this->isDistinctList(), fn (Collection $state) => $state->unique())
+            ->values();
+
+        if (! $state->count()) {
+            return null;
+        }
+
+        return $state->all();
     }
 }
