@@ -2,6 +2,14 @@
 
 All notable changes to `filament-phone-input` will be documented in this file
 
+## v3.1.6 - 2025-02-22
+
+### What's Changed
+
+* Fix Alpine directive from 'ax-' to 'x-' in phone input view by @smiliyas in https://github.com/ysfkaya/filament-phone-input/pull/67
+
+**Full Changelog**: https://github.com/ysfkaya/filament-phone-input/compare/v3.1.5...v3.1.6
+
 ## 3.1.5 - 2025-02-10
 
 ### What's Changed
@@ -57,6 +65,7 @@ The flag images have been updated in the latest version of the `intl-tel-input` 
 
 ```bash
 php artisan vendor:publish --tag="filament-phone-input-assets" --force
+
 
 
 
