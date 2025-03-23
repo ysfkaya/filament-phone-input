@@ -10,6 +10,7 @@ use Filament\Forms\Components\Contracts\HasAffixActions;
 use Filament\Forms\Components\Field;
 use Filament\Pages\Page;
 use Illuminate\Support\Facades\Http;
+use libphonenumber\PhoneNumberType;
 use Propaganistas\LaravelPhone\Rules\Phone as PhoneRule;
 use Ysfkaya\FilamentPhoneInput\PhoneInputNumberType;
 
@@ -200,9 +201,13 @@ class PhoneInput extends Field implements HasAffixActions
         return $this->generateRelativeStatePath($this->countryStatePath, $this->countryStatePathIsAbsolute);
     }
 
-    public function validateFor(string | array $country = 'AUTO', int | array | null $type = null, bool $lenient = false)
+    public function validateFor(string | array $country = 'AUTO', int | array | PhoneNumberType | null $type = null, bool $lenient = false)
     {
         $this->validatedCountry = $country;
+
+        if ($type) {
+            $type = $type instanceof PhoneNumberType ? (enum_exists(PhoneNumberType::class) ? $type->value : $type) : $type;
+        }
 
         $rule = (new PhoneRule)->country($country)->type($type);
 

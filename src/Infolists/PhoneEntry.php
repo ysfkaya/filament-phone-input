@@ -46,13 +46,13 @@ class PhoneEntry extends TextEntry
 
                 $format = $format->toLibPhoneNumberFormat();
 
-                if ($format === PhoneNumberFormat::RFC3966) {
-                    $formatted = phone(
-                        number: $state,
-                        country: $country,
-                        format: $format
-                    );
+                $formatted = phone(
+                    number: $state,
+                    country: $country,
+                    format: $format
+                );
 
+                if ($format === (enum_exists(PhoneNumberFormat::class) ? PhoneNumberFormat::RFC3966->value : PhoneNumberFormat::RFC3966)) {
                     $national = phone(
                         number: $state,
                         country: $country,
