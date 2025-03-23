@@ -54,7 +54,7 @@ class PhoneColumn extends TextColumn
                     format: $format
                 );
 
-                if ($format === PhoneNumberFormat::RFC3966) {
+                if ($format === (enum_exists(PhoneNumberFormat::class) ? PhoneNumberFormat::RFC3966->value : PhoneNumberFormat::RFC3966)) {
                     $national = phone(
                         number: $state,
                         country: $country,
