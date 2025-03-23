@@ -46,7 +46,7 @@
         }
     },
     "scripts": {
-        "analyse": "vendor/bin/phpstan analyse",
+        "analyse": "vendor/bin/phpstan analyse --memory-limit=512M",
         "test": "vendor/bin/pest --testsuite=Unit",
         "test-browser": "vendor/bin/phpunit --testsuite=Browser --bootstrap=tests/Browser/bootstrap.php",
         "format": "vendor/bin/pint",
