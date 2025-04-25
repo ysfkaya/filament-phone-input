@@ -2,6 +2,14 @@
 
 All notable changes to `filament-phone-input` will be documented in this file
 
+## v2.3.8 - 2025-04-25
+
+### What's Changed
+
+- Fixes libphonenumber enum issue
+
+**Full Changelog**: https://github.com/ysfkaya/filament-phone-input/compare/v2.3.7...v2.3.8
+
 ## 3.1.8 - 2025-03-23
 
 ### What's Changed
@@ -101,6 +109,7 @@ The flag images have been updated in the latest version of the `intl-tel-input` 
 
 ```bash
 php artisan vendor:publish --tag="filament-phone-input-assets" --force
+
 
 
 
