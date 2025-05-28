@@ -2,6 +2,18 @@
 
 All notable changes to `filament-phone-input` will be documented in this file
 
+## 3.1.9 - 2025-05-28
+
+### What's Changed
+
+* fix: replace the old flag of Syria with the new  official flag by @ARMBouhali in https://github.com/ysfkaya/filament-phone-input/pull/81
+
+### New Contributors
+
+* @ARMBouhali made their first contribution in https://github.com/ysfkaya/filament-phone-input/pull/81
+
+**Full Changelog**: https://github.com/ysfkaya/filament-phone-input/compare/v3.1.8...v3.1.9
+
 ## v2.3.8 - 2025-04-25
 
 ### What's Changed
@@ -109,6 +121,7 @@ The flag images have been updated in the latest version of the `intl-tel-input` 
 
 ```bash
 php artisan vendor:publish --tag="filament-phone-input-assets" --force
+
 
 
 
