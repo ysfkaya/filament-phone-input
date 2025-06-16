@@ -2,6 +2,18 @@
 
 All notable changes to `filament-phone-input` will be documented in this file
 
+## v3.1.10 - 2025-06-16
+
+### What's Changed
+
+* add support for propaganistas/laravel-phone v6.0 by @SeyamMs in https://github.com/ysfkaya/filament-phone-input/pull/83
+
+### New Contributors
+
+* @SeyamMs made their first contribution in https://github.com/ysfkaya/filament-phone-input/pull/83
+
+**Full Changelog**: https://github.com/ysfkaya/filament-phone-input/compare/v3.1.9...v3.1.10
+
 ## 3.1.9 - 2025-05-28
 
 ### What's Changed
@@ -121,6 +133,7 @@ The flag images have been updated in the latest version of the `intl-tel-input` 
 
 ```bash
 php artisan vendor:publish --tag="filament-phone-input-assets" --force
+
 
 
 
