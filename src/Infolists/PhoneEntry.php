@@ -7,6 +7,7 @@ use Filament\Infolists\Components\TextEntry;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\HtmlString;
+use libphonenumber\NumberParseException as libPhoneNumberParseException;
 use libphonenumber\PhoneNumberFormat;
 use Propaganistas\LaravelPhone\Exceptions\NumberParseException;
 use Ysfkaya\FilamentPhoneInput\PhoneInputNumberType;
@@ -75,7 +76,7 @@ class PhoneEntry extends TextEntry
                 }
 
                 return new HtmlString($html);
-            } catch (NumberParseException $e) {
+            } catch (NumberParseException | libPhoneNumberParseException $e) { // @phpstan-ignore-line
                 return $state;
             }
         });

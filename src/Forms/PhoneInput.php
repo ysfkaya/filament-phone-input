@@ -21,6 +21,7 @@ class PhoneInput extends Field implements HasAffixActions
     use HasExtraInputAttributes;
     use HasPlaceholder;
 
+    // @phpstan-ignore-next-line
     protected string $view = 'filament-phone-input::phone-input';
 
     protected string | Closure | PhoneInputNumberType $displayNumberFormat = PhoneInputNumberType::NATIONAL;
@@ -218,7 +219,7 @@ class PhoneInput extends Field implements HasAffixActions
         return $this->generateRelativeStatePath($path, $this->countryStatePathIsAbsolute);
     }
 
-    public function validateFor(string | array $country = 'AUTO', int | array | PhoneNumberType | null $type = null, bool $lenient = false)
+    public function validateFor(string | array $country = 'INTERNATIONAL', int | array | PhoneNumberType | null $type = null, bool $lenient = false)
     {
         $this->validatedCountry = $country;
 
@@ -226,7 +227,18 @@ class PhoneInput extends Field implements HasAffixActions
             $type = $type instanceof PhoneNumberType ? (enum_exists(PhoneNumberType::class) ? $type->value : $type) : $type;
         }
 
-        $rule = (new PhoneRule)->country($country)->type($type);
+        $rule = new PhoneRule;
+
+        if ($type) {
+            $rule->type($type);
+        }
+
+        // @phpstan-ignore-next-line
+        if (method_exists($rule, 'international') && $country === 'AUTO' || $country === 'INTERNATIONAL') {
+            $rule->international();
+        } else {
+            $rule->country($country);
+        }
 
         if ($lenient) {
             $rule->lenient();

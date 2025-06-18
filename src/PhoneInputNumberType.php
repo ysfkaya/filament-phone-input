@@ -21,6 +21,7 @@ enum PhoneInputNumberType: string
             self::RFC3966 => PhoneNumberFormat::RFC3966,
         };
 
+        // @phpstan-ignore-next-line
         if (class_exists(PhoneNumber::class) && method_exists(PhoneNumber::class, 'normalizeFormat')) {
             return PhoneNumber::normalizeFormat($format);
         }
