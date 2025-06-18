@@ -2,6 +2,14 @@
 
 All notable changes to `filament-phone-input` will be documented in this file
 
+## v3.1.11 - 2025-06-18
+
+### What's Changed
+
+- Fixed unmatched number format in `propaganistas/laravel-phone`
+
+**Full Changelog**: https://github.com/ysfkaya/filament-phone-input/compare/v3.1.10...v3.1.11
+
 ## v3.1.10 - 2025-06-16
 
 ### What's Changed
@@ -133,6 +141,7 @@ The flag images have been updated in the latest version of the `intl-tel-input` 
 
 ```bash
 php artisan vendor:publish --tag="filament-phone-input-assets" --force
+
 
 
 
