@@ -3,6 +3,7 @@
 namespace Ysfkaya\FilamentPhoneInput;
 
 use libphonenumber\PhoneNumberFormat;
+use Propaganistas\LaravelPhone\PhoneNumber;
 
 enum PhoneInputNumberType: string
 {
@@ -11,7 +12,7 @@ enum PhoneInputNumberType: string
     case NATIONAL = 'NATIONAL';
     case RFC3966 = 'RFC3966';
 
-    public function toLibPhoneNumberFormat(): int
+    public function toLibPhoneNumberFormat(): int | PhoneNumberFormat
     {
         $format = match ($this) {
             self::E164 => PhoneNumberFormat::E164,
@@ -19,6 +20,10 @@ enum PhoneInputNumberType: string
             self::NATIONAL => PhoneNumberFormat::NATIONAL,
             self::RFC3966 => PhoneNumberFormat::RFC3966,
         };
+
+        if (class_exists(PhoneNumber::class) && method_exists(PhoneNumber::class, 'normalizeFormat')) {
+            return PhoneNumber::normalizeFormat($format);
+        }
 
         return enum_exists(PhoneNumberFormat::class) ? (function_exists('enum_value') ? enum_value($format) : $format->value) : $format;
     }
