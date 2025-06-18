@@ -88,7 +88,7 @@ it('validate for', function (string $country, string $phone, bool $pass, $type =
         $test->assertHasFormErrors(['phone']);
     }
 })->with([
-    ['INTERNATIONAL', '+905305920460', true],
+    ['INTERNATIONAL', '+905301111111', true],
     ['TR', '+18143511527', false],
     ['TR', '5301111111', true, null, true],
     ['TR', '+902125111111', true, PhoneNumberType::FIXED_LINE],
