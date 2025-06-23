@@ -12,7 +12,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        php: [8.1,8.2,8.3,8.4]
+        php: [8.1, 8.2, 8.3, 8.4]
 
     name: PHP:${{ matrix.php }}
 
@@ -35,11 +35,10 @@ jobs:
       - name: Install Dependencies
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
-      - name: Setup dusk/chrome
-        run: vendor/bin/dusk-updater detect --no-interactione
-
-      - name: Create SQlite database
-        run: php vendor/orchestra/testbench-dusk/create-sqlite-db
+      - name: Prepare Test Environment
+        run: composer prepare-test
+        env:
+          RUNNING_IN_CI: true
 
       - name: Execute unit tests
         run: composer test
