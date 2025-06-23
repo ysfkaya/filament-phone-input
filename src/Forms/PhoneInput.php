@@ -23,6 +23,7 @@ class PhoneInput extends Field implements HasAffixActions
     use HasExtraInputAttributes;
     use HasPlaceholder;
 
+    // @phpstan-ignore-next-line
     protected string $view = 'filament-phone-input::phone-input';
 
     protected string | Closure | PhoneInputNumberType $displayNumberFormat = PhoneInputNumberType::NATIONAL;
@@ -238,6 +239,7 @@ class PhoneInput extends Field implements HasAffixActions
             $rule->type($type);
         }
 
+        // @phpstan-ignore-next-line
         if (method_exists($rule, 'international') && $country === 'AUTO' || $country === 'INTERNATIONAL') {
             $rule->international();
         } else {
