@@ -23,7 +23,9 @@ class PhoneColumn extends TextColumn
     {
         parent::setUp();
 
-        $this->displayFormat(PhoneInputNumberType::NATIONAL);
+        if (! $this->formatStateUsing) {
+            $this->displayFormat(PhoneInputNumberType::NATIONAL);
+        }
     }
 
     public function defaultCountry(string | array | Closure $country): static
