@@ -5,6 +5,8 @@ namespace Ysfkaya\FilamentPhoneInput;
 use libphonenumber\PhoneNumberFormat;
 use Propaganistas\LaravelPhone\PhoneNumber;
 
+use function Illuminate\Support\enum_value;
+
 enum PhoneInputNumberType: string
 {
     case E164 = 'E164';

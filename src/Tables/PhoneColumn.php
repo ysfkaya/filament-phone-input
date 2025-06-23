@@ -2,6 +2,7 @@
 
 namespace Ysfkaya\FilamentPhoneInput\Tables;
 
+use BackedEnum;
 use Closure;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Model;
@@ -16,11 +17,25 @@ class PhoneColumn extends TextColumn
 {
     protected string | Closure | null $countryColumn = null;
 
+    protected string | array | Closure | null $defaultCountry = null;
+
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->displayFormat(PhoneInputNumberType::NATIONAL);
+    }
+
+    public function defaultCountry(string | array | Closure $country): static
+    {
+        $this->defaultCountry = $country;
+
+        return $this;
+    }
+
+    public function getDefaultCountry()
+    {
+        return $this->evaluate($this->defaultCountry);
     }
 
     public function countryColumn(string | Closure $column): static
@@ -41,7 +56,7 @@ class PhoneColumn extends TextColumn
             try {
                 $countryColumn = $this->getCountryColumn();
 
-                $country = [];
+                $country = $this->getDefaultCountry() ?? [];
 
                 if ($countryColumn) {
                     $country = $column->getCountryState();
@@ -55,7 +70,13 @@ class PhoneColumn extends TextColumn
                     format: $format
                 );
 
-                if ($format === (enum_exists(PhoneNumberFormat::class) ? PhoneNumberFormat::RFC3966->value : PhoneNumberFormat::RFC3966)) {
+                // TODO: Drop support for propaganistas/laravel-phone:^5.0 in the filament v4
+                // Check PhoneNumberFormat is a BackedEnum or not
+                // If it is not a BackedEnum, it will be a constant value
+                // This is to ensure compatibility with both propaganistas/laravel-phone:^5.0|^6.0
+                $rfc3966Format = enum_exists(PhoneNumberFormat::class) ? PhoneNumberFormat::RFC3966->value : PhoneNumberFormat::RFC3966;
+
+                if ($format === $rfc3966Format) {
                     $national = phone(
                         number: $state,
                         country: $country,
