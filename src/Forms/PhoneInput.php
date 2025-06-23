@@ -15,8 +15,6 @@ use libphonenumber\PhoneNumberType;
 use Propaganistas\LaravelPhone\Rules\Phone as PhoneRule;
 use Ysfkaya\FilamentPhoneInput\PhoneInputNumberType;
 
-use function Illuminate\Support\enum_value;
-
 class PhoneInput extends Field implements HasAffixActions
 {
     use HasAffixes;
@@ -227,18 +225,6 @@ class PhoneInput extends Field implements HasAffixActions
 
         $rule = new PhoneRule;
 
-        if ($type) {
-            if (enum_exists(PhoneNumberType::class)) {
-                if ($type instanceof PhoneNumberType) {
-                    $type = $type->value;
-                } elseif (is_int($type)) {
-                    $type = enum_value(PhoneNumberType::tryFrom($type));
-                }
-            }
-
-            $rule->type($type);
-        }
-
         // @phpstan-ignore-next-line
         if (method_exists($rule, 'international') && ($country === 'AUTO' || $country === 'INTERNATIONAL')) {
             $rule->international();
@@ -248,6 +234,10 @@ class PhoneInput extends Field implements HasAffixActions
 
         if ($lenient) {
             $rule->lenient();
+        }
+
+        if ($type) {
+            $rule->type($type);
         }
 
         return $this->rule($rule);

@@ -57,7 +57,7 @@
             "@format"
         ],
         "prepare-test":[
-            "vendor/bin/dusk-updater detect --no-interactione",
+            "vendor/bin/dusk-updater detect --silent --auto-update",
             "vendor/bin/testbench-dusk workbench:create-sqlite-db"
         ]
     },
