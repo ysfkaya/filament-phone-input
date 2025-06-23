@@ -1,5 +1,6 @@
 <?php
 
+use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberType;
 use Ysfkaya\FilamentPhoneInput\Forms\PhoneInput;
 use Ysfkaya\FilamentPhoneInput\PhoneInputNumberType;
@@ -87,7 +88,7 @@ it('validate for', function (string $country, string $phone, bool $pass, $type =
         $test->assertHasFormErrors(['phone']);
     }
 })->with([
-    ['AUTO', '+905301111111', true],
+    ['INTERNATIONAL', '+905301111111', true],
     ['TR', '+18143511527', false],
     ['TR', '5301111111', true, null, true],
     ['TR', '+902125111111', true, PhoneNumberType::FIXED_LINE],
@@ -111,10 +112,10 @@ it('can saves the country code to the database', function () {
 });
 
 test('the enum returns the libphonenumber format', function () {
-    expect(PhoneInputNumberType::E164->toLibPhoneNumberFormat())->toBe(0);
-    expect(PhoneInputNumberType::INTERNATIONAL->toLibPhoneNumberFormat())->toBe(1);
-    expect(PhoneInputNumberType::NATIONAL->toLibPhoneNumberFormat())->toBe(2);
-    expect(PhoneInputNumberType::RFC3966->toLibPhoneNumberFormat())->toBe(3);
+    expect(PhoneInputNumberType::E164->toLibPhoneNumberFormat())->toBe(PhoneNumberFormat::E164);
+    expect(PhoneInputNumberType::INTERNATIONAL->toLibPhoneNumberFormat())->toBe(PhoneNumberFormat::INTERNATIONAL);
+    expect(PhoneInputNumberType::NATIONAL->toLibPhoneNumberFormat())->toBe(PhoneNumberFormat::NATIONAL);
+    expect(PhoneInputNumberType::RFC3966->toLibPhoneNumberFormat())->toBe(PhoneNumberFormat::RFC3966);
 });
 
 test('table column formats the phone number', function ($type) {

@@ -12,7 +12,7 @@ enum PhoneInputNumberType: string
     case NATIONAL = 'NATIONAL';
     case RFC3966 = 'RFC3966';
 
-    public function toLibPhoneNumberFormat(): int | PhoneNumberFormat
+    public function toLibPhoneNumberFormat(): PhoneNumberFormat
     {
         $format = match ($this) {
             self::E164 => PhoneNumberFormat::E164,
@@ -21,10 +21,11 @@ enum PhoneInputNumberType: string
             self::RFC3966 => PhoneNumberFormat::RFC3966,
         };
 
+        // @phpstan-ignore-next-line
         if (class_exists(PhoneNumber::class) && method_exists(PhoneNumber::class, 'normalizeFormat')) {
             return PhoneNumber::normalizeFormat($format);
         }
 
-        return enum_exists(PhoneNumberFormat::class) ? (function_exists('enum_value') ? enum_value($format) : $format->value) : $format;
+        return $format;
     }
 }

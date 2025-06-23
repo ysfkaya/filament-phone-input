@@ -7,6 +7,7 @@ use Filament\Infolists\Components\TextEntry;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\HtmlString;
+use libphonenumber\NumberParseException as libPhoneNumberParseException;
 use libphonenumber\PhoneNumberFormat;
 use Propaganistas\LaravelPhone\Exceptions\NumberParseException;
 use Ysfkaya\FilamentPhoneInput\PhoneInputNumberType;
@@ -15,11 +16,25 @@ class PhoneEntry extends TextEntry
 {
     protected string | Closure | null $countryColumn = null;
 
+    protected string | array | Closure | null $defaultCountry = null;
+
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->displayFormat(PhoneInputNumberType::NATIONAL);
+    }
+
+    public function defaultCountry(string | array | Closure $country): static
+    {
+        $this->defaultCountry = $country;
+
+        return $this;
+    }
+
+    public function getDefaultCountry()
+    {
+        return $this->evaluate($this->defaultCountry);
     }
 
     public function countryColumn(string | Closure $column): static
@@ -40,7 +55,7 @@ class PhoneEntry extends TextEntry
             try {
                 $countryColumn = $this->getCountryColumn();
 
-                $country = [];
+                $country = $this->getDefaultCountry() ?? [];
 
                 if ($countryColumn) {
                     $country = $entry->getCountryState();
@@ -54,7 +69,13 @@ class PhoneEntry extends TextEntry
                     format: $format
                 );
 
-                if ($format === (enum_exists(PhoneNumberFormat::class) ? PhoneNumberFormat::RFC3966->value : PhoneNumberFormat::RFC3966)) {
+                // TODO: Drop support for propaganistas/laravel-phone:^5.0 in the filament v4
+                // Check PhoneNumberFormat is a BackedEnum or not
+                // If it is not a BackedEnum, it will be a constant value
+                // This is to ensure compatibility with both propaganistas/laravel-phone:^5.0|^6.0
+                $rfc3966Format = enum_exists(PhoneNumberFormat::class) ? PhoneNumberFormat::RFC3966->value : PhoneNumberFormat::RFC3966;
+
+                if ($format === $rfc3966Format) {
                     $national = phone(
                         number: $state,
                         country: $country,
@@ -75,7 +96,7 @@ class PhoneEntry extends TextEntry
                 }
 
                 return new HtmlString($html);
-            } catch (NumberParseException $e) {
+            } catch (NumberParseException | libPhoneNumberParseException $e) { // @phpstan-ignore-line
                 return $state;
             }
         });

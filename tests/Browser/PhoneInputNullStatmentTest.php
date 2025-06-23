@@ -24,7 +24,7 @@ class PhoneInputNullStatmentTest extends BrowserTestCase
                 ->typeSlowly('@phone-input.data.phone input.fi-input', '5301111111')
                 ->pause(300)
                 ->click('button[wire\\:click="createAnother"]')
-                ->pause(300)
+                ->pause(750)
                 ->assertValue('@phone-input.data.phone input.fi-input', null)
         );
     }
