@@ -15,6 +15,8 @@ use libphonenumber\PhoneNumberType;
 use Propaganistas\LaravelPhone\Rules\Phone as PhoneRule;
 use Ysfkaya\FilamentPhoneInput\PhoneInputNumberType;
 
+use function Illuminate\Support\enum_value;
+
 class PhoneInput extends Field implements HasAffixActions
 {
     use HasAffixes;
@@ -219,17 +221,21 @@ class PhoneInput extends Field implements HasAffixActions
         return $this->generateRelativeStatePath($path, $this->countryStatePathIsAbsolute);
     }
 
-    public function validateFor(string | array $country = 'INTERNATIONAL', int | array | PhoneNumberType | null $type = null, bool $lenient = false)
+    public function validateFor(string | array $country = 'INTERNATIONAL', int | string | array | PhoneNumberType | null $type = null, bool $lenient = false)
     {
         $this->validatedCountry = $country;
-
-        if ($type) {
-            $type = $type instanceof PhoneNumberType ? (enum_exists(PhoneNumberType::class) ? $type->value : $type) : $type;
-        }
 
         $rule = new PhoneRule;
 
         if ($type) {
+            if (enum_exists(PhoneNumberType::class)) {
+                if ($type instanceof PhoneNumberType) {
+                    $type = $type->value;
+                } elseif (is_int($type)) {
+                    $type = enum_value(PhoneNumberType::tryFrom($type));
+                }
+            }
+
             $rule->type($type);
         }
 
