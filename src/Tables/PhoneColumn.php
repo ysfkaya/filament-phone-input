@@ -98,7 +98,7 @@ class PhoneColumn extends TextColumn
                 }
 
                 return new HtmlString($html);
-            } catch (NumberParseException | libPhoneNumberParseException $e) { // @phpstan-ignore-line
+            } catch (NumberParseException | libPhoneNumberParseException $e) {
                 return $state;
             }
         })->when($format === PhoneInputNumberType::RFC3966, fn (PhoneColumn $column) => $column->disabledClick());
