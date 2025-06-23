@@ -240,7 +240,7 @@ class PhoneInput extends Field implements HasAffixActions
         }
 
         // @phpstan-ignore-next-line
-        if (method_exists($rule, 'international') && $country === 'AUTO' || $country === 'INTERNATIONAL') {
+        if (method_exists($rule, 'international') && ($country === 'AUTO' || $country === 'INTERNATIONAL')) {
             $rule->international();
         } else {
             $rule->country($country);
