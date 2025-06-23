@@ -22,9 +22,7 @@ class PhoneEntry extends TextEntry
     {
         parent::setUp();
 
-        if (! $this->formatStateUsing) {
-            $this->displayFormat(PhoneInputNumberType::NATIONAL);
-        }
+        $this->displayFormat(PhoneInputNumberType::NATIONAL);
     }
 
     public function defaultCountry(string | array | Closure $country): static
