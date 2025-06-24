@@ -12,7 +12,12 @@ enum PhoneInputNumberType: string
     case NATIONAL = 'NATIONAL';
     case RFC3966 = 'RFC3966';
 
-    public function toLibPhoneNumberFormat(): PhoneNumberFormat
+    /**
+     * In the giggsey/libphonenumber-for-php-lite library, the PhoneNumberFormat enum
+     * does not exist, so we return the integer value directly. It deprecated in the v9
+     * and will be removed in the future.
+     */
+    public function toLibPhoneNumberFormat(): int | PhoneNumberFormat // @phpstan-ignore-line
     {
         $format = match ($this) {
             self::E164 => PhoneNumberFormat::E164,

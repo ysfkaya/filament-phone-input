@@ -69,13 +69,7 @@ class PhoneEntry extends TextEntry
                     format: $format
                 );
 
-                // TODO: Drop support for propaganistas/laravel-phone:^5.0 in the filament v4
-                // Check PhoneNumberFormat is a BackedEnum or not
-                // If it is not a BackedEnum, it will be a constant value
-                // This is to ensure compatibility with both propaganistas/laravel-phone:^5.0|^6.0
-                $rfc3966Format = enum_exists(PhoneNumberFormat::class) ? PhoneNumberFormat::RFC3966->value : PhoneNumberFormat::RFC3966;
-
-                if ($format === $rfc3966Format) {
+                if ($format === PhoneNumberFormat::RFC3966) {
                     $national = phone(
                         number: $state,
                         country: $country,
