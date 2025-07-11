@@ -1,21 +1,25 @@
 {
-    "scripts": {
-        "js:build": "node bin/build.js",
-        "js:dev": "node bin/build.js --dev",
-        "dev": "mix",
-        "watch": "mix watch",
-        "prod": "mix --production && npm run js:build"
-    },
+    "private": true,
     "type": "module",
+    "scripts": {
+        "dev:styles": "npx @tailwindcss/cli -i resources/css/filament-phone-input.css -o resources/dist/filament-phone-input.css --watch",
+        "build:styles": "npx @tailwindcss/cli -i resources/css/filament-phone-input.css -o resources/dist/filament-phone-input.css --minify",
+        "dev:js": "node bin/build.js --dev",
+        "build:js": "node bin/build.js",
+        "dev": "npm-run-all --parallel dev:*",
+        "build": "npm-run-all build:*"
+    },
     "dependencies": {
-        "intl-tel-input": "^25.2.0"
+        "intl-tel-input": "^25.3.1"
     },
     "devDependencies": {
-        "@tailwindcss/forms": "^0.5.4",
-        "@tailwindcss/typography": "^0.5.9",
-        "esbuild": "^0.19.2",
-        "laravel-mix": "^6.0.43",
-        "tailwindcss": "^3.3.3"
-    },
-    "private": true
+        "@tailwindcss/forms": "^0.5.10",
+        "cssnano": "^6.0.1",
+        "esbuild": "^0.25.5",
+        "npm-run-all": "^4.1.5",
+        "postcss": "^8.4.27",
+        "postcss-cli": "^10.1.0",
+        "postcss-nesting": "^13.0.0",
+        "tailwindcss": "^4.1.10"
+    }
 }

@@ -6,13 +6,14 @@ use Closure;
 use Filament\Forms\Components\Concerns\HasAffixes;
 use Filament\Forms\Components\Concerns\HasExtraInputAttributes;
 use Filament\Forms\Components\Concerns\HasPlaceholder;
-use Filament\Forms\Components\Contracts\HasAffixActions;
 use Filament\Forms\Components\Field;
-use Filament\Pages\Page;
+use Filament\Schemas\Components\Contracts\HasAffixActions;
+use Filament\Support\Components\Attributes\ExposedLivewireMethod;
 use Filament\Support\RawJs;
 use Illuminate\Support\Facades\Http;
 use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberType;
+use Livewire\Attributes\Renderless;
 use Propaganistas\LaravelPhone\Rules\Phone as PhoneRule;
 use Ysfkaya\FilamentPhoneInput\PhoneInputNumberType;
 
@@ -97,34 +98,6 @@ class PhoneInput extends Field implements HasAffixActions
             return rescue(fn () => Http::get('https://ipinfo.io/json')->json('country'), app()->getLocale(), report: false);
         });
 
-        $this->registerListeners([
-            'phoneInput::ipLookup' => [
-                function (PhoneInput $component, string $statePath) {
-                    if ($statePath !== $component->getStatePath()) {
-                        return;
-                    }
-
-                    if (! $component->canPerformIpLookup()) {
-                        return;
-                    }
-
-                    /** @var Page $livewire */
-                    $livewire = $component->getLivewire();
-
-                    $country = $component->performIpLookup();
-
-                    if (! $country) {
-                        return;
-                    }
-
-                    $livewire->dispatch('phoneInput::setCountry', [
-                        'country' => $country,
-                        'statePath' => $statePath,
-                    ]);
-                },
-            ],
-        ]);
-
         $this->afterStateHydrated(function (PhoneInput $component, $livewire, $state) {
             $country = null;
 
@@ -164,6 +137,25 @@ class PhoneInput extends Field implements HasAffixActions
 
             $component->state($this->phoneFormat($state, $country, $format->toLibPhoneNumberFormat()));
         });
+    }
+
+    #[ExposedLivewireMethod]
+    #[Renderless]
+    public function handleLookup()
+    {
+        if (! $this->canPerformIpLookup()) {
+            return;
+        }
+
+        $country = $this->performIpLookup();
+
+        if (! $country) {
+            return;
+        }
+
+        return [
+            'country' => $country,
+        ];
     }
 
     protected function phoneFormat($state, $country, $format)

@@ -15,6 +15,7 @@
     $suffixIcon = $getSuffixIcon();
     $suffixLabel = $getSuffixLabel();
     $statePath = $getStatePath();
+    $key = $getKey();
 
     $isLive = $isLive();
     $isLiveOnBlur = $isLiveOnBlur();
@@ -114,6 +115,7 @@
                     intlTelInputSelectedCountryCookieName: @js($getCookieName()),
                     state: $wire.$entangle('{{ $statePath }}'),
                     statePath: @js($statePath),
+                    key: @js($key),
                     isLive: @js($isLive),
                     isLiveDebounced: @js($isLiveDebounced),
                     isLiveOnBlur: @js($isLiveOnBlur),

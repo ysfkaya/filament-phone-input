@@ -1,21 +1,22 @@
+@reference "tailwindcss";
+
 @import "intl-tel-input/build/css/intlTelInput.css";
 
-
 .iti {
-    --iti-path-flags-1x: url('/vendor/filament-phone-input/flags.webp');
-    --iti-path-flags-2x: url('/vendor/filament-phone-input/flags@2x.webp');
-    --iti-path-globe-1x: url('/vendor/filament-phone-input/globe.webp');
-    --iti-path-globe-2x: url('/vendor/filament-phone-input/globe@2x.webp');
+    --iti-path-flags-1x: url("/vendor/filament-phone-input/flags.webp");
+    --iti-path-flags-2x: url("/vendor/filament-phone-input/flags@2x.webp");
+    --iti-path-globe-1x: url("/vendor/filament-phone-input/globe.webp");
+    --iti-path-globe-2x: url("/vendor/filament-phone-input/globe@2x.webp");
 
     width: 100%;
 }
 
 .dark .iti {
-    --iti-border-color: theme('colors.gray.300');
+    --iti-border-color: theme("colors.gray.300");
     --iti-dialcode-color: #999999;
-    --iti-dropdown-bg: theme('colors.gray.700');
+    --iti-dropdown-bg: theme("colors.gray.700");
     --iti-arrow-color: #aaaaaa;
-    --iti-hover-color: theme('colors.gray.600');
+    --iti-hover-color: theme("colors.gray.600");
 }
 
 .iti__search-input {

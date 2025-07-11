@@ -8,6 +8,7 @@ export default function phoneInputFormComponent({
     countryState = undefined,
     intlTelInputSelectedCountryCookieName,
     statePath,
+    key,
     isLive,
     isLiveDebounced,
     isLiveOnBlur,
@@ -17,6 +18,7 @@ export default function phoneInputFormComponent({
         state,
         countryState,
         statePath,
+        key,
         input: null,
         intlTelInput: null,
         intlTelInputSelectedCountryCookieName,
@@ -228,35 +230,11 @@ export default function phoneInputFormComponent({
                     success(country);
                 } else {
                     try {
-                        await this.$wire.call(
-                            "dispatchFormEvent",
-                            "phoneInput::ipLookup",
-                            this.statePath
-                        );
-
-                        const dispatches =
-                            this.$wire.__instance.effects?.dispatches;
-
-                        if (!dispatches) {
-                            return;
-                        }
-
-                        const setCountryDispatch = dispatches.find(
-                            (dispatch) =>
-                                dispatch.name === "phoneInput::setCountry"
-                        );
-
-                        if (!setCountryDispatch) {
-                            return;
-                        }
-
-                        const params = setCountryDispatch.params[0];
-
-                        const { statePath, country } = params;
-
-                        if (statePath !== this.statePath) {
-                            return;
-                        }
+                        const { country } =
+                            await this.$wire.callSchemaComponentMethod(
+                                this.key,
+                                "handleLookup"
+                            );
 
                         window.phoneInputGeoIpLookup = true;
 
