@@ -30,7 +30,7 @@
 <x-dynamic-component
     :component="$getFieldWrapperView()"
     :field="$field"
-    :has-inline-label="$hasInlineLabel"
+    :inline-label-vertical-alignment="\Filament\Support\Enums\VerticalAlignment::Center"
 >
     <x-slot
         name="label"
@@ -64,7 +64,7 @@
             isDisabled: {{ $isDisabled ? 'true' : 'false' }},
             init(){
                 $nextTick(() => {
-                    $dispatch('phoneInput:isDisabled', { statePath: '{{ $statePath }}', isDisabled: this.isDisabled });
+                    $dispatch('phoneInput:isDisabled', { key: '{{ $key }}', isDisabled: this.isDisabled });
                 });
             }
         }"

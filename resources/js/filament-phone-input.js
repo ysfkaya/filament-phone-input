@@ -7,7 +7,6 @@ export default function phoneInputFormComponent({
     state,
     countryState = undefined,
     intlTelInputSelectedCountryCookieName,
-    statePath,
     key,
     isLive,
     isLiveDebounced,
@@ -17,7 +16,6 @@ export default function phoneInputFormComponent({
     return {
         state,
         countryState,
-        statePath,
         key,
         input: null,
         intlTelInput: null,
@@ -39,7 +37,7 @@ export default function phoneInputFormComponent({
 
             this.intlTelInput = intlTelInput(this.input, this.options);
 
-            this.initState(this.state);
+            this.setState(this.state);
 
             this.input.addEventListener("countrychange", () => {
                 let countryData = this.intlTelInput.getSelectedCountryData();
@@ -80,11 +78,11 @@ export default function phoneInputFormComponent({
             });
 
             this.$watch("state", (value) => {
-                this.initState(value);
+                this.setState(value);
             });
 
             document.addEventListener("phoneInput:isDisabled", (event) => {
-                if (event.detail.statePath !== this.statePath) {
+                if (event.detail.key !== this.key) {
                     return;
                 }
 
@@ -151,7 +149,7 @@ export default function phoneInputFormComponent({
             }
         },
 
-        initState(value) {
+        setState(value) {
             if (value) {
                 value = value?.valueOf();
 
