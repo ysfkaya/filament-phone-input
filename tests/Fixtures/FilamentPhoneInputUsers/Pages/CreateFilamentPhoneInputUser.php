@@ -2,8 +2,8 @@
 
 namespace Ysfkaya\FilamentPhoneInput\Tests\Fixtures\FilamentPhoneInputUsers\Pages;
 
-use Ysfkaya\FilamentPhoneInput\Tests\Fixtures\FilamentPhoneInputUserResource;
 use Filament\Resources\Pages\CreateRecord;
+use Ysfkaya\FilamentPhoneInput\Tests\Fixtures\FilamentPhoneInputUserResource;
 
 class CreateFilamentPhoneInputUser extends CreateRecord
 {
