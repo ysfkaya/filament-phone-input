@@ -7,9 +7,8 @@ use Filament\Infolists\Components\TextEntry;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\HtmlString;
-use libphonenumber\NumberParseException as libPhoneNumberParseException;
+use libphonenumber\NumberParseException;
 use libphonenumber\PhoneNumberFormat;
-use Propaganistas\LaravelPhone\Exceptions\NumberParseException;
 use Ysfkaya\FilamentPhoneInput\PhoneInputNumberType;
 
 class PhoneEntry extends TextEntry
@@ -90,7 +89,7 @@ class PhoneEntry extends TextEntry
                 }
 
                 return new HtmlString($html);
-            } catch (NumberParseException | libPhoneNumberParseException $e) { // @phpstan-ignore-line
+            } catch (NumberParseException $e) {
                 return $state;
             }
         });
@@ -116,19 +115,19 @@ class PhoneEntry extends TextEntry
             return $state;
         }
 
-        if (! $this->hasRelationship($record)) {
+        if (! $this->hasStateRelationship($record)) {
             return null;
         }
 
-        $relationship = $this->getRelationship($record);
+        $relationship = $this->getStateRelationship($record);
 
         if (! $relationship) {
             return null;
         }
 
-        $relationshipAttribute = $this->getRelationshipAttribute($column);
+        $relationshipAttribute = $this->getStateRelationshipAttribute((string) $column);
 
-        $state = collect($this->getRelationshipResults($record))
+        $state = collect($this->getStateRelationshipResults($record))
             ->filter(fn (Model $record): bool => array_key_exists($relationshipAttribute, $record->attributesToArray()))
             ->pluck($relationshipAttribute)
             ->filter(fn ($state): bool => filled($state))

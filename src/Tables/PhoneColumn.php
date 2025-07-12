@@ -7,9 +7,8 @@ use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\HtmlString;
-use libphonenumber\NumberParseException as libPhoneNumberParseException;
+use libphonenumber\NumberParseException;
 use libphonenumber\PhoneNumberFormat;
-use Propaganistas\LaravelPhone\Exceptions\NumberParseException;
 use Ysfkaya\FilamentPhoneInput\PhoneInputNumberType;
 
 class PhoneColumn extends TextColumn
@@ -91,7 +90,7 @@ class PhoneColumn extends TextColumn
                 }
 
                 return new HtmlString($html);
-            } catch (NumberParseException | libPhoneNumberParseException $e) { // @phpstan-ignore-line
+            } catch (NumberParseException $e) {
                 return $state;
             }
         })->when($format === PhoneInputNumberType::RFC3966, fn (PhoneColumn $column) => $column->disabledClick());
@@ -127,7 +126,7 @@ class PhoneColumn extends TextColumn
             return null;
         }
 
-        $relationshipAttribute = $this->getRelationshipAttribute($column);
+        $relationshipAttribute = str($column)->afterLast('.')->value();
 
         $state = collect($this->getRelationshipResults($record))
             ->filter(fn (Model $record): bool => array_key_exists($relationshipAttribute, $record->attributesToArray()))

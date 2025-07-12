@@ -15,9 +15,9 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
-use Ysfkaya\FilamentPhoneInput\Tests\Fixtures\FilamentPhoneInputUserResource\Pages\CreateUser;
-use Ysfkaya\FilamentPhoneInput\Tests\Fixtures\FilamentPhoneInputUserResource\Pages\EditUser;
-use Ysfkaya\FilamentPhoneInput\Tests\Fixtures\FilamentPhoneInputUserResource\Pages\ListUsers;
+use Ysfkaya\FilamentPhoneInput\Tests\Fixtures\FilamentPhoneInputUsers\Pages\CreateFilamentPhoneInputUser;
+use Ysfkaya\FilamentPhoneInput\Tests\Fixtures\FilamentPhoneInputUsers\Pages\EditFilamentPhoneInputUser;
+use Ysfkaya\FilamentPhoneInput\Tests\Fixtures\FilamentPhoneInputUsers\Pages\ListFilamentPhoneInputUsers;
 
 class FilamentPhoneInputPanelProvider extends PanelProvider
 {
@@ -27,9 +27,9 @@ class FilamentPhoneInputPanelProvider extends PanelProvider
     {
         self::$resourceClass = $class;
 
-        CreateUser::$resource = $class;
-        EditUser::$resource = $class;
-        ListUsers::$resource = $class;
+        CreateFilamentPhoneInputUser::$resource = $class;
+        EditFilamentPhoneInputUser::$resource = $class;
+        ListFilamentPhoneInputUsers::$resource = $class;
     }
 
     public function panel(Panel $panel): Panel
@@ -39,9 +39,6 @@ class FilamentPhoneInputPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
-            ->colors([
-                'primary' => Color::Amber,
-            ])
             ->resources([
                 self::$resourceClass,
             ])

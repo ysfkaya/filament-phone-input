@@ -7,8 +7,8 @@ use Ysfkaya\FilamentPhoneInput\PhoneInputNumberType;
 use Ysfkaya\FilamentPhoneInput\Tables\PhoneColumn;
 use Ysfkaya\FilamentPhoneInput\Tests\Fixtures\FilamentPhoneInputUser;
 use Ysfkaya\FilamentPhoneInput\Tests\Fixtures\FilamentPhoneInputUserResource;
-use Ysfkaya\FilamentPhoneInput\Tests\Fixtures\FilamentPhoneInputUserResource\Pages\EditUser;
-use Ysfkaya\FilamentPhoneInput\Tests\Fixtures\FilamentPhoneInputUserResource\Pages\ListUsers;
+use Ysfkaya\FilamentPhoneInput\Tests\Fixtures\FilamentPhoneInputUsers\Pages\EditFilamentPhoneInputUser;
+use Ysfkaya\FilamentPhoneInput\Tests\Fixtures\FilamentPhoneInputUsers\Pages\ListFilamentPhoneInputUsers;
 use Ysfkaya\FilamentPhoneInput\Tests\TestCase;
 
 use function Pest\Laravel\assertDatabaseHas;
@@ -27,7 +27,7 @@ it('hydrate the phone number given specific number and country', function () {
 
     FilamentPhoneInputUserResource::phoneInput(fn (PhoneInput $input) => $input->countryStatePath('phone_country'));
 
-    livewire(EditUser::class, ['record' => 1])
+    livewire(EditFilamentPhoneInputUser::class, ['record' => 1])
         ->assertSuccessful()
         ->assertSet('data.phone', '+15551234567');
 });
@@ -42,7 +42,7 @@ it('hydrate the phone number given specific number and default country', functio
 
     FilamentPhoneInputUserResource::phoneInput(fn (PhoneInput $input) => $input->defaultCountry('US'));
 
-    livewire(EditUser::class, ['record' => 1])
+    livewire(EditFilamentPhoneInputUser::class, ['record' => 1])
         ->assertSuccessful()
         ->assertSet('data.phone', '+12129754846');
 });
@@ -128,7 +128,7 @@ test('table column formats the phone number', function ($type) {
 
     FilamentPhoneInputUserResource::phoneTableColumn(fn (PhoneColumn $column) => $column->displayFormat(PhoneInputNumberType::from($type)));
 
-    livewire(ListUsers::class)
+    livewire(ListFilamentPhoneInputUsers::class)
         ->assertSuccessful()
         ->assertSeeHtml(
             match ($type) {
@@ -156,7 +156,7 @@ test('table column formats with country code', function ($type) {
 
     FilamentPhoneInputUserResource::phoneTableColumn(fn (PhoneColumn $column) => $column->countryColumn('phone_country')->displayFormat(PhoneInputNumberType::from($type)));
 
-    livewire(ListUsers::class)
+    livewire(ListFilamentPhoneInputUsers::class)
         ->assertSuccessful()
         ->assertSeeHtml(
             match ($type) {
