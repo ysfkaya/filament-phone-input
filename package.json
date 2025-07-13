@@ -2,8 +2,8 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "dev:styles": "npx @tailwindcss/cli -i resources/css/filament-phone-input.css -o resources/dist/filament-phone-input.css --watch",
-        "build:styles": "npx @tailwindcss/cli -i resources/css/filament-phone-input.css -o resources/dist/filament-phone-input.css --minify",
+        "dev:styles": "npx @tailwindcss/cli -i resources/css/filament-phone-input.css -o dist/css/filament-phone-input.css --watch",
+        "build:styles": "npx @tailwindcss/cli -i resources/css/filament-phone-input.css -o dist/css/filament-phone-input.css --minify",
         "dev:js": "node bin/build.js --dev",
         "build:js": "node bin/build.js",
         "dev": "npm-run-all --parallel dev:*",

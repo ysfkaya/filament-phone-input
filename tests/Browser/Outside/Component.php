@@ -2,16 +2,16 @@
 
 namespace Ysfkaya\FilamentPhoneInput\Tests\Browser\Outside;
 
-use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Forms\Contracts\HasForms;
-use Filament\Forms\Form;
+use Filament\Schemas\Concerns\InteractsWithSchemas;
+use Filament\Schemas\Contracts\HasSchemas;
+use Filament\Schemas\Schema;
 use Illuminate\Support\Facades\View;
 use Livewire\Component as Livewire;
 use Ysfkaya\FilamentPhoneInput\Forms\PhoneInput;
 
-class Component extends Livewire implements HasForms
+class Component extends Livewire implements HasSchemas
 {
-    use InteractsWithForms;
+    use InteractsWithSchemas;
 
     public $data;
 
@@ -20,12 +20,11 @@ class Component extends Livewire implements HasForms
         $this->form->fill();
     }
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                PhoneInput::make('phone'),
-            ])->statePath('data');
+        return $schema->components([
+            PhoneInput::make('phone'),
+        ])->statePath('data');
     }
 
     public function render()

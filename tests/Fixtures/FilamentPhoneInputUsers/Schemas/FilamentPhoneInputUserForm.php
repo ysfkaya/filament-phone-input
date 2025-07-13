@@ -9,6 +9,8 @@ use Ysfkaya\FilamentPhoneInput\Tests\Fixtures\FilamentPhoneInputUserResource;
 
 class FilamentPhoneInputUserForm
 {
+    public static $resource = FilamentPhoneInputUserResource::class;
+
     public static function configure(Schema $schema): Schema
     {
         return $schema
@@ -32,7 +34,7 @@ class FilamentPhoneInputUserForm
                     ->afterStateHydrated(fn ($component) => $component->state(null))
                     ->dehydrateStateUsing(fn ($state) => Hash::make($state)),
 
-                FilamentPhoneInputUserResource::getPhoneInput(),
+                self::$resource::getPhoneInput(),
             ]);
     }
 }

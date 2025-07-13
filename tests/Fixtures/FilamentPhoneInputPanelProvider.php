@@ -17,6 +17,8 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Ysfkaya\FilamentPhoneInput\Tests\Fixtures\FilamentPhoneInputUsers\Pages\CreateFilamentPhoneInputUser;
 use Ysfkaya\FilamentPhoneInput\Tests\Fixtures\FilamentPhoneInputUsers\Pages\EditFilamentPhoneInputUser;
 use Ysfkaya\FilamentPhoneInput\Tests\Fixtures\FilamentPhoneInputUsers\Pages\ListFilamentPhoneInputUsers;
+use Ysfkaya\FilamentPhoneInput\Tests\Fixtures\FilamentPhoneInputUsers\Schemas\FilamentPhoneInputUserForm;
+use Ysfkaya\FilamentPhoneInput\Tests\Fixtures\FilamentPhoneInputUsers\Tables\FilamentPhoneInputUsersTable;
 
 class FilamentPhoneInputPanelProvider extends PanelProvider
 {
@@ -29,6 +31,9 @@ class FilamentPhoneInputPanelProvider extends PanelProvider
         CreateFilamentPhoneInputUser::$resource = $class;
         EditFilamentPhoneInputUser::$resource = $class;
         ListFilamentPhoneInputUsers::$resource = $class;
+
+        FilamentPhoneInputUserForm::$resource = $class;
+        FilamentPhoneInputUsersTable::$resource = $class;
     }
 
     public function panel(Panel $panel): Panel

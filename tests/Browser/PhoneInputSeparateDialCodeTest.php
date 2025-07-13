@@ -3,6 +3,7 @@
 namespace Ysfkaya\FilamentPhoneInput\Tests\Browser;
 
 use Laravel\Dusk\Browser;
+use PHPUnit\Framework\Attributes\Test;
 use Ysfkaya\FilamentPhoneInput\Forms\PhoneInput;
 use Ysfkaya\FilamentPhoneInput\Tests\BrowserTestCase;
 use Ysfkaya\FilamentPhoneInput\Tests\Fixtures\FilamentPhoneInputUserResource;
@@ -11,14 +12,14 @@ class PhoneInputSeparateDialCodeTest extends BrowserTestCase
 {
     protected ?string $resource = PhoneInputSeparateDialCode::class;
 
-    /** @test */
+    #[Test]
     public function it_should_be_separate_dial_code()
     {
         $this->phoneTest(
             fn (Browser $browser) => $browser
-                ->waitFor('@phone-input.data.phone')
+                ->waitFor('@phone-input.form.phone')
                 ->pause(300)
-                ->assertSeeIn('@phone-input.data.phone .iti__selected-dial-code', '+90')
+                ->assertSeeIn('@phone-input.form.phone .iti__selected-dial-code', '+90')
         );
     }
 }

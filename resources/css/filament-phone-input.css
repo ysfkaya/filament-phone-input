@@ -12,13 +12,17 @@
 }
 
 .dark .iti {
-    --iti-border-color: theme("colors.gray.300");
+    --iti-border-color: var(--color-gray-300);
     --iti-dialcode-color: #999999;
-    --iti-dropdown-bg: theme("colors.gray.700");
+    --iti-dropdown-bg: var(--color-gray-700);
     --iti-arrow-color: #aaaaaa;
-    --iti-hover-color: theme("colors.gray.600");
+    --iti-hover-color: var(--color-gray-600);
 }
 
 .iti__search-input {
-    @apply block w-full border-none py-1.5 text-base text-gray-950 transition duration-75 placeholder:text-gray-400 focus:ring-0 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-500 dark:disabled:text-gray-400 sm:text-sm sm:leading-6 bg-white/0;
+    @apply block w-full border-none p-2 text-base text-gray-950 transition duration-75 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 bg-white/0;
+}
+
+.dark .iti__search-input {
+    @apply dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-500 dark:disabled:text-gray-400;
 }

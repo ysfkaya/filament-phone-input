@@ -2,9 +2,10 @@
 
 namespace Ysfkaya\FilamentPhoneInput\Tests\Browser;
 
-use Filament\Forms\Components\Actions\Action;
-use Filament\Forms\Form;
+use Filament\Actions\Action;
+use Filament\Schemas\Schema;
 use Laravel\Dusk\Browser;
+use PHPUnit\Framework\Attributes\Test;
 use Ysfkaya\FilamentPhoneInput\Forms\PhoneInput;
 use Ysfkaya\FilamentPhoneInput\PhoneInputNumberType;
 use Ysfkaya\FilamentPhoneInput\Tests\BrowserTestCase;
@@ -14,28 +15,28 @@ class PhoneInputAffixActionsTest extends BrowserTestCase
 {
     protected ?string $resource = PhoneInputAffixActionsResource::class;
 
-    /** @test */
-    public function it_should_be_copy_contact_to_whatsapp()
+    #[Test]
+    public function it_should_be_able_to_copy_contact_to_whatsapp()
     {
         $this->phoneTest(
             fn (Browser $browser) => $browser
-                ->waitFor('@phone-input.data.contact_number')
+                ->waitFor('@phone-input.form.contact_number')
                 ->pause(300)
-                ->typeSlowly('@phone-input.data.contact_number input.fi-input', '5555555555')
+                ->typeSlowly('@phone-input.form.contact_number input.fi-input', '5555555555')
                 ->pause(400)
-                ->click('button[title="Copy contact to whats app"')
-                ->waitFor('@phone-input.data.whatsapp_number')
-                ->assertValue('@phone-input.data.whatsapp_number input.fi-input', '+905555555555')
+                ->click('button[title="Copy contact to whatsapp"]')
+                ->waitFor('@phone-input.form.whatsapp_number')
+                ->assertValue('@phone-input.form.whatsapp_number input.fi-input', '+905555555555')
         );
     }
 }
 
 class PhoneInputAffixActionsResource extends FilamentPhoneInputUserResource
 {
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 PhoneInput::make('contact_number')
                     ->label('Contact Number')
                     ->required()
@@ -44,7 +45,7 @@ class PhoneInputAffixActionsResource extends FilamentPhoneInputUserResource
                     ->displayNumberFormat(PhoneInputNumberType::E164)
                     ->formatAsYouType(false)
                     ->suffixAction(
-                        Action::make('copyContactToWhatsApp')
+                        Action::make('copyContactToWhatsapp')
                             ->icon('heroicon-m-clipboard')
                             ->action(function ($set, $state) {
                                 $set('whatsapp_number', $state);

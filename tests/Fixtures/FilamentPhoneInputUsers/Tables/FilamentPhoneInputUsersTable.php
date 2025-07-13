@@ -11,6 +11,8 @@ use Ysfkaya\FilamentPhoneInput\Tests\Fixtures\FilamentPhoneInputUserResource;
 
 class FilamentPhoneInputUsersTable
 {
+    public static $resource = FilamentPhoneInputUserResource::class;
+
     public static function configure(Table $table): Table
     {
         return $table
@@ -23,7 +25,7 @@ class FilamentPhoneInputUsersTable
                     ->sortable()
                     ->searchable(),
 
-                FilamentPhoneInputUserResource::getPhoneTableColumn(),
+                self::$resource::getPhoneTableColumn(),
             ])
             ->filters([
                 //
