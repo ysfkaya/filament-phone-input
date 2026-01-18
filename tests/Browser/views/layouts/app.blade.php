@@ -10,10 +10,14 @@
         src="https://unpkg.com/alpine-lazy-load-assets@latest/dist/alpine-lazy-load-assets.cdn.js"
         defer
     ></script>
+
+    @livewireStyles
 </head>
 <body>
     {{ $slot }}
 
     @stack('scripts')
+
+    @livewireScripts
 </body>
 </html>
