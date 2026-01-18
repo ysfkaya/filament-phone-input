@@ -75,11 +75,11 @@ class BrowserTestCase extends Orchestra
 
         $app['config']->set('view.paths', [
             ...$app['config']->get('view.paths'),
-            __DIR__.'/Browser/views',
+            __DIR__ . '/Browser/views',
         ]);
 
-        $app['config']->set('livewire.component_namespaces.layouts', __DIR__.'/Browser/views/layouts');
-        $app['config']->set('livewire.component_namespaces.pages', __DIR__.'/Browser/views/pages');
+        $app['config']->set('livewire.component_namespaces.layouts', __DIR__ . '/Browser/views/layouts');
+        $app['config']->set('livewire.component_namespaces.pages', __DIR__ . '/Browser/views/pages');
 
         $app['config']->set('app.debug', true);
         $app['config']->set('database.connections.sqlite.database', database_path('database.sqlite'));
