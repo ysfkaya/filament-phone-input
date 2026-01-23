@@ -21,7 +21,7 @@ class PhoneInputInitialCountryTest extends BrowserTestCase
                 ->click('@phone-input.form.phone')
                 ->pause(300)
                 ->with('@phone-input.form.phone', function (Browser $browser) {
-                    $browser->assertAttribute('.iti__selected-country', 'title', 'Turkey: +90');
+                    $browser->assertAttribute('.iti__selected-country', 'title', 'Turkey');
                 })
         );
     }

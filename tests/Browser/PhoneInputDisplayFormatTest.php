@@ -20,7 +20,7 @@ class PhoneInputDisplayFormatTest extends BrowserTestCase
             fn (Browser $browser) => $browser
                 ->waitFor('@phone-input.form.phone')
                 ->click('@phone-input.form.phone input.fi-input')
-                ->typeSlowly('@phone-input.form.phone input.fi-input', '5301111111')
+                ->typeSlowly('@phone-input.form.phone input.fi-input', '05301111111')
                 ->pause(300)
                 ->assertValue('@phone-input.form.phone input.fi-input', '+90 530 111 11 11')
         );

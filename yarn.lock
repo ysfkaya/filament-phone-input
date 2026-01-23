@@ -962,10 +962,10 @@ internal-slot@^1.1.0:
     hasown "^2.0.2"
     side-channel "^1.1.0"
 
-intl-tel-input@^25.3.1:
-  version "25.3.1"
-  resolved "https://registry.yarnpkg.com/intl-tel-input/-/intl-tel-input-25.3.1.tgz#15d51d9ae22deede5648756d3b210fc46f908881"
-  integrity sha512-0Xls8/hnvPv6EqfDJ+cz6h/MGvEYiHkerrQBHMmRuuBPZ0MedDyzRqqdSkhFXXGt9YTihmBhXwtWoeHjdouIKA==
+intl-tel-input@^25.15.1:
+  version "25.15.1"
+  resolved "https://registry.yarnpkg.com/intl-tel-input/-/intl-tel-input-25.15.1.tgz#52d8275c4c6e51bedd77d42ea67dbee8a416fed6"
+  integrity sha512-v3E/Cr3vjfcw43LxsEYRJ8kDHk96ByB5d0asU9zTYgDuLivLbYymOwcISaoZibqZVB1tndzfYWxtSrmFVumFSg==
 
 is-array-buffer@^3.0.4, is-array-buffer@^3.0.5:
   version "3.0.5"
