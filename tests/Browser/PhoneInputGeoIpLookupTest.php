@@ -19,7 +19,7 @@ class PhoneInputGeoIpLookupTest extends BrowserTestCase
             fn (Browser $browser) => $browser
                 ->waitUntil('window.phoneInputGeoIpLookup', 5)
                 ->with('@phone-input.form.phone', function (Browser $browser) {
-                    $browser->assertAttribute('.iti__selected-country', 'title', 'Azerbaijan: +994');
+                    $browser->assertAttribute('.iti__selected-country', 'title', 'Azerbaijan');
                 })
                 ->assertCookieValue('intlTelInputSelectedCountry', 'AZ', decrypt: false)
         );

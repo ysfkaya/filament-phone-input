@@ -86,7 +86,7 @@ export default function phoneInputFormComponent({
                     return;
                 }
 
-                if(!this.$refs.input){
+                if (!this.$refs.input) {
                     return;
                 }
 
@@ -108,6 +108,12 @@ export default function phoneInputFormComponent({
                         .removeAttribute("tabindex");
                 }
             });
+        },
+
+        destroy() {
+            if (this.intlTelInput) {
+                this.intlTelInput.destroy();
+            }
         },
 
         initOptions() {

@@ -10,7 +10,7 @@
         "build": "npm-run-all build:*"
     },
     "dependencies": {
-        "intl-tel-input": "^25.3.1"
+        "intl-tel-input": "^25.15.1"
     },
     "devDependencies": {
         "@tailwindcss/forms": "^0.5.10",

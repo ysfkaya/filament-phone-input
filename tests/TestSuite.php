@@ -56,6 +56,7 @@ trait TestSuite
 
     public function getEnvironmentSetUp($app)
     {
+
         $app['config']->set('auth.providers.users.model', FilamentPhoneInputUser::class);
 
         $app['config']->set('database.default', 'sqlite');

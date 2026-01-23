@@ -11,7 +11,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
-        "filament/filament": "^4.0",
+        "filament/filament": "^4.0|^5.0",
         "propaganistas/laravel-phone": "^6.0",
         "spatie/laravel-package-tools": "^1.92"
     },
@@ -20,10 +20,10 @@
         "nunomaduro/collision": "^8.1",
         "nunomaduro/larastan": "^3.0",
         "orchestra/testbench-dusk": "^10.0",
-        "pestphp/pest": "^3.0",
-        "pestphp/pest-plugin-arch": "^3.0",
-        "pestphp/pest-plugin-laravel": "^3.0",
-        "pestphp/pest-plugin-livewire": "^3.0",
+        "pestphp/pest": "^3.0|^4.0",
+        "pestphp/pest-plugin-arch": "^3.0|^4.0",
+        "pestphp/pest-plugin-laravel": "^3.0|^4.0",
+        "pestphp/pest-plugin-livewire": "^3.0|^4.0",
         "phpstan/extension-installer": "^1.1",
         "phpstan/phpstan-deprecation-rules": "^2.0",
         "phpstan/phpstan-phpunit": "^2.0"
