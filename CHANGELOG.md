@@ -2,6 +2,14 @@
 
 All notable changes to `filament-phone-input` will be documented in this file
 
+## v4.1.0 - 2026-01-23
+
+### What's Changed
+
+- Support for Filament `v5`
+
+**Full Changelog**: https://github.com/ysfkaya/filament-phone-input/compare/v4.0.0...v4.1.0
+
 ## v3.2.4 - 2025-09-04
 
 ### What's Changed
@@ -189,6 +197,7 @@ The flag images have been updated in the latest version of the `intl-tel-input` 
 
 ```bash
 php artisan vendor:publish --tag="filament-phone-input-assets" --force
+
 
 
 
