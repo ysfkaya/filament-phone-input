@@ -19,7 +19,7 @@ class FilamentPhoneInputServiceProvider extends PackageServiceProvider
             ->hasInstallCommand(function (InstallCommand $command) {
                 $command->publishAssets();
 
-                $command->startWith(function ($command) use (&$noInteraction) {
+                $command->startWith(function ($command) {
                     $noInteraction = $command->option('no-interaction');
 
                     if ($noInteraction) {
