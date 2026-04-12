@@ -18,7 +18,16 @@ class FilamentPhoneInputServiceProvider extends PackageServiceProvider
             ->hasViews()
             ->hasInstallCommand(function (InstallCommand $command) {
                 $command->publishAssets();
-                $command->askToStarRepoOnGitHub('ysfkaya/filament-phone-input');
+
+                $command->startWith(function($command) use (&$noInteraction) {
+                    $noInteraction = $command->option('no-interaction');
+
+                    if($noInteraction) {
+                        return;
+                    }
+
+                    $command->askToStarRepoOnGitHub('ysfkaya/filament-phone-input');
+                });
             });
     }
 
