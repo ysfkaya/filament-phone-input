@@ -2,6 +2,19 @@
 
 All notable changes to `filament-phone-input` will be documented in this file
 
+## v4.1.3 - 2026-04-12
+
+### What's Changed
+
+* Feature: publishes public asset group tag by @webard in https://github.com/ysfkaya/filament-phone-input/pull/101
+* It will now check the `no-interaction` option in the install command
+
+### New Contributors
+
+* @webard made their first contribution in https://github.com/ysfkaya/filament-phone-input/pull/101
+
+**Full Changelog**: https://github.com/ysfkaya/filament-phone-input/compare/v4.1.2...v4.1.3
+
 ## v4.1.2 - 2026-03-11
 
 ### What's Changed
@@ -213,6 +226,7 @@ The flag images have been updated in the latest version of the `intl-tel-input` 
 
 ```bash
 php artisan vendor:publish --tag="filament-phone-input-assets" --force
+
 
 
 
