@@ -35,6 +35,6 @@ class FilamentPhoneInputServiceProvider extends PackageServiceProvider
 
         $this->publishes([
             $this->package->basePath('/../images/vendor/intl-tel-input/build') => public_path("vendor/{$this->package->shortName()}"),
-        ], "public");
+        ], 'public');
     }
 }
