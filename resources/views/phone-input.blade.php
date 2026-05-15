@@ -1,5 +1,4 @@
 @php
-    use Filament\Support\Facades\FilamentView;
     use Illuminate\Support\Js;
 
     $hasInlineLabel = $hasInlineLabel();
@@ -77,11 +76,7 @@
         >
             <div
                 class="w-full"
-                @if (FilamentView::hasSpaMode())
-                    {{-- format-ignore-start --}}x-load="visible || event (ax-modal-opened)" {{-- format-ignore-end --}}
-                @else
-                    x-load
-                @endif
+                x-load
                 x-load-src="{{ \Filament\Support\Facades\FilamentAsset::getAlpineComponentSrc('filament-phone-input', package: 'ysfkaya/filament-phone-input') }}"
                 x-data="phoneInputFormComponent({
                     options: {
