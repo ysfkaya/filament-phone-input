@@ -2,6 +2,20 @@
 
 All notable changes to `filament-phone-input` will be documented in this file
 
+## v4.2.0 - 2026-05-19
+
+### What's Changed
+
+* fix: use unconditional x-load for intl-tel-input initialization In SP… by @bb140856 in https://github.com/ysfkaya/filament-phone-input/pull/115
+* Fix: #117
+* Fix: #116
+
+### New Contributors
+
+* @bb140856 made their first contribution in https://github.com/ysfkaya/filament-phone-input/pull/115
+
+**Full Changelog**: https://github.com/ysfkaya/filament-phone-input/compare/v4.1.5...v4.2.0
+
 ## v4.1.5 - 2026-05-15
 
 ### What's Changed
@@ -246,6 +260,7 @@ The flag images have been updated in the latest version of the `intl-tel-input` 
 
 ```bash
 php artisan vendor:publish --tag="filament-phone-input-assets" --force
+
 
 
 
