@@ -21,5 +21,8 @@
         "postcss-cli": "^10.1.0",
         "postcss-nesting": "^13.0.0",
         "tailwindcss": "^4.1.10"
+    },
+    "resolutions": {
+        "shell-quote": "1.8.4"
     }
 }
