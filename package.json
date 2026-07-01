@@ -23,6 +23,7 @@
         "tailwindcss": "^4.1.10"
     },
     "resolutions": {
-        "picomatch": "2.3.2"
+        "picomatch": "2.3.2",
+        "shell-quote": "1.8.4"
     }
 }
