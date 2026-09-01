@@ -37,6 +37,8 @@ export default function phoneInputFormComponent({
 
             this.intlTelInput = intlTelInput(this.input, this.options);
 
+            this.patchHandleAutoCountry();
+
             this.setState(this.state);
 
             this.input.addEventListener("countrychange", () => {
@@ -114,6 +116,34 @@ export default function phoneInputFormComponent({
             if (this.intlTelInput) {
                 this.intlTelInput.destroy();
             }
+        },
+
+        // intl-tel-input's handleAutoCountry crashes with an uncaught
+        // TypeError when allowDropdown, showFlags and separateDialCode are
+        // all disabled, because the country UI is never built. Replace it
+        // with a guarded equivalent so the geo IP country is still applied.
+        // See https://github.com/ysfkaya/filament-phone-input/issues/105
+        patchHandleAutoCountry() {
+            const iti = this.intlTelInput;
+
+            if (iti.ui?.selectedCountryInner) {
+                return;
+            }
+
+            iti.handleAutoCountry = () => {
+                if (
+                    this.options.initialCountry === "auto" &&
+                    intlTelInput.autoCountry
+                ) {
+                    iti.defaultCountry = intlTelInput.autoCountry;
+
+                    if (!iti.getSelectedCountryData().iso2) {
+                        iti.setCountry(iti.defaultCountry);
+                    }
+
+                    iti.resolveAutoCountryPromise();
+                }
+            };
         },
 
         initOptions() {
