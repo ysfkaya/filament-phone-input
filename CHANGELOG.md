@@ -2,6 +2,16 @@
 
 All notable changes to `filament-phone-input` will be documented in this file
 
+## v4.2.5 - 2026-09-01
+
+### What's Changed
+
+#### Fixed
+
+- Fixed a crash (`Cannot read properties of undefined (reading 'classList')`) when `disallowDropdown()` and `showFlags(false)` are used together — the phone number was not being saved, especially inside repeaters (#105)
+
+**Full Changelog**: https://github.com/ysfkaya/filament-phone-input/compare/v4.2.4...v4.2.5
+
 ## v4.2.4 - 2026-09-01
 
 ### What's Changed
@@ -16,6 +26,7 @@ All notable changes to `filament-phone-input` will be documented in this file
   PhoneInput::make('mobile')
       ->countryStatePath('country_code')
       ->inputNumberFormat(PhoneInputNumberType::E164) // now respected — stores +61411xxx123
+  
   
   
   ```
@@ -309,6 +320,7 @@ The flag images have been updated in the latest version of the `intl-tel-input` 
 
 ```bash
 php artisan vendor:publish --tag="filament-phone-input-assets" --force
+
 
 
 
