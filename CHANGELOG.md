@@ -2,6 +2,31 @@
 
 All notable changes to `filament-phone-input` will be documented in this file
 
+## v4.2.4 - 2026-09-01
+
+### What's Changed
+
+#### Fixed
+
+- `countryStatePath()` no longer overrides an explicitly set `inputNumberFormat()` (#118).
+  Previously, using `countryStatePath()` forced the stored number into `NATIONAL` format even
+  when another format was configured. Now an explicit `inputNumberFormat()` always wins:
+  
+  ```php
+  PhoneInput::make('mobile')
+      ->countryStatePath('country_code')
+      ->inputNumberFormat(PhoneInputNumberType::E164) // now respected — stores +61411xxx123
+  
+  
+  ```
+
+The default behavior is unchanged for backwards compatibility: if no format is set,
+numbers are still stored in NATIONAL format when a country state path is used.
+
+- `inputNumberFormat()` no longer throws when passed a Closure.
+
+Full Changelog: https://github.com/ysfkaya/filament-phone-input/compare/v4.2.3...v4.2.4
+
 ## v4.2.3 - 2026-08-24
 
 ### What's Changed
@@ -284,6 +309,7 @@ The flag images have been updated in the latest version of the `intl-tel-input` 
 
 ```bash
 php artisan vendor:publish --tag="filament-phone-input-assets" --force
+
 
 
 
