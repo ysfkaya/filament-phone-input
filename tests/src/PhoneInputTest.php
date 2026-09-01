@@ -111,6 +111,23 @@ it('can saves the country code to the database', function () {
     ]);
 });
 
+it('respects an explicit input number format when using a country state path', function () {
+    phoneTest(
+        fn (PhoneInput $p) => $p->countryStatePath('phone_country')->inputNumberFormat(PhoneInputNumberType::E164)
+    )->fillForm([
+        'name' => fake()->name(),
+        'email' => fake()->unique()->safeEmail(),
+        'password' => 'password',
+        'phone' => '+905301111111',
+        'phone_country' => 'TR',
+    ])->call('create')->assertHasNoErrors();
+
+    assertDatabaseHas(FilamentPhoneInputUser::class, [
+        'phone' => '+905301111111',
+        'phone_country' => 'TR',
+    ]);
+});
+
 test('the enum returns the libphonenumber format', function () {
     expect(PhoneInputNumberType::E164->toLibPhoneNumberFormat())->toBe(PhoneNumberFormat::E164);
     expect(PhoneInputNumberType::INTERNATIONAL->toLibPhoneNumberFormat())->toBe(PhoneNumberFormat::INTERNATIONAL);

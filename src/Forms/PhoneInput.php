@@ -29,6 +29,8 @@ class PhoneInput extends Field implements HasAffixActions
 
     protected string | Closure | PhoneInputNumberType $inputNumberFormat = PhoneInputNumberType::E164;
 
+    protected bool $hasExplicitInputNumberFormat = false;
+
     protected string | false | Closure | PhoneInputNumberType $focusNumberFormat = false;
 
     protected string | Closure $placeholderNumberType = 'MOBILE';
@@ -131,7 +133,9 @@ class PhoneInput extends Field implements HasAffixActions
 
                 $country = data_get($livewire, $countryStatePath);
 
-                $format = PhoneInputNumberType::NATIONAL;
+                if (! $component->hasExplicitInputNumberFormat()) {
+                    $format = PhoneInputNumberType::NATIONAL;
+                }
             }
 
             return $this->phoneFormat($state, $country, $format->toLibPhoneNumberFormat());
@@ -292,9 +296,15 @@ class PhoneInput extends Field implements HasAffixActions
 
     public function inputNumberFormat(PhoneInputNumberType | Closure $format): static
     {
-        $this->inputNumberFormat = $format->value;
+        $this->inputNumberFormat = $format instanceof Closure ? $format : $format->value;
+        $this->hasExplicitInputNumberFormat = true;
 
         return $this;
+    }
+
+    public function hasExplicitInputNumberFormat(): bool
+    {
+        return $this->hasExplicitInputNumberFormat;
     }
 
     public function getInputNumberFormat(): string
