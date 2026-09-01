@@ -2,6 +2,14 @@
 
 All notable changes to `filament-phone-input` will be documented in this file
 
+## v4.2.3 - 2026-08-24
+
+### What's Changed
+
+* Resolve CVE-2026-45623 by @rebecca-canyon in https://github.com/ysfkaya/filament-phone-input/pull/131
+
+**Full Changelog**: https://github.com/ysfkaya/filament-phone-input/compare/v4.2.2...v4.2.3
+
 ## v4.2.2 - 2026-08-08
 
 ### What's Changed
@@ -276,6 +284,7 @@ The flag images have been updated in the latest version of the `intl-tel-input` 
 
 ```bash
 php artisan vendor:publish --tag="filament-phone-input-assets" --force
+
 
 
 
