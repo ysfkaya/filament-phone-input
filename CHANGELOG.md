@@ -2,6 +2,19 @@
 
 All notable changes to `filament-phone-input` will be documented in this file
 
+## v4.2.6 - 2026-10-27
+
+### What's Changed
+
+* Bump svgo from 3.3.3 to 3.3.5 by @dependabot[bot] in https://github.com/ysfkaya/filament-phone-input/pull/133
+* Bump browserslist from 4.25.1 to 4.28.9 by @dependabot[bot] in https://github.com/ysfkaya/filament-phone-input/pull/132
+
+### New Contributors
+
+* @dependabot[bot] made their first contribution in https://github.com/ysfkaya/filament-phone-input/pull/133
+
+**Full Changelog**: https://github.com/ysfkaya/filament-phone-input/compare/v4.2.5...v4.2.6
+
 ## v4.2.5 - 2026-09-01
 
 ### What's Changed
@@ -26,6 +39,7 @@ All notable changes to `filament-phone-input` will be documented in this file
   PhoneInput::make('mobile')
       ->countryStatePath('country_code')
       ->inputNumberFormat(PhoneInputNumberType::E164) // now respected — stores +61411xxx123
+  
   
   
   
@@ -320,6 +334,7 @@ The flag images have been updated in the latest version of the `intl-tel-input` 
 
 ```bash
 php artisan vendor:publish --tag="filament-phone-input-assets" --force
+
 
 
 
